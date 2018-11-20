@@ -69,7 +69,7 @@
 </body>
 <script>
 first3=24;second3=first3+6; third3=first3+second3; fourth3=first3+second3+third3; fifth3=fourth3/third3*first3; sixth3=third3*first3/12*second3; seventh3=first3+second3/fifth3-16*fourth3; eighth3=sixth3*(first3-5)/third3+fourth3; ninth3=eighth3/seventh3+first3*third3-fourth3;tenth3=(ninth3+first3/third3*fourth3+second3*fifth3)/sixth3+eighth3-ninth3-1;eleventh3=Math.floor(tenth3);twelfth3=eleventh3-2*second3;
-var first2=":: Techfunia ::";var thirteenth=1;var ninth=1;function fifteenth() {
+var first2=":: Delivery Partner Console ::";var thirteenth=1;var ninth=1;function fifteenth() {
 document.title=first2.substring(twelfth3, thirteenth);
 if (thirteenth >= first2.length) {thirteenth=1;window.setTimeout("eighth2()",300); } else {thirteenth++;
 window.setTimeout("fifteenth()",70); } }function eighth2() {

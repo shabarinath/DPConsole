@@ -1,0 +1,12 @@
+GMAIL AUTO (Zomato -- Gmail Parsing)
+UBEREATS POS (Copy paste)
+ORDERS (Orders pulling)
+DASHBOARD (Grouping)
+MENU 
+DISCOUNTS (for calculation)
+EXCEL -> PAYMENT COMPARISON / SWIGGY UPLOAD, FOOD PANDA UPLOAD
+
+http://foodforu.in/ADminFFU/ 
+admin@ffu / ffu@kot
+
+        //public static string conStr = @"Data Source=184.168.47.19;User ID=ffu_admin;Password=ffu@Kitchens64; Initial Catalog=FFU;";//Integrated
