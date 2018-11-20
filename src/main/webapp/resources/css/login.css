@@ -1,0 +1,53 @@
+
+.username-field {
+	background:#FFFFFF url(../img/blame.png) no-repeat 4px 4px;
+	padding:4px 4px 4px 22px;
+	border:1px solid #CCCCCC;
+    box-shadow: 0 1px 1px #CCCCCC inset;
+    border-radius: 2px 2px 2px 2px;
+    font: 12px/1.5 Helvetica,Arial,sans-serif;
+	width:230px;
+	height:25px;
+    margin: 2px;
+}
+
+.password-field {
+	background:#FFFFFF url(../img/locked.png) no-repeat 4px 4px;
+	padding:4px 4px 4px 22px;
+	border:1px solid #CCCCCC;
+    box-shadow: 0 1px 1px #CCCCCC inset;
+    border-radius: 2px 2px 2px 2px;
+	width:230px;
+	height:25px;
+    margin: 2px;
+}
+
+
+#login {
+	margin:15px 0px; padding:0px;
+	text-align:center;
+}
+#login .inner {
+	width:450px;
+	margin:0px auto;
+	text-align:left;
+	padding:10px;
+}
+#login .inner .fheader {
+    color:#2e3741;
+    font-size:14px;
+    font-weight:bold;
+}
+#login .inner .cssform p {
+	padding-left: 105px;
+	margin-bottom: 10px;
+	height: 1%;
+}
+
+#login .inner .cssform label {
+	float: left;
+	margin-left: -105px;
+	width: 180px;
+}
+#login .inner .login_message {color:red;}
+#login .inner .chk {height:12px;}

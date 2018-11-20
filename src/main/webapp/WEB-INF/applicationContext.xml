@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+	">
+	
+   <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+    <property name="url" value="jdbc:mysql://localhost:3306/dpconsole?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true"/>
+    <property name="username" value="root"/>
+    <property name="password" value="root"/>
+  </bean>
+
+  <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+    <property name="dataSource" ref="dataSource"/>
+    <property name="packagesToScan">
+		 <list>
+		   <value>com.dpconsole.domain</value>
+		 </list>
+	 </property>
+    <property name="hibernateProperties">
+      <value>
+        hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+        hibernate.show_sql=false
+      </value>
+    </property>
+  </bean>
+  
+ 	 <!--  write DAO beans for new tables -->
+  	<bean id="userDao" class="com.dpconsole.dao.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>	
+  	
+	<bean id="adminDao" class="com.dpconsole.dao.AdminDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="defaultDao" class="com.dpconsole.dao.DefaultDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<!--  services  -->	
+	<bean id="userDetailsService" class="com.dpconsole.service.UserDetailsServiceImpl" autowire="byType">
+		<property name="userDao" ref="userDao"/>
+		<property name="assembler" ref="assembler"/>
+	</bean>	
+	
+	<bean id="adminService"	class="com.dpconsole.service.AdminServiceImpl">
+		<property name="adminDao">
+			<ref bean="adminDao" />
+		</property>
+		
+		<property name="defaultDao">
+			<ref bean="defaultDao" />
+		</property>
+	</bean>
+	
+	<bean id="assembler" class="com.dpconsole.service.Assembler" />
+	
+</beans>

@@ -1,0 +1,19 @@
+.timetable{
+	
+	
+}
+
+.timetable .day{
+	width: 120px;
+	height:40px;
+}
+
+.timetable td{
+	width: 100px;
+	
+}
+
+.timetable .lunch {
+	width: 20px;
+	
+}
