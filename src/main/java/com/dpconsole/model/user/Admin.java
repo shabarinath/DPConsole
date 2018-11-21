@@ -4,7 +4,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue(value = "ADMIN")
+@DiscriminatorValue(value = "admin")
 @SuppressWarnings("serial")
 public class Admin extends User {
 

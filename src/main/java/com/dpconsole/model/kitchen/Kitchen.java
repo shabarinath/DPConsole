@@ -49,7 +49,7 @@ public class Kitchen extends Persistent {
 	public List<KitchenDeliveryPartner> getSupportedDeliveryPartners() {
 		return supportedDeliveryPartners;
 	}
-	public void setDeliveryPartners(List<KitchenDeliveryPartner> supportedDeliveryPartners) {
+	public void setSupportedDeliveryPartners(List<KitchenDeliveryPartner> supportedDeliveryPartners) {
 		this.supportedDeliveryPartners = supportedDeliveryPartners;
 	}
 

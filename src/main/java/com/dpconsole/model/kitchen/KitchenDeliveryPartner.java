@@ -29,18 +29,8 @@ import com.dpconsole.model.delivery.DeliveryPartner;
 @SuppressWarnings("serial")
 public class KitchenDeliveryPartner extends Persistent {
 
-	private Kitchen kitchen;
 	private DeliveryPartner deliveryPartner;
 	private double commissionPercentage;
-
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="kitchen_id")
-	public Kitchen getKitchen() {
-		return kitchen;
-	}
-	public void setKitchen(Kitchen kitchen) {
-		this.kitchen = kitchen;
-	}
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="delivery_partner_id")

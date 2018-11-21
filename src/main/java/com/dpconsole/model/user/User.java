@@ -21,90 +21,82 @@ import com.dpconsole.model.BaseDo;
 @SuppressWarnings("serial")
 public class User extends BaseDo {
 
-	@Column(name="username",nullable=false)
 	private String username;
 
-	@Column(name="password",nullable=false)
 	private String password;
 
-	@Column(name="account_expired",nullable=false)
-	private boolean accountExpired=false;
+	private boolean accountExpired = false;
 
-	@Column(name="credentials_expired",nullable=false)
-	private boolean credentialsExpired=false;
+	private boolean credentialsExpired = false;
 
-	@Column(name="account_locked",nullable=false)
 	private boolean accountLocked = false;
 
-	@OneToMany(mappedBy="user",fetch=FetchType.EAGER,cascade={CascadeType.ALL,CascadeType.MERGE})
 	private List<UserRole> userRoles = new ArrayList<UserRole>();
 
-	@Transient
 	private transient String currentPassword;
 
-	@Transient
 	private transient String confirmPassword;
 
+	@Column(name="username",nullable=false)
 	public String getUsername() {
 		return username;
 	}
-
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
+	@Column(name="password",nullable=false)
 	public String getPassword() {
 		return password;
 	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
+	@Column(name="account_expired",nullable=false)
 	public boolean getAccountExpired() {
 		return accountExpired;
 	}
-
 	public void setAccountExpired(boolean accountExpired) {
 		this.accountExpired = accountExpired;
 	}
 
+	@Column(name="credentials_expired",nullable=false)
 	public boolean getCredentialsExpired() {
 		return credentialsExpired;
 	}
-
 	public void setCredentialsExpired(boolean credentialsExpired) {
 		this.credentialsExpired = credentialsExpired;
 	}
 
+	@Column(name="account_locked",nullable=false)
 	public boolean getAccountLocked() {
 		return accountLocked;
 	}
-
 	public void setAccountLocked(boolean accountLocked) {
 		this.accountLocked = accountLocked;
 	}
 
+	@OneToMany(mappedBy="user",fetch=FetchType.EAGER,cascade={CascadeType.ALL,CascadeType.MERGE})
 	public List<UserRole> getUserRoles() {
 		return userRoles;
 	}
-
 	public void setUserRoles(List<UserRole> userRoles) {
 		this.userRoles = userRoles;
 	}
 
+	@Transient
 	public String getCurrentPassword() {
 		return currentPassword;
 	}
-
 	public void setCurrentPassword(String currentPassword) {
 		this.currentPassword = currentPassword;
 	}
 
+	@Transient
 	public String getConfirmPassword() {
 		return confirmPassword;
 	}
-
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}

@@ -29,64 +29,54 @@ import com.dpconsole.model.kitchen.Kitchen;
 @SuppressWarnings("serial")
 public class Order extends Persistent {
 
-	@Column(name = "dp_order_id")
-	private String deliveryPartnerOrderId;
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "kitchen_id", nullable = false)
+	private List<OrderItem> orderItems;
 	private Kitchen kitchen;
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "delivery_partner_id", nullable = false)
 	private DeliveryPartner deliveryPartner;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created_time")
+	private String deliveryPartnerOrderId;
 	private Date createdTime;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name = "order_id", nullable = false)
 	@OrderColumn(name = "list_index")
-	private List<OrderItem> orderItems;
+	public List<OrderItem> getOrderItems() {
+		return orderItems;
+	}
+	public void setOrderItems(List<OrderItem> orderItems) {
+		this.orderItems = orderItems;
+	}
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "kitchen_id", nullable = false)
 	public Kitchen getKitchen() {
 		return kitchen;
 	}
-
-	public DeliveryPartner getDeliveryPartner() {
-		return deliveryPartner;
-	}
-
 	public void setKitchen(Kitchen kitchen) {
 		this.kitchen = kitchen;
 	}
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "delivery_partner_id", nullable = false)
+	public DeliveryPartner getDeliveryPartner() {
+		return deliveryPartner;
+	}
 	public void setDeliveryPartner(DeliveryPartner deliveryPartner) {
 		this.deliveryPartner = deliveryPartner;
 	}
 
+	@Column(name = "dp_order_id")
 	public String getDeliveryPartnerOrderId() {
 		return deliveryPartnerOrderId;
 	}
-
 	public void setDeliveryPartnerOrderId(String deliveryPartnerOrderId) {
 		this.deliveryPartnerOrderId = deliveryPartnerOrderId;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "created_time")
 	public Date getCreatedTime() {
 		return createdTime;
 	}
-
-	public List<OrderItem> getOrderItems() {
-		return orderItems;
-	}
-
 	public void setCreatedTime(Date createdTime) {
 		this.createdTime = createdTime;
 	}
-
-	public void setOrderItems(List<OrderItem> orderItems) {
-		this.orderItems = orderItems;
-	}
 }
-

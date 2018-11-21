@@ -28,8 +28,10 @@ DROP TABLE IF EXISTS `user_roles`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_roles` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `version` bigint(20) DEFAULT '0',  
   `authority` varchar(255) DEFAULT NULL,
   `user_id` bigint(20) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `FKBC16F46AB5DA4D87` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -53,13 +55,14 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `class_code` varchar(31) NOT NULL,
+  `version` bigint(20) DEFAULT '0',
   `username` varchar(255) NOT NULL,
   `password` varchar(255) DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `account_locked` tinyint(1) NOT NULL DEFAULT '0',
   `account_expired` tinyint(1) NOT NULL DEFAULT '0',
   `credentials_expired` tinyint(1) NOT NULL DEFAULT '0',
-  `class_code` varchar(31) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -71,7 +74,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin','cfed2815f33f81ed7c13f8fc0ce28714',1,0,0,0,'ADMIN');
+INSERT INTO `users` VALUES (1,'admin',0,'admin','cfed2815f33f81ed7c13f8fc0ce28714',1,0,0,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

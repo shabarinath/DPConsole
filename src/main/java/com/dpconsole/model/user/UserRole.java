@@ -17,15 +17,13 @@ import com.dpconsole.model.Persistent;
 @SuppressWarnings("serial")
 public class UserRole extends Persistent implements GrantedAuthority {
 
-	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
-	@Column(name="authority")
-	@Enumerated(value = EnumType.STRING)
 	private String authority;
 
 	@Override
+	@Column(name="authority")
+	@Enumerated(value = EnumType.STRING)
 	public String getAuthority() {
 		return authority;
 	}
@@ -34,10 +32,11 @@ public class UserRole extends Persistent implements GrantedAuthority {
 		this.authority = authority;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = false)
 	public User getUser() {
 		return user;
 	}
-
 	public void setUser(User user) {
 		this.user = user;
 	}
