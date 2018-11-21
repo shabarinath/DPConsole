@@ -5,18 +5,20 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Persistence;
 import javax.persistence.Table;
 
+import com.dpconsole.model.Persistent;
 import com.dpconsole.model.catalogue.Item;
 
 /**
  * @author SHABARINATH
  * 21-Nov-2018 11:13:01 pm 2018 
  */
+
 @Entity
 @Table(name="order_item")
-public class OrderItem extends Persistence {
+@SuppressWarnings("serial")
+public class OrderItem extends Persistent {
 
 	@Column(name = "order_id")
 	private String orderId;

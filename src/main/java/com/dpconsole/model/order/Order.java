@@ -11,11 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
-import javax.persistence.Persistence;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.dpconsole.model.Persistent;
 import com.dpconsole.model.delivery.DeliveryPartner;
 import com.dpconsole.model.kitchen.Kitchen;
 
@@ -23,9 +23,11 @@ import com.dpconsole.model.kitchen.Kitchen;
  * @author SHABARINATH
  * 21-Nov-2018 10:07:56 pm 2018
  */
+
 @Entity
 @Table(name="orders")
-public class Order extends Persistence {
+@SuppressWarnings("serial")
+public class Order extends Persistent {
 
 	@Column(name = "dp_order_id")
 	private String deliveryPartnerOrderId;
