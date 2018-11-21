@@ -8,9 +8,7 @@
  *
  * Copyright 2018 OpsRamp, Inc. All Rights Reserved.
  */
-package com.dpconsole.model.catalogue;
-
-import java.util.Date;
+package com.dpconsole.model.kitchen;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +16,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.dpconsole.model.Kitchen;
 import com.dpconsole.model.Persistent;
@@ -27,18 +23,16 @@ import com.dpconsole.model.delivery.DeliveryPartner;
 
 /**
  * @author nanda.malve
- * created on 21-Nov-2018 10:26:28 PM
+ * created on 22-Nov-2018 12:18:55 AM
  */
 @Entity
-@Table(name="catalogue_discounts")
+@Table(name="kitchen_delivery_partners")
 @SuppressWarnings("serial")
-public class Discount extends Persistent {
+public class KitchenDeliveryPartner extends Persistent {
 
 	private Kitchen kitchen;
 	private DeliveryPartner deliveryPartner;
-	private Date startTime;
-	private Date endTime;
-	private int discount;
+	private double commissionPercentage;
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="kitchen_id")
@@ -58,30 +52,11 @@ public class Discount extends Persistent {
 		this.deliveryPartner = deliveryPartner;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="start_time", nullable = false)
-	public Date getStartTime() {
-		return startTime;
+	@Column(name="commission_percentage")
+	public double getCommissionPercentage() {
+		return commissionPercentage;
 	}
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
+	public void setCommissionPercentage(double commissionPercentage) {
+		this.commissionPercentage = commissionPercentage;
 	}
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="end_time", nullable = false)
-	public Date getEndTime() {
-		return endTime;
-	}
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
-
-	@Column(name="discount")
-	public int getDiscount() {
-		return discount;
-	}
-	public void setDiscount(int discount) {
-		this.discount = discount;
-	}
-
 }

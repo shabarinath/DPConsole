@@ -10,9 +10,18 @@
  */
 package com.dpconsole.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
+
+import com.dpconsole.model.kitchen.KitchenDeliveryPartner;
 
 /**
  * @author nanda.malve
@@ -24,14 +33,24 @@ import javax.persistence.Table;
 public class Kitchen extends Persistent {
 
 	private String name;
+	private List<KitchenDeliveryPartner> supportedDeliveryPartners;
 
 	@Column(name="name")
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JoinColumn(name="kitchen_id", nullable = false)
+	@OrderColumn(name = "list_index")
+	public List<KitchenDeliveryPartner> getSupportedDeliveryPartners() {
+		return supportedDeliveryPartners;
+	}
+	public void setDeliveryPartners(List<KitchenDeliveryPartner> supportedDeliveryPartners) {
+		this.supportedDeliveryPartners = supportedDeliveryPartners;
 	}
 
 }
