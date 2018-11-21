@@ -19,7 +19,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.dpconsole.model.Kitchen;
 import com.dpconsole.model.Persistent;
 
 /**
@@ -35,7 +34,6 @@ public class Item extends Persistent {
 	private String description;
 	private Category category;
 	private Type type;
-	private Kitchen kitchen;
 	private int precedence;
 	private double price;
 
@@ -71,15 +69,6 @@ public class Item extends Persistent {
 	}
 	public void setType(Type type) {
 		this.type = type;
-	}
-
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="kitchen_id")
-	public Kitchen getKitchen() {
-		return kitchen;
-	}
-	public void setKitchen(Kitchen kitchen) {
-		this.kitchen = kitchen;
 	}
 
 	@Column(name="precedence")
