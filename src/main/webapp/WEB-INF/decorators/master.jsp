@@ -91,7 +91,7 @@
       <div class="main">
         <!-- header -->
         <header>
-          <h1><a href="index.html" id="logo">Deliccio Classic European Cuisine</a></h1>
+          <!--<h1><a href="index.html" id="logo">Deliccio Classic European Cuisine</a></h1>-->
           <nav>
             <ul id="top_nav">
               <li><a href="index.html"><img src="/resources/img/icon_1.gif" alt=""></a></li>
@@ -101,10 +101,11 @@
           </nav>
           <nav>
             <ul id="menu">
-              <li class="active"><a href="index.html">Restaurant</a></li>
-              <li><a href="cuisine.html">Cuisine</a></li>
-              <li><a href="wine.html">Wine List</a></li>
-              <li><a href="cook-book.html">CookBook</a></li>
+              <li class="active"><a href="index.html">Gmail Auto</a></li>
+              <li><a href="cuisine.html">Uber Eats POS</a></li>
+              <li><a href="wine.html">Dashboard</a></li>
+			  <li><a href="cook-book.html">Stats</a></li>
+              <li><a href="cook-book.html">Excel+</a></li>
               <sec:authorize access="isAnonymous()">
 					<li><a
 						class="border-radius: 5px;  border: 1px solid #D7E1E8 !important;"
