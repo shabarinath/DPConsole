@@ -17,7 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.dpconsole.model.Kitchen;
 import com.dpconsole.model.Persistent;
 import com.dpconsole.model.delivery.DeliveryPartner;
 

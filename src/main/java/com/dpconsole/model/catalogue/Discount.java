@@ -21,9 +21,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.dpconsole.model.Kitchen;
 import com.dpconsole.model.Persistent;
 import com.dpconsole.model.delivery.DeliveryPartner;
+import com.dpconsole.model.kitchen.Kitchen;
 
 /**
  * @author nanda.malve

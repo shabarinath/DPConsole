@@ -8,7 +8,7 @@
  *
  * Copyright 2018 OpsRamp, Inc. All Rights Reserved.
  */
-package com.dpconsole.model;
+package com.dpconsole.model.kitchen;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.dpconsole.model.Persistent;
 import com.dpconsole.model.catalogue.Item;
 
 /**

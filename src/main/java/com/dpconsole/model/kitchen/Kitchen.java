@@ -8,7 +8,7 @@
  *
  * Copyright 2018 OpsRamp, Inc. All Rights Reserved.
  */
-package com.dpconsole.model;
+package com.dpconsole.model.kitchen;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
-import com.dpconsole.model.kitchen.KitchenDeliveryPartner;
+import com.dpconsole.model.Persistent;
 
 /**
  * @author nanda.malve
