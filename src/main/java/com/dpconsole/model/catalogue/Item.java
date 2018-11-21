@@ -27,7 +27,7 @@ import com.dpconsole.model.Persistent;
  * created on 21-Nov-2018 8:49:23 PM
  */
 @Entity
-@Table(name="menu_items")
+@Table(name="catalogue_items")
 @SuppressWarnings("serial")
 public class Item extends Persistent {
 

@@ -30,7 +30,7 @@ import com.dpconsole.model.delivery.DeliveryPartner;
  * created on 21-Nov-2018 10:26:28 PM
  */
 @Entity
-@Table(name="menu_categories")
+@Table(name="catalogue_discounts")
 @SuppressWarnings("serial")
 public class Discount extends Persistent {
 
