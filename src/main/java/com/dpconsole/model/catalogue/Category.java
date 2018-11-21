@@ -12,12 +12,8 @@ package com.dpconsole.model.catalogue;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.dpconsole.model.Kitchen;
 import com.dpconsole.model.Persistent;
 
 /**
@@ -31,7 +27,6 @@ public class Category extends Persistent {
 
 	private String name;
 	private int precedence;
-	private Kitchen kitchen;
 
 	@Column(name="name")
 	public String getName() {
@@ -49,12 +44,4 @@ public class Category extends Persistent {
 		this.precedence = precedence;
 	}
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="kitchen_id")
-	public Kitchen getKitchen() {
-		return kitchen;
-	}
-	public void setKitchen(Kitchen kitchen) {
-		this.kitchen = kitchen;
-	}
 }

@@ -10,40 +10,27 @@
  */
 package com.dpconsole.model.catalogue;
 
-import java.util.List;
-
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import com.dpconsole.model.Persistent;
 
 /**
  * @author nanda.malve
- * created on 21-Nov-2018 8:49:23 PM
+ * created on 21-Nov-2018 11:46:16 PM
  */
 @Entity
-@Table(name="catalogue_items")
+@Table(name="catalogue_departments")
 @SuppressWarnings("serial")
-public class Item extends Persistent {
+public class SubCategory extends Persistent {
 
 	private String name;
-	private String description;
 	private Category category;
-	private Type type;
 	private int precedence;
-	private List<String> aliases;
 
 	@Column(name="name")
 	public String getName() {
@@ -51,14 +38,6 @@ public class Item extends Persistent {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	@Column(name="description")
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -70,15 +49,6 @@ public class Item extends Persistent {
 		this.category = category;
 	}
 
-	@Enumerated(EnumType.STRING)
-	@Column(name="food_type", nullable=false)
-	public Type getType() {
-		return type;
-	}
-	public void setType(Type type) {
-		this.type = type;
-	}
-
 	@Column(name="precedence")
 	public int getPrecedence() {
 		return precedence;
@@ -87,16 +57,4 @@ public class Item extends Persistent {
 		this.precedence = precedence;
 	}
 
-	@ElementCollection(targetClass = java.lang.String.class, fetch=FetchType.EAGER)
-	@CollectionTable(name="item_aliases", joinColumns = {
-			@JoinColumn(name="item_id", nullable=false) })
-	@Column(name="alias")
-	@Cascade( {CascadeType.ALL, CascadeType.DELETE_ORPHAN} )
-	@OrderColumn(name = "list_index")
-	public List<String> getAliases() {
-		return aliases;
-	}
-	public void setAliases(List<String> aliases) {
-		this.aliases = aliases;
-	}
 }
