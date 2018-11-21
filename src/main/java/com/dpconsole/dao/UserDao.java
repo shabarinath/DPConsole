@@ -1,9 +1,9 @@
 package com.dpconsole.dao;
 
-import com.dpconsole.domain.User;
+import com.dpconsole.model.user.User;
 
 public interface UserDao {
-		
-	public User findByUsername(String username);
-	
+
+	User findByUsername(String username);
+
 }

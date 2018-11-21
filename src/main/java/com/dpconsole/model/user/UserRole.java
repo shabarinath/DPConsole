@@ -1,43 +1,31 @@
-package com.dpconsole.domain;
+package com.dpconsole.model.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 
-@SuppressWarnings("serial")
+import com.dpconsole.model.Persistent;
+
 @Entity
 @Table(name="user_roles")
-public class UserRole implements GrantedAuthority{
-	
-	@Id
-	@GeneratedValue
-	@Column(name="id")
-	private long id;
-	
+@SuppressWarnings("serial")
+public class UserRole extends Persistent implements GrantedAuthority {
+
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
-    private User user;
-	
+	private User user;
+
 	@Column(name="authority")
 	@Enumerated(value = EnumType.STRING)
 	private String authority;
-	
-	public long getId() {
-		return id;
-	}
 
-	public void setId(long id) {
-		this.id = id;
-	}	
-	
+	@Override
 	public String getAuthority() {
 		return authority;
 	}
@@ -52,6 +40,6 @@ public class UserRole implements GrantedAuthority{
 
 	public void setUser(User user) {
 		this.user = user;
-	}	
-	
+	}
+
 }

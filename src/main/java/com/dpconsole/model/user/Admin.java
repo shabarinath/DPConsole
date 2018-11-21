@@ -1,10 +1,11 @@
-package com.dpconsole.domain;
+package com.dpconsole.model.user;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue(value = "ADMIN")
-public class Admin extends User{
-	
+@SuppressWarnings("serial")
+public class Admin extends User {
+
 }

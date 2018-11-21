@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dpconsole.dao.UserDao;
-import com.dpconsole.domain.User;
+import com.dpconsole.model.user.User;
 
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -18,29 +18,32 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private UserDao userDao;
 	private Assembler assembler;
 
+	@Override
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException, DataAccessException {
 		User userEntity = null;
 		try {
-			
+
 			userEntity	= userDao.findByUsername(username);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		if (userEntity == null)
+		if (userEntity == null) {
 			throw new UsernameNotFoundException("user not found");
+		}
 
 		return assembler.buildUserFromUserEntity(userEntity);
 	}
-	
+
 	@Transactional(readOnly = true)
 	public User loadUserObjectByUsername(String username)
 			throws UsernameNotFoundException, DataAccessException {
 
 		User userEntity = userDao.findByUsername(username);
-		if (userEntity == null)
+		if (userEntity == null) {
 			throw new UsernameNotFoundException("user not found");
+		}
 
 		return userEntity;
 	}

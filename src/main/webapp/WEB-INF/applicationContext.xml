@@ -17,7 +17,7 @@
     <property name="dataSource" ref="dataSource"/>
     <property name="packagesToScan">
 		 <list>
-		   <value>com.dpconsole.domain</value>
+		   <value>com.dpconsole.model</value>
 		 </list>
 	 </property>
     <property name="hibernateProperties">

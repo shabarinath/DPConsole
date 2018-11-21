@@ -1,68 +1,50 @@
-package com.dpconsole.domain;
+package com.dpconsole.model.user;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.Transient;
+
+import com.dpconsole.model.BaseDo;
 
 
 @Entity
 @Table(name="users")
-@DiscriminatorColumn(name = "TYPE", discriminatorType = DiscriminatorType.STRING)
-public class User {
-	
-	@Id
-	@GeneratedValue
-	@Column(name="id")
-	private long id;
-	
+@DiscriminatorColumn(name = "class_code")
+@SuppressWarnings("serial")
+public class User extends BaseDo {
+
 	@Column(name="username",nullable=false)
-	private String username; 
-	
+	private String username;
+
 	@Column(name="password",nullable=false)
 	private String password;
-	
-	@Column(name="active",nullable=false)
-	private boolean active=true;
-	
+
 	@Column(name="account_expired",nullable=false)
 	private boolean accountExpired=false;
-	
+
 	@Column(name="credentials_expired",nullable=false)
-	private boolean credentialsExpired=false; 
-	
+	private boolean credentialsExpired=false;
+
 	@Column(name="account_locked",nullable=false)
 	private boolean accountLocked = false;
-	
+
 	@OneToMany(mappedBy="user",fetch=FetchType.EAGER,cascade={CascadeType.ALL,CascadeType.MERGE})
 	private List<UserRole> userRoles = new ArrayList<UserRole>();
-	
+
 	@Transient
 	private transient String currentPassword;
-	
+
 	@Transient
 	private transient String confirmPassword;
-	
-	public long getId() {
-		return id;
-	}
-	
-	public void setId(long id) {
-		this.id = id;
-	}
 
-	
 	public String getUsername() {
 		return username;
 	}
@@ -77,14 +59,6 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public boolean getActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
 	}
 
 	public boolean getAccountExpired() {
@@ -110,7 +84,7 @@ public class User {
 	public void setAccountLocked(boolean accountLocked) {
 		this.accountLocked = accountLocked;
 	}
-	
+
 	public List<UserRole> getUserRoles() {
 		return userRoles;
 	}
@@ -134,5 +108,5 @@ public class User {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
-	
+
 }

@@ -2,16 +2,14 @@ package com.dpconsole.service;
 
 import com.dpconsole.dao.AdminDao;
 import com.dpconsole.dao.DefaultDao;
-import com.dpconsole.domain.HomePage;
-import com.dpconsole.domain.User;
-import com.dpconsole.utils.SecurityUtils;
+import com.dpconsole.model.user.User;
 
 public class AdminServiceImpl implements AdminService {
-	
+
 	private AdminDao adminDao;
-	
+
 	private DefaultDao defaultDao;
-	
+
 	public AdminDao getAdminDao() {
 		return adminDao;
 	}
@@ -28,7 +26,7 @@ public class AdminServiceImpl implements AdminService {
 		this.defaultDao = defaultDao;
 	}
 
-	@Override
+	/*@Override
 	public HomePage saveHomePageConfig(HomePage homePage) throws Exception {
 		if(!SecurityUtils.isAdminUser()) {
 			throw new Exception("Only admin can update home page");
@@ -36,8 +34,8 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.saveOrUpdate(homePage);
 		return (HomePage) adminDao.get(HomePage.class, homePage.getId());
 	}
-	
-	/*@Override
+
+	@Override
 	public Resource saveResource(Resource resource) throws Exception {
 		if(!SecurityUtils.isAdminUser()) {
 			throw new Exception("Only admin can add a resource");
@@ -46,27 +44,27 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.saveOrUpdate(resource);
 		return (Resource) adminDao.get(Resource.class, resource.getId());
 	}
-	
+
 	@Override
 	public OtherRelatedLink getOtherRelatedLinkByName(String displayName) throws Exception {
 		return adminDao.getOtherRelatedLinkByName(displayName);
 	}
-	
+
 	@Override
 	public OtherRelatedLink getOtherRelatedLinkByHyperLink(String hyperlink) throws Exception {
 		return adminDao.getOtherRelatedLinkByHyperLink(hyperlink);
 	}
-	
+
 	@Override
 	public NoticeBoardLink getNoticeBoardLinkByName(String displayName) throws Exception {
 		return adminDao.getNoticeBoardLinkByName(displayName);
 	}
-	
+
 	@Override
 	public NoticeBoardLink getNoticeBoardLinkByHyperLink(String hyperlink) throws Exception {
 		return adminDao.getNoticeBoardLinkByHyperLink(hyperlink);
 	}
-	
+
 	@Override
 	public OtherRelatedLink saveOrUpdateOtherRelatedLink(OtherRelatedLink otherRelatedLink) throws Exception {
 		if(!SecurityUtils.isAdminUser()) {
@@ -75,7 +73,7 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.saveOrUpdate(otherRelatedLink);
 		return (OtherRelatedLink) adminDao.get(OtherRelatedLink.class, otherRelatedLink.getId());
 	}
-	
+
 	@Override
 	public NoticeBoardLink saveOrUpdateNoticeBoardLink(NoticeBoardLink noticeBoardLink) throws Exception {
 		if(!SecurityUtils.isAdminUser()) {
@@ -92,7 +90,7 @@ public class AdminServiceImpl implements AdminService {
 		}
 		adminDao.delete(orl);
 	}
-	
+
 	@Override
 	public void deleteNoticeBoardLink(NoticeBoardLink nrl) throws Exception {
 		if(!SecurityUtils.isAdminUser()) {
@@ -100,7 +98,7 @@ public class AdminServiceImpl implements AdminService {
 		}
 		adminDao.delete(nrl);
 	}*/
-	
+
 	/*@Override
 	public void deleteResource(Resource resource) throws Exception {
 		if(!SecurityUtils.isAdminUser()) {
@@ -108,14 +106,14 @@ public class AdminServiceImpl implements AdminService {
 		}
 		adminDao.delete(resource);
 	}*/
-	
+
 	@Override
 	public User getUser(long id) throws Exception {
-	   return adminDao.getUser(id); 
+		return adminDao.getUser(id);
 	}
 
 	@Override
 	public void saveOrUpdateUser(User user) throws Exception {
-		 adminDao.saveOrUpdateUser(user);
+		adminDao.saveOrUpdateUser(user);
 	}
 }

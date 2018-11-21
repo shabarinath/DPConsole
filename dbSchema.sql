@@ -59,7 +59,7 @@ CREATE TABLE `users` (
   `account_locked` tinyint(1) NOT NULL DEFAULT '0',
   `account_expired` tinyint(1) NOT NULL DEFAULT '0',
   `credentials_expired` tinyint(1) NOT NULL DEFAULT '0',
-  `type` varchar(31) NOT NULL,
+  `class_code` varchar(31) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;

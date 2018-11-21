@@ -6,21 +6,20 @@ import java.util.TimeZone;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import com.dpconsole.domain.User;
+import com.dpconsole.model.user.User;
 
 /**
  * @author Shabarinath.Volam
- *
  */
 public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {
-	
+
 	private static final long serialVersionUID = -5606540655147546201L;
 	private List<GrantedAuthority> authorities = null;
 	private boolean accountNonLocked;
 	private User user;//(mainly for getUserName and getPassword)
-	
+
 	private TimeZone timeZone = null;//(time zone against user in db is setted)
-	
+
 	public UserDetails(User dbUser) {
 		this.user = dbUser;
 	}
@@ -50,29 +49,29 @@ public class UserDetails implements org.springframework.security.core.userdetail
 	public boolean isEnabled() {
 		return true;
 	}
-	
+
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
 		return this.authorities;
 	}
-	
+
 	public TimeZone getTimeZone() {
 		return timeZone;
 	}
-	
+
 	public void setTimeZone(TimeZone timeZone) {
 		this.timeZone = timeZone;
 	}
-	
+
 	public String getTimeZoneShort() {
 		if(timeZone != null){
 			return timeZone.getDisplayName(false, TimeZone.SHORT);
 		}
 		return null;
 	}
-	
+
 	public long getUserId() {
-	 return user.getId();
+		return user.getId();
 	}
 
 	/**

@@ -1,17 +1,17 @@
 package com.dpconsole.dao;
 
-import com.dpconsole.domain.User;
+import com.dpconsole.model.user.User;
 
 public interface AdminDao {
-	
-	public Object get(@SuppressWarnings("rawtypes") Class clazz, long id) throws Exception;
-	
-	public void saveOrUpdate(Object entity) throws Exception;
 
-	public void delete(Object entity) throws Exception;
-	
-	public User getUser(long id) throws Exception;
+	Object get(@SuppressWarnings("rawtypes") Class clazz, long id) throws Exception;
 
-	public void saveOrUpdateUser(User user) throws Exception;
-	
+	void saveOrUpdate(Object entity) throws Exception;
+
+	void delete(Object entity) throws Exception;
+
+	User getUser(long id) throws Exception;
+
+	void saveOrUpdateUser(User user) throws Exception;
+
 }

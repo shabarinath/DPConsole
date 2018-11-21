@@ -1,12 +1,12 @@
-package com.dpconsole.domain;
+package com.dpconsole.model.user;
 
 public enum Role {
-	
+
 	ROLE_ADMIN("ROLE_ADMIN", "Admin");
-    
-    private final String code;
+
+	private final String code;
 	private final String text;
-	
+
 	Role(String code,String text)
 	{
 		this.code = code;

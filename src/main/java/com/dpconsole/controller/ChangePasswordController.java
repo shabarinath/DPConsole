@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.dpconsole.auth.AuthenticationContext;
-import com.dpconsole.domain.User;
+import com.dpconsole.model.user.User;
 import com.dpconsole.service.AdminService;
 
 @Controller
 public class ChangePasswordController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ChangePasswordController.class);
-	
+
 	@Autowired
 	private AdminService adminService;
-	
+
 	@RequestMapping(value = "/changePassword", method = RequestMethod.GET)
 	public String changePassword(Model model) throws Exception {
 		try {
@@ -33,7 +33,7 @@ public class ChangePasswordController {
 		}
 		return "security/changePassword";
 	}
-	
+
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
 	public String changePassword(@ModelAttribute User user, BindingResult result, Model model) throws Exception {
 		if (validateFormData(user, result)) {
