@@ -26,8 +26,8 @@
   <!--APR library loader. Documentation at /docs/apr.html -->
   <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
   <!--Initialize Jasper prior to webapps are loaded. Documentation at /docs/jasper-howto.html -->
-  <Listener className="org.apache.catalina.core.JasperListener" />
-  <!-- Prevent memory leaks due to use of particular java/javax APIs-->
+  <!-- <Listener className="org.apache.catalina.core.JasperListener" /> -->
+  <!-- Prevent memory leaks due to use of particular java/javax APIs -->
   <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
   <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
   <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
@@ -139,17 +139,20 @@
 		<Context path="" docBase="${catalina.home}/webapps/ROOT"
 			privileged="true" antiResourceLocking="false"
 			antiJARLocking="false">
-			<Resource name="jdbc/poly" auth="Container" factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+			<Resource name="jdbc/dpconsole" auth="Container" 
+				factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
 				type="javax.sql.DataSource" maxActive="100" minIdle="10" maxIdle="30"
 				maxWait="10000" username="root" password="root"
-				driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/poly?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true" logAbandoned="true" 
+				driverClassName="com.mysql.jdbc.Driver"
+				url="jdbc:mysql://localhost:3306/dpconsole?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true"
+				logAbandoned="true" 
 				validationQuery="SELECT 1" 
-	   					removeAbandoned="true" 
-	   					testOnBorrow="true"
-	   					testWhileIdle="true"
-	   					timeBetweenEvictionRunsMillis="10000"
-	   					minEvictableIdleTimeMillis="180000"
-	   					removeAbandonedTimeout="60"
+				removeAbandoned="true" 
+				testOnBorrow="true"
+				testWhileIdle="true"
+				timeBetweenEvictionRunsMillis="10000"
+				minEvictableIdleTimeMillis="180000"
+				removeAbandonedTimeout="60"
 			/>
 		</Context>
       </Host>
