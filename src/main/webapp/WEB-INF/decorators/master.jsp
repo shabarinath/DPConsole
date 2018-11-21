@@ -84,49 +84,81 @@
 <decorator:head />
 
 </head>
-<body>
-	<div class="body6">
-		<div class="body1">
-			<div class="body5">
-				<div class="main">
-					<header class="header" style="padding-top: 0px;">
-						<h1>
-							<a href="index.html" id="logo">Food For You</a>
-						</h1>
-						<nav>
-							<ul id="top_nav">
-								<li><a href="index.html"><img
-										src="/resources/img/icon_1.gif" alt=""></a></li>
-								<li><a href="#"><img src="/resources/img/icon_2.gif"
-										alt=""></a></li>
-								<li class="end"><a href="contacts.html"><img
-										src="/resources/img/icon_3.gif" alt=""></a></li>
-							</ul>
-						</nav>
-						<nav>
-							<ul id="menu">
-								<li class="active"><a href="index.html">Restaurant</a></li>
-								<li><a href="cuisine.html">Cuisine</a></li>
-								<li><a href="wine.html">Wine List</a></li>
-								<li><a href="cook-book.html">CookBook</a></li>
-								<sec:authorize access="isAnonymous()">
-									<li><a
-										class="border-radius: 5px;  border: 1px solid #D7E1E8 !important;"
-										href="<c:url value="/login"/>">Login</a>
-									</li>
-								</sec:authorize>
-								<sec:authorize access="isAuthenticated()">
-									<li>
-										<a href="<c:url value="/j_spring_security_logout"/>">Logout</a>
-									</li>
-								</sec:authorize>
-							</ul>
-						</nav>						
-					</header>
-				</div>
-			</div>
+<body id="page1">
+<div class="body6">
+  <div class="body1">
+    <div class="body5">
+      <div class="main">
+        <!-- header -->
+        <header>
+          <h1><a href="index.html" id="logo">Deliccio Classic European Cuisine</a></h1>
+          <nav>
+            <ul id="top_nav">
+              <li><a href="index.html"><img src="/resources/img/icon_1.gif" alt=""></a></li>
+              <li><a href="#"><img src="/resources/img/icon_2.gif" alt=""></a></li>
+              <li class="end"><a href="contacts.html"><img src="/resources/img/icon_3.gif" alt=""></a></li>
+            </ul>
+          </nav>
+          <nav>
+            <ul id="menu">
+              <li class="active"><a href="index.html">Restaurant</a></li>
+              <li><a href="cuisine.html">Cuisine</a></li>
+              <li><a href="wine.html">Wine List</a></li>
+              <li><a href="cook-book.html">CookBook</a></li>
+              <sec:authorize access="isAnonymous()">
+					<li><a
+						class="border-radius: 5px;  border: 1px solid #D7E1E8 !important;"
+						href="<c:url value="/login"/>">Login</a>
+					</li>
+				</sec:authorize>
+				<sec:authorize access="isAuthenticated()">
+					<li>
+						<a href="<c:url value="/j_spring_security_logout"/>">Logout</a>
+					</li>
+				</sec:authorize>
+            </ul>
+          </nav>
+        </header>
+		
+
+        <!-- / header -->       
+		<div class="body2">
+		  <div class="main">
+			<article id="content2">
+			  <div class="wrapper">
+			  <decorator:body /> 								
+			  </div>
+			</article>
+			<!-- / content -->
+		  </div>
 		</div>
-	</div>
+		<div class="body3">
+		  <div class="body4">
+			<div class="main">
+			  <!-- footer -->
+			  <footer>
+				<div class="wrapper">
+				  <section class="col1 pad_left1">
+					<h3>Toll Free: <span>1-800 123 45 67</span></h3>
+					Copyright &copy; <a href="#">Domain Name</a> All Rights Reserved<br>
+					Design by <a target="_blank" href="http://www.templatemonster.com/">TemplateMonster.com</a></section>
+				  <section class="col2 pad_left1">
+					<h3>Follow Us </h3>
+					<ul id="icons">
+					  <li><a href="#" class="normaltip"><img src="/resources/img/icon1.gif" alt=""></a></li>
+					  <li><a href="#" class="normaltip"><img src="/resources/img/icon2.gif" alt=""></a></li>
+					  <li><a href="#" class="normaltip"><img src="/resources/img/icon3.gif" alt=""></a></li>
+					  <li><a href="#" class="normaltip"><img src="/resources/img/icon4.gif" alt=""></a></li>
+					  <li><a href="#" class="normaltip"><img src="/resources/img/icon5.gif" alt=""></a></li>
+					</ul>
+				  </section>
+				</div>
+				<!-- {%FOOTER_LINK} -->
+			  </footer>
+			  <!-- / footer -->
+			</div>
+		  </div>
+		</div>		
 </body>
 <script>
 	first3 = 24;
