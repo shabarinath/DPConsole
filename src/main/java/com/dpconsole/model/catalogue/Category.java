@@ -8,12 +8,10 @@
  *
  * Copyright 2018 OpsRamp, Inc. All Rights Reserved.
  */
-package com.dpconsole.model.menu;
+package com.dpconsole.model.catalogue;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,20 +22,16 @@ import com.dpconsole.model.Persistent;
 
 /**
  * @author nanda.malve
- * created on 21-Nov-2018 8:49:23 PM
+ * created on 21-Nov-2018 8:49:43 PM
  */
 @Entity
-@Table(name="menu_items")
+@Table(name="menu_categories")
 @SuppressWarnings("serial")
-public class Item extends Persistent {
+public class Category extends Persistent {
 
 	private String name;
-	private String description;
-	private Category category;
-	private Type type;
-	private Kitchen kitchen;
 	private int precedence;
-	private double price;
+	private Kitchen kitchen;
 
 	@Column(name="name")
 	public String getName() {
@@ -45,41 +39,6 @@ public class Item extends Persistent {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	@Column(name="description")
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="category_id")
-	public Category getCategory() {
-		return category;
-	}
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	@Enumerated(EnumType.STRING)
-	@Column(name="food_type", nullable=false)
-	public Type getType() {
-		return type;
-	}
-	public void setType(Type type) {
-		this.type = type;
-	}
-
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="kitchen_id")
-	public Kitchen getKitchen() {
-		return kitchen;
-	}
-	public void setKitchen(Kitchen kitchen) {
-		this.kitchen = kitchen;
 	}
 
 	@Column(name="precedence")
@@ -90,12 +49,12 @@ public class Item extends Persistent {
 		this.precedence = precedence;
 	}
 
-	@Column(name="price")
-	public double getPrice() {
-		return price;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="kitchen_id")
+	public Kitchen getKitchen() {
+		return kitchen;
 	}
-	public void setPrice(double price) {
-		this.price = price;
+	public void setKitchen(Kitchen kitchen) {
+		this.kitchen = kitchen;
 	}
-
 }

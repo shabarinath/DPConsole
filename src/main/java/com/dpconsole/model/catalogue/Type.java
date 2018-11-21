@@ -8,7 +8,7 @@
  *
  * Copyright 2018 OpsRamp, Inc. All Rights Reserved.
  */
-package com.dpconsole.model.menu;
+package com.dpconsole.model.catalogue;
 
 /**
  * @author nanda.malve

@@ -8,10 +8,12 @@
  *
  * Copyright 2018 OpsRamp, Inc. All Rights Reserved.
  */
-package com.dpconsole.model.menu;
+package com.dpconsole.model.catalogue;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,16 +24,20 @@ import com.dpconsole.model.Persistent;
 
 /**
  * @author nanda.malve
- * created on 21-Nov-2018 8:49:43 PM
+ * created on 21-Nov-2018 8:49:23 PM
  */
 @Entity
-@Table(name="menu_categories")
+@Table(name="menu_items")
 @SuppressWarnings("serial")
-public class Category extends Persistent {
+public class Item extends Persistent {
 
 	private String name;
-	private int precedence;
+	private String description;
+	private Category category;
+	private Type type;
 	private Kitchen kitchen;
+	private int precedence;
+	private double price;
 
 	@Column(name="name")
 	public String getName() {
@@ -41,12 +47,30 @@ public class Category extends Persistent {
 		this.name = name;
 	}
 
-	@Column(name="precedence")
-	public int getPrecedence() {
-		return precedence;
+	@Column(name="description")
+	public String getDescription() {
+		return description;
 	}
-	public void setPrecedence(int precedence) {
-		this.precedence = precedence;
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="category_id")
+	public Category getCategory() {
+		return category;
+	}
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column(name="food_type", nullable=false)
+	public Type getType() {
+		return type;
+	}
+	public void setType(Type type) {
+		this.type = type;
 	}
 
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -57,4 +81,21 @@ public class Category extends Persistent {
 	public void setKitchen(Kitchen kitchen) {
 		this.kitchen = kitchen;
 	}
+
+	@Column(name="precedence")
+	public int getPrecedence() {
+		return precedence;
+	}
+	public void setPrecedence(int precedence) {
+		this.precedence = precedence;
+	}
+
+	@Column(name="price")
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 }
