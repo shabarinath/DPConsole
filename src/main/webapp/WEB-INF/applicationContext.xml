@@ -5,58 +5,66 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
 	">
-	
-   <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-    <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-    <property name="url" value="jdbc:mysql://localhost:3306/dpconsole?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true"/>
-    <property name="username" value="root"/>
-    <property name="password" value="root"/>
-  </bean>
 
-  <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-    <property name="dataSource" ref="dataSource"/>
-    <property name="packagesToScan">
-		 <list>
-		   <value>com.dpconsole.model</value>
-		 </list>
-	 </property>
-    <property name="hibernateProperties">
-      <value>
-        hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
-        hibernate.show_sql=false
-      </value>
-    </property>
-  </bean>
-  
- 	 <!--  write DAO beans for new tables -->
-  	<bean id="userDao" class="com.dpconsole.dao.UserDaoImpl">
-		<property name="sessionFactory" ref="sessionFactory"/>
-	</bean>	
-  	
-	<bean id="adminDao" class="com.dpconsole.dao.AdminDaoImpl">
-		<property name="sessionFactory" ref="sessionFactory"/>
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/dpconsole?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
 	</bean>
-	
-	<bean id="defaultDao" class="com.dpconsole.dao.DefaultDaoImpl">
-		<property name="sessionFactory" ref="sessionFactory"/>
-	</bean>
-	
-	<!--  services  -->	
-	<bean id="userDetailsService" class="com.dpconsole.service.UserDetailsServiceImpl" autowire="byType">
-		<property name="userDao" ref="userDao"/>
-		<property name="assembler" ref="assembler"/>
-	</bean>	
-	
-	<bean id="adminService"	class="com.dpconsole.service.AdminServiceImpl">
-		<property name="adminDao">
-			<ref bean="adminDao" />
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>com.dpconsole.model</value>
+			</list>
 		</property>
-		
-		<property name="defaultDao">
-			<ref bean="defaultDao" />
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+				hibernate.show_sql=false
+			</value>
 		</property>
 	</bean>
+
+	<!-- DAO Object Definitions -->
+
+	<bean id="userDao" class="com.dpconsole.dao.impl.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	
-	<bean id="assembler" class="com.dpconsole.service.Assembler" />
+	<bean id="catalogueDao" class="com.dpconsole.dao.impl.CatalogueDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	
+	<bean id="kitchenDao" class="com.dpconsole.dao.impl.KitchenDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="orderDao" class="com.dpconsole.dao.impl.OrderDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<!-- DAO Object Definitions -->
+	
+	<!-- Service Object Definitions -->
+	
+	<bean id="assembler" class="com.dpconsole.auth.Assembler" />
+	
+	<bean id="userDetailsService" class="com.dpconsole.auth.UserAuthenticationService" autowire="byType">
+		<property name="userDao" ref="userDao" />
+		<property name="assembler" ref="assembler" />
+	</bean>
+
+	<bean id="userService" class="com.dpconsole.service.impl.UserServiceImpl" />
+	
+	<bean id="catalogueService" class="com.dpconsole.service.impl.CatalogueServiceImpl" />
+	
+	<bean id="kitchenService" class="com.dpconsole.service.impl.KitchenServiceImpl" />
+	
+	<bean id="orderService" class="com.dpconsole.service.impl.OrderServiceImpl" />
+	
+	<!-- Service Object Definitions -->
+
 </beans>

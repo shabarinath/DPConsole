@@ -8,7 +8,7 @@
  *
  * Copyright 2018 OpsRamp, Inc. All Rights Reserved.
  */
-package com.dpconsole.model.catalogue;
+package com.dpconsole.model.kitchen;
 
 import java.util.Date;
 
@@ -23,16 +23,15 @@ import javax.persistence.TemporalType;
 
 import com.dpconsole.model.Persistent;
 import com.dpconsole.model.delivery.DeliveryPartner;
-import com.dpconsole.model.kitchen.Kitchen;
 
 /**
  * @author nanda.malve
  * created on 21-Nov-2018 10:26:28 PM
  */
 @Entity
-@Table(name="catalogue_discounts")
+@Table(name="kitchen_discounts")
 @SuppressWarnings("serial")
-public class Discount extends Persistent {
+public class KitchenDiscount extends Persistent {
 
 	private Kitchen kitchen;
 	private DeliveryPartner deliveryPartner;

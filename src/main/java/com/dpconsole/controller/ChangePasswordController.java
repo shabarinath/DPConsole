@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.dpconsole.auth.AuthenticationContext;
 import com.dpconsole.model.user.User;
-import com.dpconsole.service.AdminService;
+import com.dpconsole.service.UserService;
 
 @Controller
 public class ChangePasswordController {
@@ -20,7 +19,7 @@ public class ChangePasswordController {
 	private static final Logger logger = LoggerFactory.getLogger(ChangePasswordController.class);
 
 	@Autowired
-	private AdminService adminService;
+	private UserService userService;
 
 	@RequestMapping(value = "/changePassword", method = RequestMethod.GET)
 	public String changePassword(Model model) throws Exception {
@@ -39,11 +38,8 @@ public class ChangePasswordController {
 		if (validateFormData(user, result)) {
 			return "security/changePassword";
 		}
-		System.out.println("old password"+user.getCurrentPassword());
-		System.out.println("new password"+user.getPassword());
-		System.out.println("confirm password"+user.getConfirmPassword());
-		System.out.println(AuthenticationContext.getCurrentUserId());
-		adminService.saveOrUpdateUser(user);
+
+		userService.saveOrUpdateUser(user);
 		return "security/passwordChangedSuccessfully";
 	}
 

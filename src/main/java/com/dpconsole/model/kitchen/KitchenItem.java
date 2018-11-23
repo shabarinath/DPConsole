@@ -25,7 +25,7 @@ import com.dpconsole.model.catalogue.Item;
  * created on 21-Nov-2018 10:59:47 PM
  */
 @Entity
-@Table(name="kitchens")
+@Table(name="kitchen_items")
 @SuppressWarnings("serial")
 public class KitchenItem extends Persistent {
 

@@ -1,4 +1,4 @@
-package com.dpconsole.service;
+package com.dpconsole.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;

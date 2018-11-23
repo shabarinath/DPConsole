@@ -1,4 +1,4 @@
-package com.dpconsole.service;
+package com.dpconsole.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
@@ -13,20 +13,18 @@ import com.dpconsole.dao.UserDao;
 import com.dpconsole.model.user.User;
 
 @Service("userDetailsService")
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserAuthenticationService implements UserDetailsService {
 
 	private UserDao userDao;
 	private Assembler assembler;
 
 	@Override
 	@Transactional(readOnly = true)
-	public UserDetails loadUserByUsername(String username)
-			throws UsernameNotFoundException, DataAccessException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
 		User userEntity = null;
 		try {
-
-			userEntity	= userDao.findByUsername(username);
-		} catch(Exception e) {
+			userEntity = userDao.getUserByUsername(username);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		if (userEntity == null) {
@@ -37,17 +35,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	}
 
 	@Transactional(readOnly = true)
-	public User loadUserObjectByUsername(String username)
-			throws UsernameNotFoundException, DataAccessException {
-
-		User userEntity = userDao.findByUsername(username);
+	public User loadUserObjectByUsername(String username) throws UsernameNotFoundException, DataAccessException {
+		User userEntity = userDao.getUserByUsername(username);
 		if (userEntity == null) {
 			throw new UsernameNotFoundException("user not found");
 		}
 
 		return userEntity;
 	}
-
 
 	@Autowired
 	@Required
