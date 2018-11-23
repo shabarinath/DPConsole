@@ -10,11 +10,14 @@
  */
 package com.dpconsole.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.dpconsole.dao.OrderDao;
 import com.dpconsole.model.PartialPage;
 import com.dpconsole.model.order.Order;
+import com.dpconsole.utils.Utils;
 
 /**
  * @author nanda.malve
@@ -22,11 +25,38 @@ import com.dpconsole.model.order.Order;
  */
 public class OrderDaoImpl extends DaoImpl implements OrderDao {
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public PartialPage<Order> getOrdersByCriteria(long kitchenId, long deliveryParnerId, Date startDate, Date endDate)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public PartialPage<Order> getOrdersByCriteria(long kitchenId, long deliveryPartnerId, Date startCreatedTime,
+			Date endCreatedTime, String sortName, boolean isDecendingOrder, int pageNo, int pageSize)
+					throws Exception {
+		List<Object> queryParams = new ArrayList<Object>();
+		StringBuffer queryString = new StringBuffer("FROM Order o");
+		if (kitchenId > 0) {
+			queryString.append(" WHERE o.kitchen.id = ? ");
+			queryParams.add(kitchenId);
+		}
+		if (deliveryPartnerId > 0) {
+			queryString.append(" WHERE o.deliveryPartner.id = ? ");
+			queryParams.add(deliveryPartnerId);
+		}
+		if(startCreatedTime != null) {
+			queryString.append(" AND o.createdTime >= ?");
+			queryParams.add(startCreatedTime);
+		}
+		if(endCreatedTime != null) {
+			queryString.append(" AND o.createdTime <= ?");
+			queryParams.add(endCreatedTime);
+		}
+
+		StringBuffer countQuery = new StringBuffer("SELECT COUNT(*) ").append(queryString);
+		if(Utils.isEmpty(sortName)) {
+			sortName = "o.kitchen.id, o.createdTime";
+		}
+
+		queryString.append(" ORDER BY " + sortName + (isDecendingOrder ? " desc" : " asc"));
+
+		return getHibernatePage(queryString.toString(), countQuery.toString(), queryParams, pageNo, pageSize);
 	}
 
 }

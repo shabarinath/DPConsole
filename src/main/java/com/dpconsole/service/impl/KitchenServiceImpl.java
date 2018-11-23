@@ -39,13 +39,13 @@ public class KitchenServiceImpl implements KitchenService {
 	}
 
 	@Override
-	public PartialPage<KitchenItem> getKitchenItemsByCategory(long kitchenId, long categoryId) throws Exception {
-		return kitchenDao.getKitchenItemsByCategory(kitchenId, categoryId);
+	public PartialPage<KitchenItem> getKitchenItemsByCategory(long kitchenId, long categoryId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception {
+		return kitchenDao.getKitchenItemsByCategory(kitchenId, categoryId, sortName, isDecendingOrder, pageNo, pageSize);
 	}
 
 	@Override
-	public PartialPage<KitchenDiscount> getKitchenDiscounts(long kitchenId) throws Exception {
-		return kitchenDao.getKitchenDiscounts(kitchenId);
+	public PartialPage<KitchenDiscount> getKitchenDiscounts(long kitchenId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception {
+		return kitchenDao.getKitchenDiscounts(kitchenId, sortName, isDecendingOrder, pageNo, pageSize);
 	}
 
 	@Override

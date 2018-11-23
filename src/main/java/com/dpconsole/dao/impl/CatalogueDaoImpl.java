@@ -10,6 +10,7 @@
  */
 package com.dpconsole.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.dpconsole.dao.CatalogueDao;
@@ -17,6 +18,7 @@ import com.dpconsole.model.PartialPage;
 import com.dpconsole.model.catalogue.Category;
 import com.dpconsole.model.catalogue.Item;
 import com.dpconsole.model.catalogue.SubCategory;
+import com.dpconsole.utils.Utils;
 
 /**
  * @author nanda.malve
@@ -24,22 +26,38 @@ import com.dpconsole.model.catalogue.SubCategory;
  */
 public class CatalogueDaoImpl extends DaoImpl implements CatalogueDao {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Category> getAllCategories() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Category> categories = getHibernateTemplate().find("FROM Category c ORDER BY c.precedence");
+		return !categories.isEmpty() ? categories : null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<SubCategory> getSubCategories(long categoryId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<SubCategory> subCategories = getHibernateTemplate().find("FROM SubCategory sc WHERE sc.category.id = ? ORDER BY sc.precedence", new Object[]{categoryId});
+		return !subCategories.isEmpty() ? subCategories : null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public PartialPage<Item> getItemsByCategory(long categoryId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public PartialPage<Item> getItemsByCategory(long categoryId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception {
+		List<Object> queryParams = new ArrayList<Object>();
+		StringBuffer queryString = new StringBuffer("FROM Item i");
+		if (categoryId > 0) {
+			queryString.append(" WHERE i.subCategory.category.id = ? ");
+			queryParams.add(categoryId);
+		}
+
+		StringBuffer countQuery = new StringBuffer("SELECT COUNT(*) ").append(queryString);
+		if(Utils.isEmpty(sortName)) {
+			sortName = "i.subCategory.category.precedence, i.subCategory.precedence, i.precedence";
+		}
+
+		queryString.append(" ORDER BY " + sortName + (isDecendingOrder ? " desc" : " asc"));
+
+		return getHibernatePage(queryString.toString(), countQuery.toString(), queryParams, pageNo, pageSize);
 	}
 
 }

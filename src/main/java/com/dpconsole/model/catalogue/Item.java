@@ -40,7 +40,7 @@ public class Item extends Persistent {
 
 	private String name;
 	private String description;
-	private Category category;
+	private SubCategory subCategory;
 	private Type type;
 	private int precedence;
 	private List<String> aliases;
@@ -62,12 +62,12 @@ public class Item extends Persistent {
 	}
 
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="category_id")
-	public Category getCategory() {
-		return category;
+	@JoinColumn(name="sub_category_id")
+	public SubCategory getSubCategory() {
+		return subCategory;
 	}
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setSubCategory(SubCategory subCategory) {
+		this.subCategory = subCategory;
 	}
 
 	@Enumerated(EnumType.STRING)

@@ -44,8 +44,8 @@ public class CatalogueServiceImpl implements CatalogueService {
 	}
 
 	@Override
-	public PartialPage<Item> getItemsByCategory(long categoryId) throws Exception {
-		return catalogueDao.getItemsByCategory(categoryId);
+	public PartialPage<Item> getItemsByCategory(long categoryId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception {
+		return catalogueDao.getItemsByCategory(categoryId, sortName, isDecendingOrder, pageNo, pageSize);
 	}
 
 	@Override

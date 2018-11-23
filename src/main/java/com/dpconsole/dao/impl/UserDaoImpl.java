@@ -10,8 +10,8 @@ public class UserDaoImpl extends DaoImpl implements UserDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public User getUserByUsername(String username) {
-		List<User> users = getHibernateTemplate().find("from User user where user.username = ?", new Object[]{username});
-		return users.size() > 0 ? users.get(0) : null;
+		List<User> users = getHibernateTemplate().find("FROM User user WHERE user.username = ?", new Object[]{username});
+		return !users.isEmpty() ? users.get(0) : null;
 	}
 
 	@Override

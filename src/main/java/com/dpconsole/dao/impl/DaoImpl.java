@@ -10,10 +10,17 @@
  */
 package com.dpconsole.dao.impl;
 
+import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.dpconsole.dao.Dao;
+import com.dpconsole.model.HibernatePage;
 import com.dpconsole.model.Persistent;
 
 /**
@@ -32,6 +39,10 @@ public class DaoImpl implements Dao {
 		return hibernateTemplate;
 	}
 
+	private final Session getSession() throws DataAccessResourceFailureException, IllegalStateException {
+		return hibernateTemplate.getSessionFactory().getCurrentSession();
+	}
+
 	@Override
 	public void saveOrUpdate(Persistent perObj) throws Exception {
 		hibernateTemplate.saveOrUpdate(perObj.getClass().getName(), perObj);
@@ -45,6 +56,35 @@ public class DaoImpl implements Dao {
 	@Override
 	public Object get(Class<? extends Persistent> clazz, long id) throws Exception {
 		return hibernateTemplate.get(clazz, id);
+	}
+
+	@SuppressWarnings("rawtypes")
+	public HibernatePage getHibernatePage(String selectQuery, String countQuery, List parameters, int pageNo, int pageSize) throws Exception {
+		return getHibernatePage(selectQuery, countQuery, parameters.toArray(), pageNo, pageSize);
+	}
+
+	@SuppressWarnings("rawtypes")
+	public HibernatePage getHibernatePage(String selectQuery, String countQuery, int pageNo, int pageSize) throws Exception {
+		return getHibernatePage(selectQuery, countQuery, (Object[]) null, pageNo, pageSize);
+	}
+
+	@SuppressWarnings("rawtypes")
+	public HibernatePage getHibernatePage(String selectQueryString, String countQueryString, Object[] parameters, int pageNo, int pageSize) throws Exception {
+		try {
+			Query selectQuery = getSession().createQuery(selectQueryString);
+			selectQuery.setCacheable(true);
+			Query countQuery = getSession().createQuery(countQueryString);
+			countQuery.setCacheable(true);
+			if (parameters != null) {
+				for (int i = 0; i < parameters.length; i++) {
+					selectQuery.setParameter(i, parameters[i]);
+					countQuery.setParameter(i, parameters[i]);
+				}
+			}
+			return new HibernatePage(selectQuery, countQuery, pageNo, pageSize);
+		} catch (HibernateException e) {
+			throw new Exception("Fail to execute query - " + e.getMessage(), e);
+		}
 	}
 
 }

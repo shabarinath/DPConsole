@@ -38,9 +38,10 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public PartialPage<Order> getOrdersByCriteria(long kitchenId, long deliveryParnerId, Date startDate, Date endDate)
-			throws Exception {
-		return orderDao.getOrdersByCriteria(kitchenId, deliveryParnerId, startDate, endDate);
+	public PartialPage<Order> getOrdersByCriteria(long kitchenId, long deliveryPartnerId, Date startCreatedTime,
+			Date endCreatedTime, String sortName, boolean isDecendingOrder, int pageNo, int pageSize)
+					throws Exception {
+		return orderDao.getOrdersByCriteria(kitchenId, deliveryPartnerId, startCreatedTime, endCreatedTime, sortName, isDecendingOrder, pageNo, pageSize);
 	}
 
 }
