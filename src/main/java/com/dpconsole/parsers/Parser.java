@@ -2,6 +2,7 @@ package com.dpconsole.parsers;
 
 import java.util.List;
 
+import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.order.Order;
 
 /**
@@ -10,6 +11,6 @@ import com.dpconsole.model.order.Order;
  */
 public interface Parser<T> extends ParsingHeaders {
 
-	List<Order> parse(T content) throws Exception;
+	List<Order> parse(T content, Kitchen kitchen) throws Exception;
 
 }
