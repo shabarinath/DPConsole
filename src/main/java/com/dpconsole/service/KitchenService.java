@@ -11,6 +11,7 @@
 package com.dpconsole.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.dpconsole.model.PartialPage;
 import com.dpconsole.model.catalogue.Category;
@@ -33,6 +34,6 @@ public interface KitchenService {
 
 	void saveOrUpdateKitchenDiscount(KitchenDiscount kitchenDiscount) throws Exception;
 
-	PartialPage<KitchenItem> getKitchenItemsByCategory(long kitchenId, long categoryId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception;
+	Map<String, KitchenItem> getKitchenItems(long kitchenId) throws Exception;
 
 }

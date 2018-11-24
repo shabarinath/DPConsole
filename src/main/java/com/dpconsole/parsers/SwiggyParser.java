@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.apache.commons.csv.CSVRecord;
 
+import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.order.Order;
 
 /**
@@ -29,7 +30,7 @@ public class SwiggyParser extends CSVParser {
 	}
 
 	@Override
-	public List<Order> parseRecords(List<CSVRecord> csvRecords) {
+	public List<Order> parseRecords(Kitchen kitchen, List<CSVRecord> csvRecords) {
 		// TODO
 		return null;
 	}
