@@ -29,14 +29,14 @@ public class CatalogueDaoImpl extends DaoImpl implements CatalogueDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Category> getAllCategories() throws Exception {
-		List<Category> categories = getHibernateTemplate().find("FROM Category c ORDER BY c.precedence");
+		List<Category> categories = getHibernateTemplate().find("FROM Category c WHERE c.active = ? ORDER BY c.precedence", new Object[]{true});
 		return !categories.isEmpty() ? categories : null;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<SubCategory> getSubCategories(long categoryId) throws Exception {
-		List<SubCategory> subCategories = getHibernateTemplate().find("FROM SubCategory sc WHERE sc.category.id = ? ORDER BY sc.precedence", new Object[]{categoryId});
+		List<SubCategory> subCategories = getHibernateTemplate().find("FROM SubCategory sc WHERE sc.category.id = ? AND sc.active = ? ORDER BY sc.precedence", new Object[]{categoryId, true});
 		return !subCategories.isEmpty() ? subCategories : null;
 	}
 
@@ -44,9 +44,11 @@ public class CatalogueDaoImpl extends DaoImpl implements CatalogueDao {
 	@Override
 	public PartialPage<Item> getItemsByCategory(long categoryId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception {
 		List<Object> queryParams = new ArrayList<Object>();
-		StringBuffer queryString = new StringBuffer("FROM Item i");
+		StringBuffer queryString = new StringBuffer("FROM Item i WHERE i.subCategory.active = ? AND i.active = ?");
+		queryParams.add(true);
+		queryParams.add(true);
 		if (categoryId > 0) {
-			queryString.append(" WHERE i.subCategory.category.id = ? ");
+			queryString.append(" AND i.subCategory.category.id = ? ");
 			queryParams.add(categoryId);
 		}
 

@@ -32,6 +32,7 @@ public class KitchenItem extends Persistent {
 	private Item item;
 	private Kitchen kitchen;
 	private double price;
+	private boolean active = true;
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="item_id")
@@ -57,6 +58,14 @@ public class KitchenItem extends Persistent {
 	}
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	@Column(name="active", nullable=false)
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 }

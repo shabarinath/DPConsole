@@ -32,7 +32,6 @@ public class Persistent implements Serializable {
 
 	private long id;
 	private long version;
-	private boolean active = true;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,15 +52,6 @@ public class Persistent implements Serializable {
 
 	public void setVersion(long version) {
 		this.version = version;
-	}
-
-	@Column(name="active", nullable=false)
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
 	}
 
 	@Override

@@ -12,13 +12,11 @@ package com.dpconsole.model.kitchen;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 import com.dpconsole.model.Persistent;
-import com.dpconsole.model.delivery.DeliveryPartner;
 
 /**
  * @author nanda.malve
@@ -31,9 +29,10 @@ public class KitchenDeliveryPartner extends Persistent {
 
 	private DeliveryPartner deliveryPartner;
 	private double commissionPercentage;
+	private boolean active = true;
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="delivery_partner_id")
+	@Enumerated(EnumType.STRING)
+	@Column(name="delivery_partner", nullable = false)
 	public DeliveryPartner getDeliveryPartner() {
 		return deliveryPartner;
 	}
@@ -47,5 +46,13 @@ public class KitchenDeliveryPartner extends Persistent {
 	}
 	public void setCommissionPercentage(double commissionPercentage) {
 		this.commissionPercentage = commissionPercentage;
+	}
+
+	@Column(name="active", nullable=false)
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 }

@@ -44,6 +44,7 @@ public class Item extends Persistent {
 	private Type type;
 	private int precedence;
 	private List<String> aliases;
+	private boolean active = true;
 
 	@Column(name="name")
 	public String getName() {
@@ -98,5 +99,13 @@ public class Item extends Persistent {
 	}
 	public void setAliases(List<String> aliases) {
 		this.aliases = aliases;
+	}
+
+	@Column(name="active", nullable=false)
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 }

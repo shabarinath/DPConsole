@@ -8,32 +8,17 @@
  *
  * Copyright 2018 OpsRamp, Inc. All Rights Reserved.
  */
-package com.dpconsole.model.delivery;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-import com.dpconsole.model.Persistent;
+package com.dpconsole.model.order;
 
 /**
  * @author nanda.malve
- * created on 21-Nov-2018 9:43:02 PM
+ * created on 24-Nov-2018 5:32:38 PM
  */
-@Entity
-@Table(name="delivery_partners")
-@SuppressWarnings("serial")
-public class DeliveryPartner extends Persistent {
+public enum Status {
 
-	private String name;
-
-	@Column(name="name")
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+	DELIVERED,
+	CANCELLED,
+	REJECTED,
+	DISPUTE;
 
 }

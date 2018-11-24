@@ -34,6 +34,7 @@ public class Kitchen extends Persistent {
 
 	private String name;
 	private List<KitchenDeliveryPartner> supportedDeliveryPartners;
+	private boolean active = true;
 
 	@Column(name="name")
 	public String getName() {
@@ -51,6 +52,14 @@ public class Kitchen extends Persistent {
 	}
 	public void setSupportedDeliveryPartners(List<KitchenDeliveryPartner> supportedDeliveryPartners) {
 		this.supportedDeliveryPartners = supportedDeliveryPartners;
+	}
+
+	@Column(name="active", nullable=false)
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 }

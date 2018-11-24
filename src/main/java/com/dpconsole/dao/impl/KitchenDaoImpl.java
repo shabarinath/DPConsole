@@ -29,7 +29,7 @@ public class KitchenDaoImpl extends DaoImpl implements KitchenDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Category> getKitchenCategories(long kitchenId) throws Exception {
-		List<Category> categories = getHibernateTemplate().find("SELECT DISTINCT ki.item.subCategory.category FROM KitchenItem ki WHERE ki.kitchen.id = ? ORDER BY ki.item.subCategory.category.precedence");
+		List<Category> categories = getHibernateTemplate().find("SELECT DISTINCT ki.item.subCategory.category FROM KitchenItem ki WHERE ki.kitchen.id = ? ki.item.subCategory.category = ? ORDER BY ki.item.subCategory.category.precedence", new Object[]{kitchenId, true});
 		return !categories.isEmpty() ? categories : null;
 	}
 
@@ -37,13 +37,16 @@ public class KitchenDaoImpl extends DaoImpl implements KitchenDao {
 	@Override
 	public PartialPage<KitchenItem> getKitchenItemsByCategory(long kitchenId, long categoryId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception {
 		List<Object> queryParams = new ArrayList<Object>();
-		StringBuffer queryString = new StringBuffer("FROM KitchenItem ki");
+		StringBuffer queryString = new StringBuffer("FROM KitchenItem ki WHERE kd.kitchen.active = ? AND ki.item.subCategory.category.active = ? AND ki.item.subCategory.active = ? AND ki.item.active = ?");
+		queryParams.add(true);
+		queryParams.add(true);
+		queryParams.add(true);
 		if (kitchenId > 0) {
-			queryString.append(" WHERE kd.kitchen.id = ? ");
+			queryString.append(" AND kd.kitchen.id = ? ");
 			queryParams.add(kitchenId);
 		}
 		if (categoryId > 0) {
-			queryString.append(" WHERE ki.item.subCategory.category.id = ? ");
+			queryString.append(" AND ki.item.subCategory.category.id = ? ");
 			queryParams.add(categoryId);
 		}
 
@@ -61,9 +64,10 @@ public class KitchenDaoImpl extends DaoImpl implements KitchenDao {
 	@Override
 	public PartialPage<KitchenDiscount> getKitchenDiscounts(long kitchenId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception {
 		List<Object> queryParams = new ArrayList<Object>();
-		StringBuffer queryString = new StringBuffer("FROM KitchenDiscount kd");
+		StringBuffer queryString = new StringBuffer("FROM KitchenDiscount kd WHERE kd.kitchen.active = ?");
+		queryParams.add(true);
 		if (kitchenId > 0) {
-			queryString.append(" WHERE kd.kitchen.id = ? ");
+			queryString.append(" AND kd.kitchen.id = ? ");
 			queryParams.add(kitchenId);
 		}
 

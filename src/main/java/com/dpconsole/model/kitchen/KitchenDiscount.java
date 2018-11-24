@@ -14,6 +14,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,7 +24,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.dpconsole.model.Persistent;
-import com.dpconsole.model.delivery.DeliveryPartner;
 
 /**
  * @author nanda.malve
@@ -38,6 +39,7 @@ public class KitchenDiscount extends Persistent {
 	private Date startTime;
 	private Date endTime;
 	private int discount;
+	private boolean active = true;
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="kitchen_id")
@@ -48,8 +50,8 @@ public class KitchenDiscount extends Persistent {
 		this.kitchen = kitchen;
 	}
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="delivery_partner_id")
+	@Enumerated(EnumType.STRING)
+	@Column(name="delivery_partner", nullable = false)
 	public DeliveryPartner getDeliveryPartner() {
 		return deliveryPartner;
 	}
@@ -83,4 +85,11 @@ public class KitchenDiscount extends Persistent {
 		this.discount = discount;
 	}
 
+	@Column(name="active", nullable=false)
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 }

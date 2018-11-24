@@ -27,6 +27,7 @@ public class Category extends Persistent {
 
 	private String name;
 	private int precedence;
+	private boolean active = true;
 
 	@Column(name="name")
 	public String getName() {
@@ -42,6 +43,14 @@ public class Category extends Persistent {
 	}
 	public void setPrecedence(int precedence) {
 		this.precedence = precedence;
+	}
+
+	@Column(name="active", nullable=false)
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 }

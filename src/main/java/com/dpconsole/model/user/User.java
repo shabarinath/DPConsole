@@ -37,6 +37,8 @@ public class User extends BaseDo {
 
 	private transient String confirmPassword;
 
+	private boolean active = true;
+
 	@Column(name="username",nullable=false)
 	public String getUsername() {
 		return username;
@@ -83,6 +85,14 @@ public class User extends BaseDo {
 	}
 	public void setUserRoles(List<UserRole> userRoles) {
 		this.userRoles = userRoles;
+	}
+
+	@Column(name="active", nullable=false)
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	@Transient
