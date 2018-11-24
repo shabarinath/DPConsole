@@ -101,13 +101,15 @@
           </nav>
           <nav>
             <ul id="menu">
-              <li class="active"><a href="index.html">Gmail Auto</a></li>
-              <li><a href="cuisine.html">Uber Eats POS</a></li>
-              <li><a href="wine.html">Dashboard</a></li>
-			  <li><a href="cook-book.html">Stats</a></li>
-              <li><a href="cook-book.html">Excel+</a></li>
+			  <sec:authorize access="isAuthenticated()">
+				  <li><a href="index.html">Gmail Auto</a></li>
+				  <li><a href="cuisine.html">Uber Eats POS</a></li>
+				  <li><a href="wine.html">Dashboard</a></li>
+				  <li><a href="cook-book.html">Stats</a></li>
+				  <li><a href="cook-book.html">Excel+</a></li>
+			  </sec:authorize>
               <sec:authorize access="isAnonymous()">
-					<li><a
+					<li style="float:right;"><a
 						class="border-radius: 5px;  border: 1px solid #D7E1E8 !important;"
 						href="<c:url value="/login"/>">Login</a>
 					</li>

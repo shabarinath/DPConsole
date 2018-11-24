@@ -6,3 +6,8 @@ MENU
 DISCOUNTS (for calculation)
 EXCEL -> PAYMENT COMPARISON / SWIGGY UPLOAD, FOOD PANDA UPLOAD
 
+
+==============
+
+Load deliveryPartners while server startup
+Discussion regarding order status

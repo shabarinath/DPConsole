@@ -221,7 +221,13 @@
 			<groupId>com.opentok.api</groupId>
 			<artifactId>opentok-java-sdk</artifactId>
 			<version>[0.91.54,)</version>
-		</dependency>         
+		</dependency> 
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
