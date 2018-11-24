@@ -18,10 +18,10 @@ import com.dpconsole.model.order.Order;
  * @author nanda.malve
  * created on 24-Nov-2018 6:30:08 PM
  */
-public class UberEatsParser implements Parser {
+public class UberEatsParser<T> implements Parser<T> {
 
 	@Override
-	public List<Order> parse(Object content) throws Exception {
+	public List<Order> parse(T content) throws Exception {
 		// TODO
 		return null;
 	}

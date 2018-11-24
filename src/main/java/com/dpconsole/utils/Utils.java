@@ -2,6 +2,8 @@ package com.dpconsole.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -10,15 +12,16 @@ import java.util.TimeZone;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Utils {
-	
+
 	public static boolean isEmpty(String param) {
-		if(param == null)
+		if(param == null) {
 			return true;
-		else if("".equals(param.trim()))
+		} else if("".equals(param.trim())) {
 			return true;
+		}
 		return false;
 	}
-	
+
 	public static void createDirectoryIfNotExists(File file) throws IOException {
 		if(!file.exists()) {
 			if(!file.mkdirs()) {
@@ -26,21 +29,21 @@ public class Utils {
 			}
 		}
 	}
-	
+
 	public static void createDirectoryIfNotExists(String file) throws IOException {
 		createDirectoryIfNotExists(new File(file));
 	}
-	
-/*	public static File saveMultipartFileInTemp(MultipartFile file,String fileName) throws IllegalStateException, IOException {
+
+	/*	public static File saveMultipartFileInTemp(MultipartFile file,String fileName) throws IllegalStateException, IOException {
 		String tempPath = Configuration.Temp_Dir_Path+ "/" + RandomString.getNext() + "/";
 		Utils.createDirectoryIfNotExists(tempPath);
 		File tempFile = new File(tempPath, fileName);
 		String path = tempFile.getPath();
 		file.transferTo(tempFile);
 		File tfile = new File(path);
-		return tfile;		
+		return tfile;
 	}*/
-	
+
 	public static String saveFileToFilesDir(MultipartFile file, String destDir) throws IOException {
 		if(file == null || isEmpty(file.getName())) {
 			return null;
@@ -68,14 +71,15 @@ public class Utils {
 
 		return tempFile.getName();
 	}
-	
+
 	public static Date getSystemTimeInGMT() {
 		return convertDateToGMT(new Date(), TimeZone.getDefault());
 	}
-	
+
 	public static final Date convertDateToGMT(Date date, TimeZone tz) {
-		if (date == null || tz == null)
+		if (date == null || tz == null) {
 			return date;
+		}
 		long time = date.getTime();
 		GregorianCalendar cal = toGregorianCalendar(date, tz);
 		long offset = cal.get(Calendar.ZONE_OFFSET)
@@ -83,12 +87,21 @@ public class Utils {
 		long gmtTime = time - offset;
 		return new Date(gmtTime);
 	}
-	
+
 	private static GregorianCalendar toGregorianCalendar(Date date, TimeZone tz) {
 		GregorianCalendar cal = new GregorianCalendar();
 		cal.setTime(date);
 		cal.setTimeZone(tz);
 		return cal;
+	}
+
+	public static final Date convertStringToDate(String pattern, String strDate) throws ParseException {
+		SimpleDateFormat df = new SimpleDateFormat(pattern);
+		try {
+			return df.parse(strDate);
+		} catch (ParseException pe) {
+			throw new ParseException(pe.getMessage(), pe.getErrorOffset());
+		}
 	}
 
 }

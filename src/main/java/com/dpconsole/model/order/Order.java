@@ -1,5 +1,6 @@
 package com.dpconsole.model.order;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.dpconsole.model.Persistent;
 import com.dpconsole.model.kitchen.DeliveryPartner;
@@ -35,8 +37,13 @@ public class Order extends Persistent {
 	private DeliveryPartner deliveryPartner;
 	private String deliveryPartnerOrderId;
 	private Date createdTime;
-	private Status status;
+	private Date orderedTime;
+	private String status;
+	private double totalCost;
+	private String paymentType;
 	private String notes;
+	private boolean manualReview;
+	private String manualReviewComments;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name = "order_id", nullable = false)
@@ -75,7 +82,7 @@ public class Order extends Persistent {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created_time")
+	@Column(name = "created_time", nullable = false)
 	public Date getCreatedTime() {
 		return createdTime;
 	}
@@ -83,12 +90,20 @@ public class Order extends Persistent {
 		this.createdTime = createdTime;
 	}
 
-	@Enumerated(EnumType.STRING)
-	@Column(name="status", nullable = false)
-	public Status getStatus() {
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "ordered_time")
+	public Date getOrderedTime() {
+		return orderedTime;
+	}
+	public void setOrderedTime(Date orderedTime) {
+		this.orderedTime = orderedTime;
+	}
+
+	@Column(name="status")
+	public String getStatus() {
 		return status;
 	}
-	public void setStatus(Status status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -98,5 +113,48 @@ public class Order extends Persistent {
 	}
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+
+	@Column(name = "payment_type")
+	public String getPaymentType() {
+		return paymentType;
+	}
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
+	}
+
+	@Column(name = "total_cost")
+	public double getTotalCost() {
+		return totalCost;
+	}
+	public void setTotalCost(double totalCost) {
+		this.totalCost = totalCost;
+	}
+
+	@Transient
+	public void addOrderItem(OrderItem orderItem) {
+		if(this.orderItems == null) {
+			orderItems = new ArrayList<>();
+		}
+
+		if(!orderItems.contains(orderItem)) {
+			orderItems.add(orderItem);
+		}
+	}
+
+	@Column(name = "manual_review")
+	public boolean isManualReview() {
+		return manualReview;
+	}
+	public void setManualReview(boolean manualReview) {
+		this.manualReview = manualReview;
+	}
+
+	@Column(name = "manual_review_comments")
+	public String getManualReviewComments() {
+		return manualReviewComments;
+	}
+	public void setManualReviewComments(String manualReviewComments) {
+		this.manualReviewComments = manualReviewComments;
 	}
 }

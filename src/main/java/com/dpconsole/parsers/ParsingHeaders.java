@@ -10,28 +10,26 @@
  */
 package com.dpconsole.parsers;
 
-import java.util.List;
-
-import org.apache.commons.csv.CSVRecord;
-
-import com.dpconsole.model.order.Order;
-
 /**
  * @author nanda.malve
- * created on 24-Nov-2018 6:28:53 PM
+ * created on 24-Nov-2018 8:11:50 PM
  */
-public class SwiggyParser extends CSVParser {
+public interface ParsingHeaders {
 
-	@Override
-	public int getSkipLinesCount() {
-		// TODO
-		return 0;
+	interface FoodPanda {
+		String ORDER_CODE = "ORDER CODE";
+		String FOOD_COST = "FOOD COST";
+		String PAYMENT_TYPE = "PAYMENT TYPE";
+		String ITEMS_COUNT = "ITEMS";
+		String ORDER_ITEMS = "ORDER ITEMS";
+		String EXPECTED_DELIVERY_DATE = "EXPECTED DELIVERY DATE";
+		String EXPECTED_DELIVERY_TIME = "EXPECTED DELIVERY TIME";
+		String STATUS = "STATUS";
+		String CANCELLATION_REASON = "CANCELLATION REASON";
 	}
 
-	@Override
-	public List<Order> parseRecords(List<CSVRecord> csvRecords) {
-		// TODO
-		return null;
+	interface Swiggy {
+
 	}
 
 }

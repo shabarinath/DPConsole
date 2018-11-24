@@ -33,4 +33,6 @@ public interface KitchenService {
 
 	void saveOrUpdateKitchenDiscount(KitchenDiscount kitchenDiscount) throws Exception;
 
+	PartialPage<KitchenItem> getKitchenItemsByCategory(long kitchenId, long categoryId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception;
+
 }
