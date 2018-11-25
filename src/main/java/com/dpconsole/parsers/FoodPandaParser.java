@@ -13,15 +13,16 @@ package com.dpconsole.parsers;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import org.apache.commons.csv.CSVRecord;
-import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dpconsole.model.kitchen.DeliveryPartner;
 import com.dpconsole.model.kitchen.Kitchen;
+import com.dpconsole.model.kitchen.KitchenItem;
 import com.dpconsole.model.order.Order;
 import com.dpconsole.model.order.OrderItem;
 import com.dpconsole.utils.Utils;
@@ -43,7 +44,7 @@ public class FoodPandaParser extends CSVParser {
 	}
 
 	@Override
-	public List<Order> parseRecords(Kitchen kitchen, List<CSVRecord> csvRecords) {
+	public List<Order> parseRecords(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, List<CSVRecord> csvRecords) {
 		Date createdTime = Utils.getSystemTimeInGMT();
 		List<Order> orders = new ArrayList<>();
 		for(CSVRecord record : csvRecords) {
@@ -104,17 +105,5 @@ public class FoodPandaParser extends CSVParser {
 			logger.error("Failed to parse order date for orderId: " + order.getDeliveryPartnerOrderId() + " " + comment);
 			order.setManualReviewComments(comment);
 		}
-	}
-
-	public static void main(String ars[]) throws Exception {
-		FoodPandaParser fpp = new FoodPandaParser();
-		List<Order> orders = fpp.parse(null, "FOOD-PANDA.csv");
-		for(Order o : orders) {
-			for(OrderItem oi : o.getOrderItems()) {
-				System.out.println(ToStringBuilder.reflectionToString(oi));
-			}
-			System.out.println(ToStringBuilder.reflectionToString(o));
-		}
-		System.out.println(orders.size());
 	}
 }

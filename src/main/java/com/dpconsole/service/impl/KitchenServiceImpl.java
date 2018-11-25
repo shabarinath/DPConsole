@@ -67,12 +67,9 @@ public class KitchenServiceImpl implements KitchenService {
 		List<KitchenItem> kItems = kitchenDao.getAllKitchenItems(kitchenId);
 		Map<String, KitchenItem> kItemsMap = new HashMap<>();
 		for(KitchenItem kItem : kItems) {
-			long kId = kItem.getKitchen().getId();
-			String key = kId + "_" + kItem.getItem().getName();
-			kItemsMap.put(key, kItem);
+			kItemsMap.put(kItem.getItem().getName(), kItem);
 			for(String alias : kItem.getItem().getAliases()) {
-				key = kId + "_" + alias;
-				kItemsMap.put(key, kItem);
+				kItemsMap.put(alias, kItem);
 			}
 			//To avoid lazy exceptions
 			//kItem.getItem().getSubCategory().getName();

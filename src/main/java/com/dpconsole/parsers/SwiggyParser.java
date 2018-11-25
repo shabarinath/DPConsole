@@ -11,10 +11,12 @@
 package com.dpconsole.parsers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.csv.CSVRecord;
 
 import com.dpconsole.model.kitchen.Kitchen;
+import com.dpconsole.model.kitchen.KitchenItem;
 import com.dpconsole.model.order.Order;
 
 /**
@@ -30,7 +32,7 @@ public class SwiggyParser extends CSVParser {
 	}
 
 	@Override
-	public List<Order> parseRecords(Kitchen kitchen, List<CSVRecord> csvRecords) {
+	public List<Order> parseRecords(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, List<CSVRecord> csvRecords) {
 		// TODO
 		return null;
 	}

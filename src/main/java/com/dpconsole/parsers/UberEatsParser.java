@@ -11,8 +11,10 @@
 package com.dpconsole.parsers;
 
 import java.util.List;
+import java.util.Map;
 
 import com.dpconsole.model.kitchen.Kitchen;
+import com.dpconsole.model.kitchen.KitchenItem;
 import com.dpconsole.model.order.Order;
 
 /**
@@ -22,7 +24,7 @@ import com.dpconsole.model.order.Order;
 public class UberEatsParser<T> implements Parser<T> {
 
 	@Override
-	public List<Order> parse(Kitchen kitchen, T content) throws Exception {
+	public List<Order> parse(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, T content) throws Exception {
 		// TODO
 		return null;
 	}

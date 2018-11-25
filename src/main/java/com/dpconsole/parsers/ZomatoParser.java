@@ -2,6 +2,7 @@ package com.dpconsole.parsers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.Message;
 
@@ -9,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.dpconsole.model.kitchen.DeliveryPartner;
 import com.dpconsole.model.kitchen.Kitchen;
+import com.dpconsole.model.kitchen.KitchenItem;
 import com.dpconsole.model.order.Order;
 
 /**
@@ -26,13 +28,13 @@ public class ZomatoParser implements Parser<List<Message>> {
 	private static final String HTML_CLEAN_REGEX="<[^>]+>";
 	
 	@Override
-	public List<Order> parse(Kitchen kitchen, List<Message> messages) throws Exception {
+	public List<Order> parse(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, List<Message> messages) throws Exception {
 		List<Order> orders = new ArrayList<>();
 		for(Message message : messages) {
 			if(message == null) {
 				continue;
 			}
-			String content = ZomatoParser.getOrderContent((Message)message);
+			String content = ZomatoParser.getOrderContent(message);
 			if(StringUtils.isEmpty(content)) {
 				continue;
 			}

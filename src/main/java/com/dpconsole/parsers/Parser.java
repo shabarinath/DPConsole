@@ -1,8 +1,10 @@
 package com.dpconsole.parsers;
 
 import java.util.List;
+import java.util.Map;
 
 import com.dpconsole.model.kitchen.Kitchen;
+import com.dpconsole.model.kitchen.KitchenItem;
 import com.dpconsole.model.order.Order;
 
 /**
@@ -11,6 +13,6 @@ import com.dpconsole.model.order.Order;
  */
 public interface Parser<T> extends ParsingHeaders {
 
-	List<Order> parse(Kitchen kitchen, T content) throws Exception;
+	List<Order> parse(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, T content) throws Exception;
 
 }
