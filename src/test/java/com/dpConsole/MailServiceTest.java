@@ -1,10 +1,12 @@
 package com.dpConsole;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.mail.Message;
 
+import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.parsers.ZomatoParser;
 import com.dpconsole.utils.MailService;
 
@@ -22,15 +24,13 @@ public class MailServiceTest {
 		dpEmails[1]="noreply@zomato.com";
 		
 		SimpleDateFormat df1 = new SimpleDateFormat("MM/dd/yy");
-		String pastDateStr = "11/21/18";
+		String pastDateStr = "11/14/18";
 		Date pastDate = df1.parse(pastDateStr);
-		String futureDateStr = "11/23/18";
+		String futureDateStr = "11/24/18";
 		Date futureDate = df1.parse(futureDateStr);
 		Message[] messages = mailService.getMessagesWithCriteria("Kitchensofchina@gmail.com", "koc654321", dpEmails, "", pastDate, futureDate);
 		ZomatoParser parser = new ZomatoParser();
-		for(Message msg :messages) {
-			parser.parse(msg);
-		}
+		parser.parse(new Kitchen(), Arrays.asList(messages));
 		MailService mailSvc = new MailService();
 		mailSvc.disconnectEmailSession();
 	}
