@@ -79,5 +79,20 @@ public class Kitchen extends Persistent {
 	public void setMailBoxPassword(String mailBoxPassword) {
 		this.mailBoxPassword = mailBoxPassword;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "Kitchen [name=" + name + ", mailBoxUserName=" + mailBoxUserName
+				+ ", mailBoxPassword=" + mailBoxPassword
+				+ ", supportedDeliveryPartners=" + supportedDeliveryPartners
+				+ ", active=" + active + ", getName()=" + getName()
+				+ ", getSupportedDeliveryPartners()="
+				+ getSupportedDeliveryPartners() + ", isActive()=" + isActive()
+				+ ", getMailBoxUserName()=" + getMailBoxUserName()
+				+ ", getMailBoxPassword()=" + getMailBoxPassword()
+				+ ", getId()=" + getId() + ", getVersion()=" + getVersion()
+				+ ", hashCode()=" + hashCode() + ", isPersisted()="
+				+ isPersisted() + ", getClass()=" + getClass()
+				+ ", toString()=" + super.toString() + "]";
+	}
 }

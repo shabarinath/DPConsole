@@ -48,4 +48,15 @@ public class OrderItem extends Persistent {
 	public void setUnitPrice(double unitPrice) {
 		this.unitPrice = unitPrice;
 	}
+
+	@Override
+	public String toString() {
+		return "OrderItem [item=" + item + ", quantity=" + quantity
+				+ ", unitPrice=" + unitPrice + ", getItem()=" + getItem()
+				+ ", getQuantity()=" + getQuantity() + ", getUnitPrice()="
+				+ getUnitPrice() + ", getId()=" + getId() + ", getVersion()="
+				+ getVersion() + ", hashCode()=" + hashCode()
+				+ ", isPersisted()=" + isPersisted() + ", getClass()="
+				+ getClass() + ", toString()=" + super.toString() + "]";
+	}
 }

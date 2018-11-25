@@ -64,4 +64,11 @@ public class KitchenDeliveryPartner extends Persistent {
 	public void setEmailIds(String emailIds) {
 		this.emailIds = emailIds;
 	}
+
+	@Override
+	public String toString() {
+		return "KitchenDeliveryPartner [deliveryPartner=" + deliveryPartner
+				+ ", emailIds=" + emailIds + ", commissionPercentage="
+				+ commissionPercentage + ", active=" + active + "]";
+	}
 }

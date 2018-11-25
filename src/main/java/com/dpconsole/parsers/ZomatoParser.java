@@ -1,17 +1,23 @@
 package com.dpconsole.parsers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.mail.Message;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.dpconsole.controller.ChangePasswordController;
 import com.dpconsole.model.kitchen.DeliveryPartner;
 import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.kitchen.KitchenItem;
 import com.dpconsole.model.order.Order;
+import com.dpconsole.model.order.OrderItem;
+import com.dpconsole.utils.Utils;
 
 /**
  * @author SHABARINATH
@@ -27,6 +33,8 @@ public class ZomatoParser implements Parser<List<Message>> {
 	private static final String HTML_COMMENTS_ESCAPCE_REGEX = "<!--.*?-->";
 	private static final String HTML_CLEAN_REGEX="<[^>]+>";
 	
+	private static final Logger logger = LoggerFactory.getLogger(ChangePasswordController.class);
+	
 	@Override
 	public List<Order> parse(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, List<Message> messages) throws Exception {
 		List<Order> orders = new ArrayList<>();
@@ -34,39 +42,53 @@ public class ZomatoParser implements Parser<List<Message>> {
 			if(message == null) {
 				continue;
 			}
-			String content = ZomatoParser.getOrderContent(message);
+			String content = ZomatoParser.getOrderContent((Message)message);
 			if(StringUtils.isEmpty(content)) {
 				continue;
 			}
 			String orderId=null;
-			String date=null;
-			String amount = null;
-			orderId = getAttributeValues(content,EmailAttribute.ORDER_ID,EmailAttribute.Date);
-			date = getOrderDate(content); //2018-11-21
-			String items = getOrderItems(content);
-			amount = getAttributeValues(content,EmailAttribute.PREPAID,EmailAttribute.ZOMATO_FOOTER); 
-			System.out.println("orderId: " +orderId.trim()+" date: "+date.trim());
-			/*date = (date == null)? date =getAttributeValues(content,"Date: "):date;
-			amount = (amount == null)? amount =getAttributeValues(content,"Prepaid"):amount;*/
+			String dateStr=null;
+			String totalAmount = null;
 			Order order = new Order();
-			order.setDeliveryPartner(DeliveryPartner.ZOMATO); //TODO: set appropriate delivery partner after loading from DB
-			//order.setCommissionPercentage(1.2f);//TODO: check this
-			//order.setCreatedTime(createdTime);
+			orderId = getAttributeValues(content,EmailAttribute.ORDER_ID,EmailAttribute.Date);
+			dateStr = getOrderDate(content); //2018-11-21
+			Date orderedTime = Utils.convertStringToDate("yyyy-MM-dd", dateStr);
+			setOrderItems(content, kitchenItems, order);
+			totalAmount = getTotalAmount(content, order).replaceAll("₹", ""); 
+			order.setDeliveryPartner(DeliveryPartner.ZOMATO);
+			order.setOrderedTime(orderedTime);
+			//order.setStatus(status);//TODO: Parse this
 			order.setDeliveryPartnerOrderId(orderId);
-			//order.setDiscountAmount(discountAmount);
 			order.setKitchen(kitchen);
-			//order.setOrderItems(orderItems);
-			//order.setReceivedAmount(Float.parseFloat(amount));
-			//order.setTaxPercentage(taxPercentage);
-			//order.setTotalCost(Double.parseDouble(amount));
+			order.setParsedTime(Utils.getSystemTimeInGMT());
+			order.setTotalCost(Double.parseDouble(totalAmount));
+			order.setDeliveryPartnerOrderId(orderId);
+			order.setKitchen(kitchen);
+			orders.add(order);
+			System.out.println("orderId: " +orderId.trim()+" date: "+dateStr.trim()+" totalAmount: "+totalAmount);
 		}
 		return orders;
 		
 	}
 	
-	private String getOrderItems(String content) {
+	private String getTotalAmount(String content, Order order) {
+		String totalAmount = "";
+		if(StringUtils.isNotEmpty(content)) {
+			if(content.contains(EmailAttribute.PREPAID.getName())) {
+				order.setPaymentType(EmailAttribute.PREPAID.getName());
+				totalAmount = getAttributeValues(content, EmailAttribute.PREPAID, EmailAttribute.ZOMATO_FOOTER);
+			} 
+			else if(content.contains(EmailAttribute.COD.getName())) {
+				order.setPaymentType(EmailAttribute.COD.getName());
+				totalAmount = getAttributeValues(content, EmailAttribute.COD, EmailAttribute.ZOMATO_FOOTER);
+			}
+		}
+		return totalAmount.trim();
+	}
+
+	private void setOrderItems(String content, Map<String, KitchenItem> kitchenItems, Order order) {
 		String items = "";
-		if(null != content && content.length() >0) {
+		if(StringUtils.isNotEmpty(content)) {
 			int beginIndex = content.indexOf(EmailAttribute.Date.getName())+EmailAttribute.Date.getName().length()+10;
 			if(content.contains(EmailAttribute.RESTUARANT_PROMO.getName())) {
 				int endIndex = content.indexOf(EmailAttribute.RESTUARANT_PROMO.getName());
@@ -81,16 +103,28 @@ public class ZomatoParser implements Parser<List<Message>> {
 		 * SanitizedItems: 
 		 * [Chilli Chicken with Noodles Combo, (1 x ₹220), ₹220, Chef Special Chicken with Fried Rice Combo, (1 x ₹220), ₹220]
 		 */
+		List<OrderItem> orderItems = new ArrayList<OrderItem>();
 		for(String str : sanitizedItems) {
 			if(str.length()<3){
 				continue;
 			}
-			String name = str.split(ESCAPE+PIPE_DELIM)[0];
-			String quantity = str.split(ESCAPE+PIPE_DELIM)[1];
-			String amount = str.split(ESCAPE+PIPE_DELIM)[2];
-			System.out.println("Name: "+name+" Quantity: "+quantity+" Amount: "+amount);
+			String itemName = StringUtils.trim(str.split(ESCAPE+PIPE_DELIM)[0]);
+			KitchenItem kitchenItemObj = kitchenItems.get(itemName);
+			if(StringUtils.isEmpty(itemName) || null == kitchenItemObj) {
+				order.setManualReview(true);
+				order.setManualReviewComments("Item Name: "+itemName+" kitchenObj: "+kitchenItemObj+" are be empty!!");
+				continue;
+			}
+			String quantity = StringUtils.trim((str.split(ESCAPE+PIPE_DELIM)[1]).split("x")[0].replace("(", ""));
+			//String unitPrice = StringUtils.trim(str.split(ESCAPE+PIPE_DELIM)[2]); //Don't consider this
+			OrderItem orderItem = new OrderItem();
+			orderItem.setQuantity(Integer.parseInt(quantity));
+			orderItem.setUnitPrice(kitchenItemObj.getPrice());
+			orderItem.setItem(kitchenItemObj.getItem());
+			orderItems.add(orderItem);
+			order.setOrderItems(orderItems);
+			System.out.println(orderItem.toString());
 		}
-		return items.trim();
 	}
 
 	/**
@@ -184,4 +218,3 @@ public class ZomatoParser implements Parser<List<Message>> {
 		return content;
 	}
 }
-

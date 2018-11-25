@@ -162,4 +162,16 @@ public class Order extends Persistent {
 	public void addReviewComment(String comment) {
 		this.manualReviewComments += (comment + "; ");
 	}
+	
+	@Override
+	public String toString() {
+		return "Order [orderItems=" + orderItems + ", kitchen=" + kitchen
+				+ ", deliveryPartner=" + deliveryPartner
+				+ ", deliveryPartnerOrderId=" + deliveryPartnerOrderId
+				+ ", parsedTime=" + parsedTime + ", orderedTime=" + orderedTime
+				+ ", status=" + status + ", paymentType=" + paymentType
+				+ ", totalCost=" + totalCost + ", notes=" + notes
+				+ ", manualReview=" + manualReview + ", manualReviewComments="
+				+ manualReviewComments + "]";
+	}
 }

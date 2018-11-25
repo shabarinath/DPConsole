@@ -5,3 +5,4 @@ target/
 .springBeans
 credentials.json
 tokens/
+/bin/

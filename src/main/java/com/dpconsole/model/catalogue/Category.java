@@ -52,5 +52,14 @@ public class Category extends Persistent {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-
+	@Override
+	public String toString() {
+		return "Category [name=" + name + ", precedence=" + precedence
+				+ ", active=" + active + ", getName()=" + getName()
+				+ ", getPrecedence()=" + getPrecedence() + ", isActive()="
+				+ isActive() + ", getId()=" + getId() + ", getVersion()="
+				+ getVersion() + ", hashCode()=" + hashCode()
+				+ ", isPersisted()=" + isPersisted() + ", getClass()="
+				+ getClass() + ", toString()=" + super.toString() + "]";
+	}
 }

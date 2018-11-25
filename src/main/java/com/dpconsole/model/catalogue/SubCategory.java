@@ -65,5 +65,17 @@ public class SubCategory extends Persistent {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "SubCategory [name=" + name + ", category=" + category
+				+ ", precedence=" + precedence + ", active=" + active
+				+ ", getName()=" + getName() + ", getCategory()="
+				+ getCategory() + ", getPrecedence()=" + getPrecedence()
+				+ ", isActive()=" + isActive() + ", getId()=" + getId()
+				+ ", getVersion()=" + getVersion() + ", hashCode()="
+				+ hashCode() + ", isPersisted()=" + isPersisted()
+				+ ", getClass()=" + getClass() + ", toString()="
+				+ super.toString() + "]";
+	}
 }

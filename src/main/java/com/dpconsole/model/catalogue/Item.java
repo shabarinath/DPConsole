@@ -108,4 +108,12 @@ public class Item extends Persistent {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+	
+	@Override
+	public String toString() {
+		return "Item [name=" + name + ", description=" + description
+				+ ", subCategory=" + subCategory + ", type=" + type
+				+ ", precedence=" + precedence + ", aliases=" + aliases
+				+ ", active=" + active + "]";
+	}
 }

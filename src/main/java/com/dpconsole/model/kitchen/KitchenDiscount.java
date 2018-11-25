@@ -92,4 +92,18 @@ public class KitchenDiscount extends Persistent {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+	@Override
+	public String toString() {
+		return "KitchenDiscount [kitchen=" + kitchen + ", deliveryPartner="
+				+ deliveryPartner + ", startTime=" + startTime + ", endTime="
+				+ endTime + ", discount=" + discount + ", active=" + active
+				+ ", getKitchen()=" + getKitchen() + ", getDeliveryPartner()="
+				+ getDeliveryPartner() + ", getStartTime()=" + getStartTime()
+				+ ", getEndTime()=" + getEndTime() + ", getDiscount()="
+				+ getDiscount() + ", isActive()=" + isActive() + ", getId()="
+				+ getId() + ", getVersion()=" + getVersion() + ", hashCode()="
+				+ hashCode() + ", isPersisted()=" + isPersisted()
+				+ ", getClass()=" + getClass() + ", toString()="
+				+ super.toString() + "]";
+	}
 }

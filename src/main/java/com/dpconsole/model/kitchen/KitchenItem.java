@@ -68,4 +68,15 @@ public class KitchenItem extends Persistent {
 		this.active = active;
 	}
 
+	@Override
+	public String toString() {
+		return "KitchenItem [item=" + item + ", kitchen=" + kitchen
+				+ ", price=" + price + ", active=" + active + ", getItem()="
+				+ getItem() + ", getKitchen()=" + getKitchen()
+				+ ", getPrice()=" + getPrice() + ", isActive()=" + isActive()
+				+ ", getId()=" + getId() + ", getVersion()=" + getVersion()
+				+ ", hashCode()=" + hashCode() + ", isPersisted()="
+				+ isPersisted() + ", getClass()=" + getClass()
+				+ ", toString()=" + super.toString() + "]";
+	}
 }
