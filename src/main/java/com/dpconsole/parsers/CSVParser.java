@@ -20,6 +20,7 @@ import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
+import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.order.Order;
 import com.dpconsole.utils.Utils;
 
@@ -33,15 +34,15 @@ public abstract class CSVParser implements Parser<String> {
 
 	public abstract int getSkipLinesCount();
 
-	public abstract List<Order> parseRecords(List<CSVRecord> csvRecords);
+	public abstract List<Order> parseRecords(Kitchen kitchen, List<CSVRecord> csvRecords);
 
 	@Override
-	public List<Order> parse(String filePath) throws Exception {
+	public List<Order> parse(Kitchen kitchen, String filePath) throws Exception {
 		if(Utils.isEmpty(filePath)) {
 			throw new Exception("Orders file path cannot be empty");
 		}
 		List<CSVRecord> csvRecords = getCSVRecords(filePath);
-		return parseRecords(csvRecords);
+		return parseRecords(kitchen, csvRecords);
 	}
 
 	private List<CSVRecord> getCSVRecords(String filePath) throws Exception {

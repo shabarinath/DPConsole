@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dpconsole.model.kitchen.DeliveryPartner;
+import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.order.Order;
 import com.dpconsole.model.order.OrderItem;
 import com.dpconsole.utils.Utils;
@@ -42,13 +43,14 @@ public class FoodPandaParser extends CSVParser {
 	}
 
 	@Override
-	public List<Order> parseRecords(List<CSVRecord> csvRecords) {
+	public List<Order> parseRecords(Kitchen kitchen, List<CSVRecord> csvRecords) {
 		Date createdTime = Utils.getSystemTimeInGMT();
 		List<Order> orders = new ArrayList<>();
 		for(CSVRecord record : csvRecords) {
 			try {
 				String orderId = record.get(FoodPanda.ORDER_CODE);
 				Order order = new Order();
+				order.setKitchen(kitchen);
 				order.setDeliveryPartner(DeliveryPartner.FOOD_PANDA);
 				order.setDeliveryPartnerOrderId(orderId);
 				order.setCreatedTime(createdTime);
@@ -106,7 +108,7 @@ public class FoodPandaParser extends CSVParser {
 
 	public static void main(String ars[]) throws Exception {
 		FoodPandaParser fpp = new FoodPandaParser();
-		List<Order> orders = fpp.parse("FOOD-PANDA.csv");
+		List<Order> orders = fpp.parse(null, "FOOD-PANDA.csv");
 		for(Order o : orders) {
 			for(OrderItem oi : o.getOrderItems()) {
 				System.out.println(ToStringBuilder.reflectionToString(oi));

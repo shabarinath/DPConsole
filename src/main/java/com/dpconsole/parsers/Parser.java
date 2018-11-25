@@ -11,6 +11,6 @@ import com.dpconsole.model.order.Order;
  */
 public interface Parser<T> extends ParsingHeaders {
 
-	List<Order> parse(T content, Kitchen kitchen) throws Exception;
+	List<Order> parse(Kitchen kitchen, T content) throws Exception;
 
 }

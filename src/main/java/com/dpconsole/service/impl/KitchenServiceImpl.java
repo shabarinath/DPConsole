@@ -11,6 +11,7 @@
 package com.dpconsole.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
@@ -60,4 +61,9 @@ public class KitchenServiceImpl implements KitchenService {
 		kitchenDao.saveOrUpdate(kitchenDiscount);
 	}
 
+	@Override
+	public Map<String, KitchenItem> getKitchenItems(long kitchenId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
