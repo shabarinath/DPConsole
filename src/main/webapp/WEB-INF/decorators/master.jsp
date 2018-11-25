@@ -21,147 +21,215 @@
 		format('svg');
 }
 </style>
-<!--<link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>"> -->
-<link rel="stylesheet"
-	href="<c:url value="/resources/css/flexslider.css"/>">
-<link rel="stylesheet"
-	href="<c:url value="/resources/css/jquery.loadmask.css"/>">
-<link rel="stylesheet"
-	href="<c:url value="/resources/css/magnific-popup.css"/>">
-<link rel="stylesheet" href="<c:url value="/resources/css/bjqs.css"/>">
-<link rel="stylesheet"
-	href="<c:url value="/resources/css/bootstrap.css"/>">
-<link rel="stylesheet" href="<c:url value="/resources/css/reset.css"/>">
-<link rel="stylesheet" href="<c:url value="/resources/css/layout.css"/>">
+
+<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-responsive.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css"/>">
 <link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/animate.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/docs.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/flexslider.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/font-awesome-ie7.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/font-awesome-ie7.min.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/font-awesome.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/font-awesome.min.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/headerfix.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/overwrite.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/prettyPhoto.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/refineslide-theme-dark.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/refineslide.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/refineslide-theme-dark.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/refineslide-theme-dark.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/color/default.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/js/google-code-prettify/prettify.css"/>">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700" rel="stylesheet">
+
 <!--<link rel="stylesheet/less" type="text/css" href="/customStyles?_ajax=true"> -->
 
-<script type="text/javascript"
-	src="<c:url value="/resources/js/jquery-1.6.js"/>"></script>
-<!--<script type="text/javascript" src="<c:url value="/resources/js/bootstrap.js"/>"></script>-->
-<script type="text/javascript"
-	src="<c:url value="/resources/js/cufon-yui.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/cufon-replace.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/Forum_400.font.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/jquery.easing.1.3.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/tms-0.3.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/tms_presets.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/script.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/atooltip.jquery.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/html5.js"/>"></script>
-<!--<script type="text/javascript" src="<c:url value="/resources/js/jquery-2.0.3.min.js"/>"></script>
-	<script type="text/javascript" src="<c:url value="/resources/js/jquery-ui-1.10.3.custom.min.js"/>"></script>
-	<script type="text/javascript" src="<c:url value="/resources/js/jquery.history.js"/>"></script>
-	<script type="text/javascript" src="<c:url value="/resources/js/jquery.flexslider-min.js"/>"></script>-->
-<script type="text/javascript"
-	src="<c:url value="/resources/js/functions.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/jquery.form.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/bootbox.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/jquery.loadmask.min.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/jquery.magnific-popup.min.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/core.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/common.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/tinymce/tinymce.min.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/editor.js"/>"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/bjqs-1.3.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/modernizr.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.easing.1.3.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/google-code-prettify/prettify.js"/>">
+<script type="text/javascript" src="<c:url value="/resources/js/bootstrap.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.prettyPhoto.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/portfolio/jquery.quicksand.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/portfolio/setting.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/hover/jquery-hover-effect.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.flexslider.js"/>"></script>
+<!-- <script type="text/javascript" src="<c:url value="/resources/js/classie.js"/>"></script> 
+<script type="text/javascript" src="<c:url value="/resources/js/cbpAnimatedHeader.min.js"/>"></script>-->
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.refineslide.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.ui.totop.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/custom.js"/>"></script>
 <decorator:head />
+<header>
+    <!-- Navbar
+    ================================================== -->
+    <div class="cbp-af-header">
+      <div class=" cbp-af-inner">
+        <div class="container">
+          <div class="row">
 
-</head>
-<body id="page1">
-<div class="body6">
-  <div class="body1">
-    <div class="body5">
-      <div class="main">
-        <!-- header -->
-        <header>
-          <!--<h1><a href="index.html" id="logo">Deliccio Classic European Cuisine</a></h1>-->
-          <nav>
-            <ul id="top_nav">
-              <li><a href="index.html"><img src="/resources/img/icon_1.gif" alt=""></a></li>
-              <li><a href="#"><img src="/resources/img/icon_2.gif" alt=""></a></li>
-              <li class="end"><a href="contacts.html"><img src="/resources/img/icon_3.gif" alt=""></a></li>
-            </ul>
-          </nav>
-          <nav>
-            <ul id="menu">
-			  <sec:authorize access="isAuthenticated()">
-				  <li><a href="index.html">Gmail Auto</a></li>
-				  <li><a href="cuisine.html">Uber Eats POS</a></li>
-				  <li><a href="wine.html">Dashboard</a></li>
-				  <li><a href="cook-book.html">Stats</a></li>
-				  <li><a href="cook-book.html">Excel+</a></li>
-			  </sec:authorize>
-              <sec:authorize access="isAnonymous()">
-					<li style="float:right;"><a
-						class="border-radius: 5px;  border: 1px solid #D7E1E8 !important;"
-						href="<c:url value="/login"/>">Login</a>
-					</li>
-				</sec:authorize>
+            <div class="span4">
+              <!-- logo -->
+              <div class="logo">
+                <h1><a href="index.html">DP Console</a></h1>
+                <!-- <img src="assets/img/logo.png" alt="" /> -->
+              </div>
+              <!-- end logo -->
+            </div>
+
+            <div class="span8">
+              <!-- top menu -->
+              <div class="navbar">
+                <div class="navbar-inner">
 				<sec:authorize access="isAuthenticated()">
-					<li>
-						<a href="<c:url value="/j_spring_security_logout"/>">Logout</a>
-					</li>
-				</sec:authorize>
-            </ul>
-          </nav>
-        </header>
-		
+                  <nav>
+                    <ul class="nav topnav">
+                      <li class="dropdown active">
+                        <a href="index.html">Home</a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#">Gmail Auto</a>
+                        <ul class="dropdown-menu">
+                          <li><a href="scaffolding.html">Zomato</a></li>
+                          <!-- <li><a href="base-css.html">Base CSS</a></li>
+                          <li><a href="components.html">Components</a></li>
+                          <li><a href="icons.html">Icons</a></li>
+                          <li><a href="list.html">Styled lists</a></li>
+                          <li class="dropdown"><a href="#">3rd level</a>
+                            <ul class="dropdown-menu sub-menu">
+                              <li><a href="#">Example menu</a></li>
+                              <li><a href="#">Example menu</a></li>
+                              <li><a href="#">Example menu</a></li>
+                            </ul>
+                          </li> -->
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#">POS</a>
+                        <ul class="dropdown-menu">
+                          <li><a href="about.html">Uber Eats</a></li>
+                          <!-- <li><a href="pricingtable.html">Pricing table</a></li>
+                          <li><a href="fullwidth.html">Fullwidth</a></li>
+                          <li><a href="404.html">404</a></li> -->
+                        </ul>
+                      </li>
+                      <li>
+                        <a href="#">Dashboard</a>
+                        <!-- <ul class="dropdown-menu">
+                          <li><a href="portfolio-2cols.html">Portfolio 2 columns</a></li>
+                          <li><a href="portfolio-3cols.html">Portfolio 3 columns</a></li>
+                          <li><a href="portfolio-4cols.html">Portfolio 4 columns</a></li>
+                          <li><a href="portfolio-detail.html">Portfolio detail</a></li>
+                        </ul> -->
+                      </li>
+                      <li>
+                        <a href="#">Stats</a>
+                        <!-- <ul class="dropdown-menu">
+                          <li><a href="blog_left_sidebar.html">Blog left sidebar</a></li>
+                          <li><a href="blog_right_sidebar.html">Blog right sidebar</a></li>
+                          <li><a href="post_left_sidebar.html">Post left sidebar</a></li>
+                          <li><a href="post_right_sidebar.html">Post right sidebar</a></li>
+                        </ul> -->
+                      </li>
+					   <li>
+                        <a href="#"/>Excel+</a>
+                      </li>					  
+                      <li>
+                        <a href="<c:url value="/j_spring_security_logout"/>" >Logout</a>
+                      </li>
+                    </ul>
+                  </nav>
+				 </sec:authorize>
+				 <sec:authorize access="isAnonymous()">
+					 <nav>
+						<ul class="nav topnav">
+						  <li>							
+							<a href="<c:url value="/login"/>">Login</a>
+						  </li>
+						</ul>
+					 </nav>
+				 </sec:authorize>
+                </div>
+              </div>
+              <!-- end menu -->
+            </div>
 
-        <!-- / header -->       
-		<div class="body2">
-		  <div class="main">
-			<article id="content2">
-			  <div class="wrapper">
-			  <decorator:body /> 								
-			  </div>
-			</article>
-			<!-- / content -->
-		  </div>
-		</div>
-		<div class="body3">
-		  <div class="body4">
-			<div class="main">
-			  <!-- footer -->
-			  <footer>
-				<div class="wrapper">
-				  <section class="col1 pad_left1">
-					<h3>Toll Free: <span>1-800 123 45 67</span></h3>
-					Copyright &copy; <a href="#">Domain Name</a> All Rights Reserved<br>
-					Design by <a target="_blank" href="http://www.templatemonster.com/">TemplateMonster.com</a></section>
-				  <section class="col2 pad_left1">
-					<h3>Follow Us </h3>
-					<ul id="icons">
-					  <li><a href="#" class="normaltip"><img src="/resources/img/icon1.gif" alt=""></a></li>
-					  <li><a href="#" class="normaltip"><img src="/resources/img/icon2.gif" alt=""></a></li>
-					  <li><a href="#" class="normaltip"><img src="/resources/img/icon3.gif" alt=""></a></li>
-					  <li><a href="#" class="normaltip"><img src="/resources/img/icon4.gif" alt=""></a></li>
-					  <li><a href="#" class="normaltip"><img src="/resources/img/icon5.gif" alt=""></a></li>
-					</ul>
-				  </section>
-				</div>
-				<!-- {%FOOTER_LINK} -->
-			  </footer>
-			  <!-- / footer -->
-			</div>
-		  </div>
-		</div>		
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+</head>
+<body>
+	<decorator:body /> 								
+	<!-- Footer
+ ================================================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="span3">
+          <div class="widget">
+            <!-- logo -->
+            <div class="footerlogo">
+              <h6><a href="index.html">Plato</a></h6>
+              <!-- <img src="assets/img/logo.png" alt="" /> -->
+            </div>
+            <!-- end logo -->
+            <address>
+				<strong>Plato business company, Inc.</strong><br>
+				 4455 Great building Ave, Suite A10<br>
+				 San Francisco, CA 94107<br>
+				<abbr title="Phone">P:</abbr> (123) 456-7890 </address>
+          </div>
+        </div>
+        <div class="span3">
+          <div class="widget">
+            <h5>Browse pages</h5>
+            <ul class="list list-ok">
+              <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+              <li><a href="#">Tamquam ponderum at eum, nibh dicta offendit mei</a></li>
+              <li><a href="#">Vix no vidisse dolores intellegam</a></li>
+              <li><a href="#">Est virtute feugiat accommodare eu</a></li>
+            </ul>
+          </div>
+        </div>      
+        <div class="span3">
+          <div class="widget">
+            <h5>Keep updated</h5>
+            <p>
+              Enter your email to subcribe newsletter
+            </p>
+            <form>
+              <div class="input-append">
+                <input class="span2" id="appendedInputButton" type="text">
+                <button class="btn btn-color" type="submit">Subscribe</button>
+              </div>
+            </form>
+            <ul class="social-network">
+              <li><a href="#"><i class="icon-bg-light icon-facebook icon-circled icon-1x"></i></a></li>
+              <li><a href="#" title="Twitter"><i class="icon-bg-light icon-twitter icon-circled icon-1x"></i></a></li>
+              <li><a href="#" title="Linkedin"><i class="icon-bg-light icon-linkedin icon-circled icon-1x"></i></a></li>
+              <li><a href="#" title="Pinterest"><i class="icon-bg-light icon-pinterest icon-circled icon-1x"></i></a></li>
+              <li><a href="#" title="Google plus"><i class="icon-bg-light icon-google-plus icon-circled icon-1x"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="subfooter">
+      <div class="container">
+        <div class="row">
+          <div class="span6">
+            <p>
+              &copy; Biryani Vs Pulav - All right reserved
+            </p>
+          </div>        
+        </div>
+      </div>
+    </div>
+  </footer>
 </body>
 <script>
 	first3 = 24;
@@ -202,34 +270,5 @@
 		}
 	}
 	window.onload = fifteenth;
-
-	$(".resource_link").click(function() {
-		if ($("#middleDiv").length > 0) {
-			get("/resource/" + $(this).attr('id'), 'middleDiv');
-		} else {
-			window.location.href = "/?loadTab=" + $(this).attr('id');
-		}
-	});
-
-	$(".desc_link").click(function() {
-		if ($("#middleDiv").length > 0) {
-			get("/description/" + $(this).attr('id'), 'middleDiv');
-		} else {
-			window.location.href = "/?loadTab=" + $(this).attr('id');
-		}
-	});	
-
-	$(".footer_link").click(function() {
-		scrollToDiv('wrapper');
-	});
-
-	function scrollToDiv(divId, milliSeconds) {
-		if (!milliSeconds) {
-			milliSeconds = 1500;
-		}
-		$('html,body').animate({
-			scrollTop : $("#" + divId).offset().top
-		}, milliSeconds);
-	}
 </script>
 </html>
