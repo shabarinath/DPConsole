@@ -30,7 +30,7 @@ public class OrderDaoImpl extends DaoImpl implements OrderDao {
 	public PartialPage<Order> getOrdersByCriteria(long kitchenId, long deliveryPartnerId, Date startCreatedTime,
 			Date endCreatedTime, String sortName, boolean isDecendingOrder, int pageNo, int pageSize)
 					throws Exception {
-		List<Object> queryParams = new ArrayList<Object>();
+		List<Object> queryParams = new ArrayList<>();
 		StringBuffer queryString = new StringBuffer("FROM Order o");
 		if (kitchenId > 0) {
 			queryString.append(" WHERE o.kitchen.id = ? ");

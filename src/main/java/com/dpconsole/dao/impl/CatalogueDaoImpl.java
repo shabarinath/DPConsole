@@ -43,7 +43,7 @@ public class CatalogueDaoImpl extends DaoImpl implements CatalogueDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public PartialPage<Item> getItemsByCategory(long categoryId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception {
-		List<Object> queryParams = new ArrayList<Object>();
+		List<Object> queryParams = new ArrayList<>();
 		StringBuffer queryString = new StringBuffer("FROM Item i WHERE i.subCategory.active = ? AND i.active = ?");
 		queryParams.add(true);
 		queryParams.add(true);

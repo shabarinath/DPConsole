@@ -29,4 +29,6 @@ public interface KitchenDao extends Dao {
 
 	PartialPage<KitchenDiscount> getKitchenDiscounts(long kitchenId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception;
 
+	List<KitchenItem> getAllKitchenItems(long kitchenId) throws Exception;
+
 }

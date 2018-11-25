@@ -34,6 +34,6 @@ public interface KitchenService {
 
 	void saveOrUpdateKitchenDiscount(KitchenDiscount kitchenDiscount) throws Exception;
 
-	Map<String, KitchenItem> getKitchenItems(long kitchenId) throws Exception;
+	Map<String, KitchenItem> getAllKitchenItems(long kitchenId) throws Exception;
 
 }

@@ -10,6 +10,7 @@
  */
 package com.dpconsole.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,8 +63,22 @@ public class KitchenServiceImpl implements KitchenService {
 	}
 
 	@Override
-	public Map<String, KitchenItem> getKitchenItems(long kitchenId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, KitchenItem> getAllKitchenItems(long kitchenId) throws Exception {
+		List<KitchenItem> kItems = kitchenDao.getAllKitchenItems(kitchenId);
+		Map<String, KitchenItem> kItemsMap = new HashMap<>();
+		for(KitchenItem kItem : kItems) {
+			long kId = kItem.getKitchen().getId();
+			String key = kId + "_" + kItem.getItem().getName();
+			kItemsMap.put(key, kItem);
+			for(String alias : kItem.getItem().getAliases()) {
+				key = kId + "_" + alias;
+				kItemsMap.put(key, kItem);
+			}
+			//To avoid lazy exceptions
+			//kItem.getItem().getSubCategory().getName();
+			//kItem.getItem().getSubCategory().getCategory().getName();
+		}
+
+		return kItemsMap;
 	}
 }

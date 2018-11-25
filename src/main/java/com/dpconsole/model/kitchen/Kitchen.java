@@ -33,6 +33,8 @@ import com.dpconsole.model.Persistent;
 public class Kitchen extends Persistent {
 
 	private String name;
+	private String mailBoxUserName;
+	private String mailBoxPassword;
 	private List<KitchenDeliveryPartner> supportedDeliveryPartners;
 	private boolean active = true;
 
@@ -60,6 +62,22 @@ public class Kitchen extends Persistent {
 	}
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	@Column(name="mailbox_username")
+	public String getMailBoxUserName() {
+		return mailBoxUserName;
+	}
+	public void setMailBoxUserName(String mailBoxUserName) {
+		this.mailBoxUserName = mailBoxUserName;
+	}
+
+	@Column(name="mailbox_password")
+	public String getMailBoxPassword() {
+		return mailBoxPassword;
+	}
+	public void setMailBoxPassword(String mailBoxPassword) {
+		this.mailBoxPassword = mailBoxPassword;
 	}
 
 }

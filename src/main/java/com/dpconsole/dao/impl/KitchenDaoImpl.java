@@ -36,7 +36,7 @@ public class KitchenDaoImpl extends DaoImpl implements KitchenDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public PartialPage<KitchenItem> getKitchenItemsByCategory(long kitchenId, long categoryId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception {
-		List<Object> queryParams = new ArrayList<Object>();
+		List<Object> queryParams = new ArrayList<>();
 		StringBuffer queryString = new StringBuffer("FROM KitchenItem ki WHERE kd.kitchen.active = ? AND ki.item.subCategory.category.active = ? AND ki.item.subCategory.active = ? AND ki.item.active = ?");
 		queryParams.add(true);
 		queryParams.add(true);
@@ -63,7 +63,7 @@ public class KitchenDaoImpl extends DaoImpl implements KitchenDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public PartialPage<KitchenDiscount> getKitchenDiscounts(long kitchenId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception {
-		List<Object> queryParams = new ArrayList<Object>();
+		List<Object> queryParams = new ArrayList<>();
 		StringBuffer queryString = new StringBuffer("FROM KitchenDiscount kd WHERE kd.kitchen.active = ?");
 		queryParams.add(true);
 		if (kitchenId > 0) {
@@ -79,6 +79,13 @@ public class KitchenDaoImpl extends DaoImpl implements KitchenDao {
 		queryString.append(" ORDER BY " + sortName + (isDecendingOrder ? " desc" : " asc"));
 
 		return getHibernatePage(queryString.toString(), countQuery.toString(), queryParams, pageNo, pageSize);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<KitchenItem> getAllKitchenItems(long kitchenId) throws Exception {
+		List<KitchenItem> kItems = getHibernateTemplate().find("FROM KitchenItem ki WHERE kd.kitchen.id = ?", new Object[]{kitchenId});
+		return !kItems.isEmpty() ? kItems : null;
 	}
 
 }

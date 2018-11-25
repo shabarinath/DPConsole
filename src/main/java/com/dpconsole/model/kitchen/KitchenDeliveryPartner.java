@@ -28,6 +28,7 @@ import com.dpconsole.model.Persistent;
 public class KitchenDeliveryPartner extends Persistent {
 
 	private DeliveryPartner deliveryPartner;
+	private String emailIds;
 	private double commissionPercentage;
 	private boolean active = true;
 
@@ -54,5 +55,13 @@ public class KitchenDeliveryPartner extends Persistent {
 	}
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	@Column(name="email_ids")
+	public String getEmailIds() {
+		return emailIds;
+	}
+	public void setEmailIds(String emailIds) {
+		this.emailIds = emailIds;
 	}
 }
