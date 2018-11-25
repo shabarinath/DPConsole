@@ -39,11 +39,11 @@ public class Order extends Persistent {
 	private Date createdTime;
 	private Date orderedTime;
 	private String status;
-	private double totalCost;
 	private String paymentType;
+	private double totalCost;
 	private String notes;
 	private boolean manualReview;
-	private String manualReviewComments;
+	private String manualReviewComments = "";
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name = "order_id", nullable = false)
@@ -131,17 +131,6 @@ public class Order extends Persistent {
 		this.totalCost = totalCost;
 	}
 
-	@Transient
-	public void addOrderItem(OrderItem orderItem) {
-		if(this.orderItems == null) {
-			orderItems = new ArrayList<>();
-		}
-
-		if(!orderItems.contains(orderItem)) {
-			orderItems.add(orderItem);
-		}
-	}
-
 	@Column(name = "manual_review")
 	public boolean isManualReview() {
 		return manualReview;
@@ -156,5 +145,21 @@ public class Order extends Persistent {
 	}
 	public void setManualReviewComments(String manualReviewComments) {
 		this.manualReviewComments = manualReviewComments;
+	}
+
+	@Transient
+	public void addOrderItem(OrderItem orderItem) {
+		if(this.orderItems == null) {
+			orderItems = new ArrayList<>();
+		}
+
+		if(!orderItems.contains(orderItem)) {
+			orderItems.add(orderItem);
+		}
+	}
+
+	@Transient
+	public void addReviewComment(String comment) {
+		this.manualReviewComments += (comment + "; ");
 	}
 }

@@ -64,12 +64,10 @@ public class FoodPandaParser extends CSVParser {
 					Date orderedTime = Utils.convertStringToDate(ORDER_DATE_PATTERN, strDate);
 					orderedTime = Utils.convertDateToGMT(orderedTime, TimeZone.getDefault());
 					order.setOrderedTime(orderedTime);
-					processOrderItems(order, record.get(FoodPanda.ITEMS_COUNT), record.get(FoodPanda.ORDER_ITEMS));
+					processOrderItems(kitchenItems, order, record.get(FoodPanda.ITEMS_COUNT), record.get(FoodPanda.ORDER_ITEMS));
 				} catch(Exception e) {
-					order.setManualReview(true);
-					String errMsg = "Record: " + record.toString() + ". Reason: " + e.getMessage();
-					order.setManualReviewComments(errMsg);
-					logger.error("Failed to parse order date for orderId: " + orderId + " " + errMsg, e);
+					String comment = "Record: " + record.toString() + ". Reason: " + e.getMessage();
+					addReviewComment(logger, order, comment, e);
 				}
 				orders.add(order);
 			} catch(Exception e) {
@@ -79,7 +77,7 @@ public class FoodPandaParser extends CSVParser {
 		return orders;
 	}
 
-	private void processOrderItems(Order order, String itemsCountStr, String itemsStr) {
+	private void processOrderItems(Map<String, KitchenItem> kItems, Order order, String itemsCountStr, String itemsStr) {
 		String[] itemsArray = itemsStr.split(";");
 		int parsedCount = 0;
 		for(String itemStr : itemsArray) {
@@ -93,17 +91,20 @@ public class FoodPandaParser extends CSVParser {
 			int quantity = Integer.valueOf(item[0]);
 			orderItem.setQuantity(quantity);
 			parsedCount += quantity;
-			//TODO: Set item object and unit price
-			orderItem.setItem(null);
-			orderItem.setUnitPrice(0);
+			KitchenItem kItem = kItems.get(item[1]);
+			if(kItem != null) {
+				orderItem.setItem(kItem.getItem());
+				orderItem.setUnitPrice(kItem.getPrice());
+			} else {
+				String comment = "Kitchen Item not found for " + item[1];
+				addReviewComment(logger, order, comment, null);
+			}
 			order.addOrderItem(orderItem);
 		}
 		int itemsCount = Integer.valueOf(itemsCountStr);
 		if(parsedCount != itemsCount) {
-			order.setManualReview(true);
 			String comment = "Expected " + itemsCount + "items. Found " + parsedCount;
-			logger.error("Failed to parse order date for orderId: " + order.getDeliveryPartnerOrderId() + " " + comment);
-			order.setManualReviewComments(comment);
+			addReviewComment(logger, order, comment, null);
 		}
 	}
 }
