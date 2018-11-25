@@ -1,12 +1,12 @@
 /*
  * This computer program is the confidential information and proprietary trade
- * secret of OpsRamp, Inc. Possessions and use of this program must
+ * secret of DP Console Project. Possessions and use of this program must
  * conform strictly to the license agreement between the user and
- * OpsRamp, Inc., and receipt or possession does not convey any rights
+ * DP Console Project, and receipt or possession does not convey any rights
  * to divulge, reproduce, or allow others to use this program without specific
- * written authorization of OpsRamp, Inc.
+ * written authorization of DP Console Project.
  *
- * Copyright 2018 OpsRamp, Inc. All Rights Reserved.
+ * Copyright 2018 DP Console Project. All Rights Reserved.
  */
 package com.dpconsole.parsers;
 
@@ -39,13 +39,18 @@ public class FoodPandaParser extends CSVParser {
 	private static final String ORDER_DATE_PATTERN = "dd/mm/yy hh:mm a";
 
 	@Override
+	public char getDelimiter() {
+		return ';';
+	}
+
+	@Override
 	public int getSkipLinesCount() {
 		return SKIP_LINES;
 	}
 
 	@Override
 	public List<Order> parseRecords(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, List<CSVRecord> csvRecords) {
-		Date createdTime = Utils.getSystemTimeInGMT();
+		Date parsedTime = Utils.getSystemTimeInGMT();
 		List<Order> orders = new ArrayList<>();
 		for(CSVRecord record : csvRecords) {
 			try {
@@ -54,7 +59,7 @@ public class FoodPandaParser extends CSVParser {
 				order.setKitchen(kitchen);
 				order.setDeliveryPartner(DeliveryPartner.FOOD_PANDA);
 				order.setDeliveryPartnerOrderId(orderId);
-				order.setCreatedTime(createdTime);
+				order.setParsedTime(parsedTime);
 				try {
 					order.setStatus(record.get(FoodPanda.STATUS));
 					order.setPaymentType(record.get(FoodPanda.PAYMENT_TYPE));
@@ -107,4 +112,5 @@ public class FoodPandaParser extends CSVParser {
 			addReviewComment(logger, order, comment, null);
 		}
 	}
+
 }

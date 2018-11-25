@@ -1,12 +1,12 @@
 /*
  * This computer program is the confidential information and proprietary trade
- * secret of OpsRamp, Inc. Possessions and use of this program must
+ * secret of DP Console Project. Possessions and use of this program must
  * conform strictly to the license agreement between the user and
- * OpsRamp, Inc., and receipt or possession does not convey any rights
+ * DP Console Project, and receipt or possession does not convey any rights
  * to divulge, reproduce, or allow others to use this program without specific
- * written authorization of OpsRamp, Inc.
+ * written authorization of DP Console Project.
  *
- * Copyright 2018 OpsRamp, Inc. All Rights Reserved.
+ * Copyright 2018 DP Console Project. All Rights Reserved.
  */
 package com.dpconsole.dao;
 

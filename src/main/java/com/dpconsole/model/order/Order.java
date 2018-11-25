@@ -36,7 +36,7 @@ public class Order extends Persistent {
 	private Kitchen kitchen;
 	private DeliveryPartner deliveryPartner;
 	private String deliveryPartnerOrderId;
-	private Date createdTime;
+	private Date parsedTime;
 	private Date orderedTime;
 	private String status;
 	private String paymentType;
@@ -82,12 +82,12 @@ public class Order extends Persistent {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created_time", nullable = false)
-	public Date getCreatedTime() {
-		return createdTime;
+	@Column(name = "parsed_time", nullable = false)
+	public Date getParsedTime() {
+		return parsedTime;
 	}
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
+	public void setParsedTime(Date parsedTime) {
+		this.parsedTime = parsedTime;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
