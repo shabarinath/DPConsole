@@ -67,10 +67,13 @@ public class FoodPandaParser extends CSVParser {
 					order.setNotes(record.get(FoodPanda.CANCELLATION_REASON));
 					order.setTotalCost(Double.valueOf(record.get(FoodPanda.FOOD_COST)));
 					try {
-						String strDate = record.get(FoodPanda.EXPECTED_DELIVERY_DATE) + " " + record.get(FoodPanda.EXPECTED_DELIVERY_TIME);
-						Date orderedTime = Utils.convertStringToDate(ORDER_DATE_PATTERN, strDate);
-						orderedTime = Utils.convertDateToGMT(orderedTime, TimeZone.getDefault());
-						order.setOrderedTime(orderedTime);
+						String strDate = record.get(FoodPanda.EXPECTED_DELIVERY_DATE);
+						if(!Utils.isEmpty(strDate)) {
+							strDate += (" " + record.get(FoodPanda.EXPECTED_DELIVERY_TIME));
+							Date orderedTime = Utils.convertStringToDate(ORDER_DATE_PATTERN, strDate);
+							orderedTime = Utils.convertDateToGMT(orderedTime, TimeZone.getDefault());
+							order.setOrderedTime(orderedTime);
+						}
 					} catch(ParseException pe) {
 						String comment = "Reason: " + pe.getMessage();
 						addReviewComment(logger, order, comment, pe);
