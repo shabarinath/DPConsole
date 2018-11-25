@@ -12,8 +12,10 @@ public enum EmailAttribute {
 	Date ("Date: "),
 	RESTUARANT_PROMO("Restaurant Promo"),
 	PAID_BY("Paid by"),
-	Prepaid("Prepaid"),
-	COD("COD");
+	PREPAID("Prepaid"),
+	COD("COD"),
+	CUSTOMIZE("Customize :"),
+	ZOMATO_FOOTER("Zomato Media Pvt. Ltd.");
 
 	private String name;
 

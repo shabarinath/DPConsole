@@ -26,7 +26,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 	private static final String HTML_CLEAN_REGEX="<[^>]+>";
 	
 	@Override
-	public List<Order> parse(List<Message> messages, Kitchen kitchen) throws Exception {
+	public List<Order> parse(Kitchen kitchen, List<Message> messages) throws Exception {
 		List<Order> orders = new ArrayList<>();
 		for(Message message : messages) {
 			if(message == null) {
