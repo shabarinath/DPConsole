@@ -10,6 +10,7 @@
  */
 package com.dpconsole.parsers;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +37,7 @@ public class FoodPandaParser extends CSVParser {
 	private static final Logger logger = LoggerFactory.getLogger(FoodPandaParser.class);
 
 	private static final short SKIP_LINES = 1;
-	private static final String ORDER_DATE_PATTERN = "dd/mm/yy hh:mm a";
+	private static final String ORDER_DATE_PATTERN = "dd/MM/yy hh:mm a";
 
 	@Override
 	public char getDelimiter() {
@@ -65,10 +66,15 @@ public class FoodPandaParser extends CSVParser {
 					order.setPaymentType(record.get(FoodPanda.PAYMENT_TYPE));
 					order.setNotes(record.get(FoodPanda.CANCELLATION_REASON));
 					order.setTotalCost(Double.valueOf(record.get(FoodPanda.FOOD_COST)));
-					String strDate = record.get(FoodPanda.EXPECTED_DELIVERY_DATE) + " " + record.get(FoodPanda.EXPECTED_DELIVERY_TIME);
-					Date orderedTime = Utils.convertStringToDate(ORDER_DATE_PATTERN, strDate);
-					orderedTime = Utils.convertDateToGMT(orderedTime, TimeZone.getDefault());
-					order.setOrderedTime(orderedTime);
+					try {
+						String strDate = record.get(FoodPanda.EXPECTED_DELIVERY_DATE) + " " + record.get(FoodPanda.EXPECTED_DELIVERY_TIME);
+						Date orderedTime = Utils.convertStringToDate(ORDER_DATE_PATTERN, strDate);
+						orderedTime = Utils.convertDateToGMT(orderedTime, TimeZone.getDefault());
+						order.setOrderedTime(orderedTime);
+					} catch(ParseException pe) {
+						String comment = "Reason: " + pe.getMessage();
+						addReviewComment(logger, order, comment, pe);
+					}
 					processOrderItems(kitchenItems, order, record.get(FoodPanda.ITEMS_COUNT), record.get(FoodPanda.ORDER_ITEMS));
 				} catch(Exception e) {
 					String comment = "Record: " + record.toString() + ". Reason: " + e.getMessage();

@@ -10,6 +10,7 @@
  */
 package com.dpconsole.parsers;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,7 +36,7 @@ public class SwiggyParser extends CSVParser {
 	private static final Logger logger = LoggerFactory.getLogger(SwiggyParser.class);
 
 	private static final short SKIP_LINES = 5;
-	private static final String ORDER_DATE_PATTERN = "yyyy-mm-dd HH:mm:ss";
+	private static final String ORDER_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
 	@Override
 	public char getDelimiter() {
@@ -62,13 +63,23 @@ public class SwiggyParser extends CSVParser {
 				try {
 					order.setStatus(record.get(Swiggy.STATUS));
 					order.setPaymentType(null);
-					String notes = record.get(Swiggy.CANCELLATION_REASON) + "_" + record.get(Swiggy.CANCELLATION_ENTITY);
-					order.setNotes(notes);
+					String cancellationReason = record.get(Swiggy.CANCELLATION_REASON);
+					if(!Utils.isEmpty(cancellationReason)) {
+						String notes = cancellationReason + "_" + record.get(Swiggy.CANCELLATION_ENTITY);
+						order.setNotes(notes);
+					}
 					order.setTotalCost(Double.valueOf(record.get(Swiggy.FOOD_COST)));
-					String strDate = record.get(Swiggy.ORDERED_TIME);
-					Date orderedTime = Utils.convertStringToDate(ORDER_DATE_PATTERN, strDate);
-					orderedTime = Utils.convertDateToGMT(orderedTime, TimeZone.getDefault());
-					order.setOrderedTime(orderedTime);
+					try {
+						String strDate = record.get(Swiggy.ORDERED_TIME);
+						if(!Utils.isEmpty(strDate)) {
+							Date orderedTime = Utils.convertStringToDate(ORDER_DATE_PATTERN, strDate);
+							orderedTime = Utils.convertDateToGMT(orderedTime, TimeZone.getDefault());
+							order.setOrderedTime(orderedTime);
+						}
+					} catch(ParseException pe) {
+						String comment = "Reason: " + pe.getMessage();
+						addReviewComment(logger, order, comment, pe);
+					}
 					processOrderItems(kitchenItems, order, record.get(Swiggy.ITEMS_COUNT), record.get(Swiggy.ORDER_ITEMS));
 				} catch(Exception e) {
 					String comment = "Record: " + record.toString() + ". Reason: " + e.getMessage();
@@ -77,15 +88,13 @@ public class SwiggyParser extends CSVParser {
 				orders.add(order);
 			} catch(Exception e) {
 				logger.error("Failed to process order: " + record.toString(), e);
-				e.printStackTrace();
-				System.exit(0);
 			}
 		}
 		return orders;
 	}
 
 	private void processOrderItems(Map<String, KitchenItem> kItems, Order order, String itemsCountStr, String itemsStr) {
-
+		//TODO:
 	}
 
 }

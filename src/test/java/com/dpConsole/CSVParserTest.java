@@ -18,7 +18,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.order.Order;
 import com.dpconsole.model.order.OrderItem;
-import com.dpconsole.parsers.FoodPandaParser;
+import com.dpconsole.parsers.SwiggyParser;
 
 /**
  * @author nanda.malve
@@ -27,15 +27,18 @@ import com.dpconsole.parsers.FoodPandaParser;
 public class CSVParserTest {
 
 	public static void main(String ars[]) throws Exception {
-		//SwiggyParser fpp = new SwiggyParser();
-		//List<Order> orders = fpp.parse(new Kitchen(), new HashMap<>(), "FOOD-FOR-U-SWIGGY.csv");
-		FoodPandaParser fpp = new FoodPandaParser();
-		List<Order> orders = fpp.parse(new Kitchen(), new HashMap<>(), "FOOD-PANDA.csv");
+		SwiggyParser fpp = new SwiggyParser();
+		List<Order> orders = fpp.parse(new Kitchen(), new HashMap<>(), "FOOD-FOR-U-SWIGGY.csv");
+		//FoodPandaParser fpp = new FoodPandaParser();
+		//List<Order> orders = fpp.parse(new Kitchen(), new HashMap<>(), "FOOD-PANDA.csv");
 		for(Order o : orders) {
+			System.out.println(ToStringBuilder.reflectionToString(o));
+			if(o.getOrderItems() == null) {
+				continue;
+			}
 			for(OrderItem oi : o.getOrderItems()) {
 				System.out.println(ToStringBuilder.reflectionToString(oi));
 			}
-			System.out.println(ToStringBuilder.reflectionToString(o));
 		}
 		System.out.println(orders.size());
 	}
