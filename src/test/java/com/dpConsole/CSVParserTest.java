@@ -13,8 +13,6 @@ package com.dpConsole;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.order.Order;
 import com.dpconsole.model.order.OrderItem;
@@ -28,16 +26,16 @@ public class CSVParserTest {
 
 	public static void main(String ars[]) throws Exception {
 		SwiggyParser fpp = new SwiggyParser();
-		List<Order> orders = fpp.parse(new Kitchen(), new HashMap<>(), "FOOD-FOR-U-SWIGGY.csv");
+		List<Order> orders = fpp.parse(new Kitchen(), new HashMap<>(), "src/test/java/com/dpConsole/FOOD-FOR-U-SWIGGY.csv");
 		//FoodPandaParser fpp = new FoodPandaParser();
-		//List<Order> orders = fpp.parse(new Kitchen(), new HashMap<>(), "FOOD-PANDA.csv");
+		//List<Order> orders = fpp.parse(new Kitchen(), new HashMap<>(), "src/test/java/com/dpConsole/FOOD-PANDA.csv");
 		for(Order o : orders) {
-			System.out.println(ToStringBuilder.reflectionToString(o));
+			System.out.println(o.toString());
 			if(o.getOrderItems() == null) {
 				continue;
 			}
 			for(OrderItem oi : o.getOrderItems()) {
-				System.out.println(ToStringBuilder.reflectionToString(oi));
+				System.out.println(oi.toString());
 			}
 		}
 		System.out.println(orders.size());
