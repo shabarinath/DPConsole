@@ -37,12 +37,12 @@ public class KitchenDaoImpl extends DaoImpl implements KitchenDao {
 	@Override
 	public PartialPage<KitchenItem> getKitchenItemsByCategory(long kitchenId, long categoryId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception {
 		List<Object> queryParams = new ArrayList<>();
-		StringBuffer queryString = new StringBuffer("FROM KitchenItem ki WHERE kd.kitchen.active = ? AND ki.item.subCategory.category.active = ? AND ki.item.subCategory.active = ? AND ki.item.active = ?");
+		StringBuffer queryString = new StringBuffer("FROM KitchenItem ki WHERE ki.kitchen.active = ? AND ki.item.subCategory.category.active = ? AND ki.item.subCategory.active = ? AND ki.item.active = ?");
 		queryParams.add(true);
 		queryParams.add(true);
 		queryParams.add(true);
 		if (kitchenId > 0) {
-			queryString.append(" AND kd.kitchen.id = ? ");
+			queryString.append(" AND ki.kitchen.id = ? ");
 			queryParams.add(kitchenId);
 		}
 		if (categoryId > 0) {
@@ -52,7 +52,7 @@ public class KitchenDaoImpl extends DaoImpl implements KitchenDao {
 
 		StringBuffer countQuery = new StringBuffer("SELECT COUNT(*) ").append(queryString);
 		if(Utils.isEmpty(sortName)) {
-			sortName = "kd.kitchen.id, ki.item.subCategory.category.precedence, ki.item.subCategory.precedence, ki.item.precedence";
+			sortName = "ki.kitchen.id, ki.item.subCategory.category.precedence, ki.item.subCategory.precedence, ki.item.precedence";
 		}
 
 		queryString.append(" ORDER BY " + sortName + (isDecendingOrder ? " desc" : " asc"));
@@ -84,8 +84,7 @@ public class KitchenDaoImpl extends DaoImpl implements KitchenDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<KitchenItem> getAllKitchenItems(long kitchenId) throws Exception {
-		List<KitchenItem> kItems = getHibernateTemplate().find("FROM KitchenItem ki WHERE kd.kitchen.id = ?", new Object[]{kitchenId});
+		List<KitchenItem> kItems = getHibernateTemplate().find("FROM KitchenItem ki WHERE ki.kitchen.id = ?", new Object[]{kitchenId});
 		return !kItems.isEmpty() ? kItems : null;
 	}
-
 }

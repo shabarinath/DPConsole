@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dpconsole.dao.KitchenDao;
 import com.dpconsole.model.PartialPage;
 import com.dpconsole.model.catalogue.Category;
+import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.kitchen.KitchenDiscount;
 import com.dpconsole.model.kitchen.KitchenItem;
 import com.dpconsole.service.KitchenService;
@@ -66,7 +68,7 @@ public class KitchenServiceImpl implements KitchenService {
 	public Map<String, KitchenItem> getAllKitchenItems(long kitchenId) throws Exception {
 		List<KitchenItem> kItems = kitchenDao.getAllKitchenItems(kitchenId);
 		Map<String, KitchenItem> kItemsMap = new HashMap<>();
-		for(KitchenItem kItem : kItems) {
+		for(KitchenItem kItem : ListUtils.emptyIfNull(kItems)) {
 			kItemsMap.put(kItem.getItem().getName(), kItem);
 			for(String alias : kItem.getItem().getAliases()) {
 				kItemsMap.put(alias, kItem);
@@ -75,7 +77,25 @@ public class KitchenServiceImpl implements KitchenService {
 			//kItem.getItem().getSubCategory().getName();
 			//kItem.getItem().getSubCategory().getCategory().getName();
 		}
-
+		/*ListUtils.emptyIfNull(kItems).forEach(kItem->{
+			kItemsMap.put(kItem.getItem().getName(), kItem);
+			for(String alias : kItem.getItem().getAliases()) {
+				kItemsMap.put(alias, kItem);
+			}
+		});*/
 		return kItemsMap;
+	}
+
+	@Override
+	public Kitchen getKitchenById(long kitchenId) throws Exception {
+		return (Kitchen) kitchenDao.get(Kitchen.class, kitchenId);
+	}
+
+	public KitchenDao getKitchenDao() {
+		return kitchenDao;
+	}
+
+	public void setKitchenDao(KitchenDao kitchenDao) {
+		this.kitchenDao = kitchenDao;
 	}
 }

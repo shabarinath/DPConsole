@@ -46,6 +46,7 @@ public class Kitchen extends Persistent {
 		this.name = name;
 	}
 
+	//TODO: confirm this
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name="kitchen_id", nullable = false)
 	@OrderColumn(name = "list_index")

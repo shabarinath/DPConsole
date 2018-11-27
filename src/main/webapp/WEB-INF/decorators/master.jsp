@@ -42,11 +42,14 @@
 <link rel="stylesheet" href="<c:url value="/resources/css/refineslide-theme-dark.css"/>">
 <link rel="stylesheet" href="<c:url value="/resources/color/default.css"/>">
 <link rel="stylesheet" href="<c:url value="/resources/js/google-code-prettify/prettify.css"/>">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"/>
+
 
 <!--<link rel="stylesheet/less" type="text/css" href="/customStyles?_ajax=true"> -->
 
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.js"/>"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/modernizr.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.easing.1.3.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/google-code-prettify/prettify.js"/>">
@@ -61,6 +64,7 @@
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.refineslide.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.ui.totop.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/custom.js"/>"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 <decorator:head />
 <header>
     <!-- Navbar
@@ -73,7 +77,7 @@
             <div class="span4">
               <!-- logo -->
               <div class="logo">
-                <h1><a href="index.html">DP Console</a></h1>
+                <h1><a href="/">DP Console</a></h1>
                 <!-- <img src="assets/img/logo.png" alt="" /> -->
               </div>
               <!-- end logo -->
@@ -87,12 +91,12 @@
                   <nav>
                     <ul class="nav topnav">
                       <li class="dropdown active">
-                        <a href="index.html">Home</a>
+                        <a href="/">Home</a>
                       </li>
                       <li class="dropdown">
                         <a href="#">Gmail Auto</a>
                         <ul class="dropdown-menu">
-                          <li><a href="scaffolding.html">Zomato</a></li>
+                          <li><a href="/zomatoGmailAuto">Zomato</a></li>
                           <!-- <li><a href="base-css.html">Base CSS</a></li>
                           <li><a href="components.html">Components</a></li>
                           <li><a href="icons.html">Icons</a></li>
@@ -163,7 +167,9 @@
   </header>
 </head>
 <body>
+<div class="container">
 	<decorator:body /> 								
+</div>
 	<!-- Footer
  ================================================== -->
   <footer class="footer">

@@ -46,7 +46,7 @@
   </section>
   <section id="maincontent">
     <div class="container">
-      <div class="row">
+      <!-- <div class="row">
         <div class="span4">
           <div class="features">
             <div class="icon">
@@ -90,7 +90,7 @@
           </div>
         </div>
 
-      </div>
+      </div> -->
 
       <!-- blank divider -->
       <div class="row">

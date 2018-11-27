@@ -250,6 +250,12 @@
 			<artifactId>opentok-java-sdk</artifactId>
 			<version>[0.91.54,)</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-collections4</artifactId>
+		    <version>4.2</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

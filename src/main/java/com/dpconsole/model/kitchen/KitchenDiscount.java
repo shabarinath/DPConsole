@@ -38,7 +38,7 @@ public class KitchenDiscount extends Persistent {
 	private DeliveryPartner deliveryPartner;
 	private Date startTime;
 	private Date endTime;
-	private int discount;
+	private float discount;
 	private boolean active = true;
 
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -78,10 +78,10 @@ public class KitchenDiscount extends Persistent {
 	}
 
 	@Column(name="discount")
-	public int getDiscount() {
+	public float getDiscount() {
 		return discount;
 	}
-	public void setDiscount(int discount) {
+	public void setDiscount(float discount) {
 		this.discount = discount;
 	}
 

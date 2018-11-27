@@ -61,7 +61,9 @@
 	
 	<bean id="catalogueService" class="com.dpconsole.service.impl.CatalogueServiceImpl" />
 	
-	<bean id="kitchenService" class="com.dpconsole.service.impl.KitchenServiceImpl" />
+	<bean id="kitchenService" class="com.dpconsole.service.impl.KitchenServiceImpl" >
+		<property name="kitchenDao" ref="kitchenDao" />	
+	</bean>
 	
 	<bean id="orderService" class="com.dpconsole.service.impl.OrderServiceImpl" />
 	

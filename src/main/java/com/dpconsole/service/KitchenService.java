@@ -13,8 +13,11 @@ package com.dpconsole.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
 import com.dpconsole.model.PartialPage;
 import com.dpconsole.model.catalogue.Category;
+import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.kitchen.KitchenDiscount;
 import com.dpconsole.model.kitchen.KitchenItem;
 
@@ -22,6 +25,7 @@ import com.dpconsole.model.kitchen.KitchenItem;
  * @author nanda.malve
  * created on 23-Nov-2018 3:35:09 PM
  */
+@Service
 public interface KitchenService {
 
 	List<Category> getKitchenCategories(long kitchenId) throws Exception;
@@ -35,5 +39,7 @@ public interface KitchenService {
 	void saveOrUpdateKitchenDiscount(KitchenDiscount kitchenDiscount) throws Exception;
 
 	Map<String, KitchenItem> getAllKitchenItems(long kitchenId) throws Exception;
+
+	Kitchen getKitchenById(long kitchenId) throws Exception;
 
 }
