@@ -8,29 +8,30 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.dpconsole.model.Persistent;
-import com.dpconsole.model.catalogue.Item;
+import com.dpconsole.model.kitchen.KitchenItem;
 
 /**
  * @author SHABARINATH
  * 21-Nov-2018 11:13:01 pm 2018
  */
-
 @Entity
-@Table(name="order_item")
+@Table(name="order_items")
 @SuppressWarnings("serial")
 public class OrderItem extends Persistent {
 
-	private Item item;
+	private KitchenItem kitchenItem;
 	private int quantity;
-	private double unitPrice;
+	private double manufacturingPrice;
+	private double marketPrice;
+	private double dpReceivedPrice;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "item_id", nullable = false)
-	public Item getItem() {
-		return item;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "kitchen_item_id", nullable = false)
+	public KitchenItem getKitchenItem() {
+		return kitchenItem;
 	}
-	public void setItem(Item item) {
-		this.item = item;
+	public void setKitchenItem(KitchenItem kitchenItem) {
+		this.kitchenItem = kitchenItem;
 	}
 
 	@Column(name = "quantity")
@@ -41,22 +42,38 @@ public class OrderItem extends Persistent {
 		this.quantity = quantity;
 	}
 
-	@Column(name = "unit_price")
-	public double getUnitPrice() {
-		return unitPrice;
+	@Column(name = "manufacturing_price")
+	public double getManufacturingPrice() {
+		return manufacturingPrice;
 	}
-	public void setUnitPrice(double unitPrice) {
-		this.unitPrice = unitPrice;
+	public void setManufacturingPrice(double manufacturingPrice) {
+		this.manufacturingPrice = manufacturingPrice;
+	}
+
+	@Column(name = "market_price")
+	public double getMarketPrice() {
+		return marketPrice;
+	}
+	public void setMarketPrice(double marketPrice) {
+		this.marketPrice = marketPrice;
+	}
+
+	@Column(name = "dp_received_price")
+	public double getDpReceivedPrice() {
+		return dpReceivedPrice;
+	}
+	public void setDpReceivedPrice(double dpReceivedPrice) {
+		this.dpReceivedPrice = dpReceivedPrice;
 	}
 
 	@Override
 	public String toString() {
-		return "OrderItem [item=" + item + ", quantity=" + quantity
-				+ ", unitPrice=" + unitPrice + ", getItem()=" + getItem()
-				+ ", getQuantity()=" + getQuantity() + ", getUnitPrice()="
-				+ getUnitPrice() + ", getId()=" + getId() + ", getVersion()="
-				+ getVersion() + ", hashCode()=" + hashCode()
-				+ ", isPersisted()=" + isPersisted() + ", getClass()="
-				+ getClass() + ", toString()=" + super.toString() + "]";
+		return "OrderItem [kitchenItem=" + kitchenItem + ", quantity=" + quantity
+				+ ", manufacturingPrice=" + manufacturingPrice
+				+ ", marketPrice=" + marketPrice + ", dpReceivedPrice="
+				+ dpReceivedPrice + ", getId()=" + getId()
+				+ ", getVersion()=" + getVersion() + ", hashCode()="
+				+ hashCode() + ", isPersisted()=" + isPersisted()
+				+ ", getClass()=" + getClass() + ", toString()=" + super.toString() + "]";
 	}
 }

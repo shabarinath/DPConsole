@@ -11,7 +11,6 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.dpconsole.controller.ChangePasswordController;
 import com.dpconsole.model.kitchen.DeliveryPartner;
 import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.kitchen.KitchenItem;
@@ -21,20 +20,19 @@ import com.dpconsole.utils.Utils;
 
 /**
  * @author SHABARINATH
- * 23-Nov-2018 5:52:46 pm 2018 
+ * 23-Nov-2018 5:52:46 pm 2018
  */
-
 public class ZomatoParser implements Parser<List<Message>> {
-	
+
 	private static final String COMMA_DELIM=",";
 	private static final String PIPE_DELIM="|";
 	private static final String NEW_LINE_REGEX="[\\\r\\\n]+";
 	private static final String ESCAPE="\\";
 	private static final String HTML_COMMENTS_ESCAPCE_REGEX = "<!--.*?-->";
 	private static final String HTML_CLEAN_REGEX="<[^>]+>";
-	
-	private static final Logger logger = LoggerFactory.getLogger(ChangePasswordController.class);
-	
+
+	private static final Logger logger = LoggerFactory.getLogger(ZomatoParser.class);
+
 	@Override
 	public List<Order> parse(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, List<Message> messages) throws Exception {
 		List<Order> orders = new ArrayList<>();
@@ -42,7 +40,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 			if(message == null) {
 				continue;
 			}
-			String content = ZomatoParser.getOrderContent((Message)message);
+			String content = ZomatoParser.getOrderContent(message);
 			if(StringUtils.isEmpty(content)) {
 				continue;
 			}
@@ -54,7 +52,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 			dateStr = getOrderDate(content); //2018-11-21
 			Date orderedTime = Utils.convertStringToDate("yyyy-MM-dd", dateStr);
 			setOrderItems(content, kitchenItems, order);
-			totalAmount = getTotalAmount(content, order).replaceAll("₹", ""); 
+			totalAmount = getTotalAmount(content, order).replaceAll("₹", "");
 			order.setDeliveryPartner(DeliveryPartner.ZOMATO);
 			order.setOrderedTime(orderedTime);
 			//order.setStatus(status);//TODO: Parse this
@@ -68,16 +66,16 @@ public class ZomatoParser implements Parser<List<Message>> {
 			System.out.println("orderId: " +orderId.trim()+" date: "+dateStr.trim()+" totalAmount: "+totalAmount);
 		}
 		return orders;
-		
+
 	}
-	
+
 	private String getTotalAmount(String content, Order order) {
 		String totalAmount = "";
 		if(StringUtils.isNotEmpty(content)) {
 			if(content.contains(EmailAttribute.PREPAID.getName())) {
 				order.setPaymentType(EmailAttribute.PREPAID.getName());
 				totalAmount = getAttributeValues(content, EmailAttribute.PREPAID, EmailAttribute.ZOMATO_FOOTER);
-			} 
+			}
 			else if(content.contains(EmailAttribute.COD.getName())) {
 				order.setPaymentType(EmailAttribute.COD.getName());
 				totalAmount = getAttributeValues(content, EmailAttribute.COD, EmailAttribute.ZOMATO_FOOTER);
@@ -99,28 +97,30 @@ public class ZomatoParser implements Parser<List<Message>> {
 			}
 		}
 		String[] sanitizedItems = sanitizeItemsContent(StringUtils.trim(items)).split(COMMA_DELIM);
-		/*	
-		 * SanitizedItems: 
+		/*
+		 * SanitizedItems:
 		 * [Chilli Chicken with Noodles Combo, (1 x ₹220), ₹220, Chef Special Chicken with Fried Rice Combo, (1 x ₹220), ₹220]
 		 */
-		List<OrderItem> orderItems = new ArrayList<OrderItem>();
+		List<OrderItem> orderItems = new ArrayList<>();
 		for(String str : sanitizedItems) {
 			if(str.length()<3){
 				continue;
 			}
 			String itemName = StringUtils.trim(str.split(ESCAPE+PIPE_DELIM)[0]);
-			KitchenItem kitchenItemObj = kitchenItems.get(itemName);
-			if(StringUtils.isEmpty(itemName) || null == kitchenItemObj) {
+			KitchenItem kitchenItem = kitchenItems.get(itemName);
+			if(StringUtils.isEmpty(itemName) || null == kitchenItem) {
 				order.setManualReview(true);
-				order.setManualReviewComments("Item Name: "+itemName+" kitchenObj: "+kitchenItemObj+" are be empty!!");
+				order.setManualReviewComments("Item Name: "+itemName+" kitchenObj: "+kitchenItem+" are be empty!!");
 				continue;
 			}
 			String quantity = StringUtils.trim((str.split(ESCAPE+PIPE_DELIM)[1]).split("x")[0].replace("(", ""));
-			//String unitPrice = StringUtils.trim(str.split(ESCAPE+PIPE_DELIM)[2]); //Don't consider this
+			String dpReceivedPrice = StringUtils.trim(str.split(ESCAPE+PIPE_DELIM)[2]);
 			OrderItem orderItem = new OrderItem();
 			orderItem.setQuantity(Integer.parseInt(quantity));
-			orderItem.setUnitPrice(kitchenItemObj.getPrice());
-			orderItem.setItem(kitchenItemObj.getItem());
+			orderItem.setManufacturingPrice(kitchenItem.getManufacturingPrice());
+			orderItem.setMarketPrice(kitchenItem.getMarketPrice());
+			orderItem.setDpReceivedPrice(Double.valueOf(dpReceivedPrice));
+			orderItem.setKitchenItem(kitchenItem);
 			orderItems.add(orderItem);
 			order.setOrderItems(orderItems);
 			System.out.println(orderItem.toString());
@@ -128,9 +128,9 @@ public class ZomatoParser implements Parser<List<Message>> {
 	}
 
 	/**
-	 * Takes items content and processes and 
+	 * Takes items content and processes and
 	 * returns content which is suitable for parsing.
-	 * 
+	 *
 	 * @param itemsSection
 	 * @return
 	 */
@@ -160,7 +160,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 	/**
 	 * Returns items order block after
 	 * removing customize block.
-	 * 
+	 *
 	 * @param itemsSection
 	 * @return
 	 */
@@ -173,10 +173,10 @@ public class ZomatoParser implements Parser<List<Message>> {
 		}
 		return "";
 	}
-	
+
 	/**
 	 * Returns order date
-	 * 
+	 *
 	 * @param content
 	 * @return
 	 */
@@ -191,9 +191,9 @@ public class ZomatoParser implements Parser<List<Message>> {
 	}
 
 	/**
-	 * Returns element value base on  
-	 * predecessor and successor elements 
-	 * 
+	 * Returns element value base on
+	 * predecessor and successor elements
+	 *
 	 * @param content
 	 * @param matcher
 	 * @param succeeding
@@ -210,11 +210,11 @@ public class ZomatoParser implements Parser<List<Message>> {
 	private static String getOrderContent(Message message) throws Exception {
 		String content ="";
 		Object o = message.getContent();
-        if (o instanceof String) {
-           content = ((String) o).replaceAll(HTML_COMMENTS_ESCAPCE_REGEX, "").replaceAll(HTML_CLEAN_REGEX, "");
-           int index = content.indexOf(EmailAttribute.CUSTOMER_NAME.getName());
-           content = content.substring(index);
-        } 
+		if (o instanceof String) {
+			content = ((String) o).replaceAll(HTML_COMMENTS_ESCAPCE_REGEX, "").replaceAll(HTML_CLEAN_REGEX, "");
+			int index = content.indexOf(EmailAttribute.CUSTOMER_NAME.getName());
+			content = content.substring(index);
+		}
 		return content;
 	}
 }

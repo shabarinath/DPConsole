@@ -24,7 +24,7 @@ import com.dpconsole.model.Persistent;
  * created on 21-Nov-2018 11:46:16 PM
  */
 @Entity
-@Table(name="catalogue_departments")
+@Table(name="catalogue_sub_categories")
 @SuppressWarnings("serial")
 public class SubCategory extends Persistent {
 
@@ -65,7 +65,7 @@ public class SubCategory extends Persistent {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "SubCategory [name=" + name + ", category=" + category

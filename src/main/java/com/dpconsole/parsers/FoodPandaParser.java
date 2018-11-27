@@ -107,8 +107,10 @@ public class FoodPandaParser extends CSVParser {
 			parsedCount += quantity;
 			KitchenItem kItem = kItems.get(item[1]);
 			if(kItem != null) {
-				orderItem.setItem(kItem.getItem());
-				orderItem.setUnitPrice(kItem.getPrice());
+				orderItem.setKitchenItem(kItem);
+				orderItem.setManufacturingPrice(kItem.getManufacturingPrice());
+				orderItem.setMarketPrice(kItem.getMarketPrice());
+				orderItem.setDpReceivedPrice(0);
 			} else {
 				String comment = "Kitchen Item not found for " + item[1];
 				addReviewComment(logger, order, comment, null);

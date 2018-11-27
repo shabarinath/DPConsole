@@ -31,7 +31,8 @@ public class KitchenItem extends Persistent {
 
 	private Item item;
 	private Kitchen kitchen;
-	private double price;
+	private double manufacturingPrice;
+	private double marketPrice;
 	private boolean active = true;
 
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -52,12 +53,20 @@ public class KitchenItem extends Persistent {
 		this.kitchen = kitchen;
 	}
 
-	@Column(name="price")
-	public double getPrice() {
-		return price;
+	@Column(name = "manufacturing_price")
+	public double getManufacturingPrice() {
+		return manufacturingPrice;
 	}
-	public void setPrice(double price) {
-		this.price = price;
+	public void setManufacturingPrice(double manufacturingPrice) {
+		this.manufacturingPrice = manufacturingPrice;
+	}
+
+	@Column(name = "market_price")
+	public double getMarketPrice() {
+		return marketPrice;
+	}
+	public void setMarketPrice(double marketPrice) {
+		this.marketPrice = marketPrice;
 	}
 
 	@Column(name="active", nullable=false)
@@ -67,16 +76,14 @@ public class KitchenItem extends Persistent {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-
 	@Override
 	public String toString() {
 		return "KitchenItem [item=" + item + ", kitchen=" + kitchen
-				+ ", price=" + price + ", active=" + active + ", getItem()="
-				+ getItem() + ", getKitchen()=" + getKitchen()
-				+ ", getPrice()=" + getPrice() + ", isActive()=" + isActive()
-				+ ", getId()=" + getId() + ", getVersion()=" + getVersion()
-				+ ", hashCode()=" + hashCode() + ", isPersisted()="
-				+ isPersisted() + ", getClass()=" + getClass()
-				+ ", toString()=" + super.toString() + "]";
+				+ ", manufacturingPrice=" + manufacturingPrice
+				+ ", marketPrice=" + marketPrice + ", active="
+				+ active + ", getId()=" + getId() + ", getVersion()="
+				+ getVersion() + ", hashCode()=" + hashCode()
+				+ ", isPersisted()=" + isPersisted() + ", getClass()="
+				+ getClass() + ", toString()=" + super.toString() + "]";
 	}
 }

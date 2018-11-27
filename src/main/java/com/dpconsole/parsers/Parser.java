@@ -43,7 +43,7 @@ public interface Parser<T> extends ParsingHeaders {
 			double totalCost = order.getTotalCost();
 			double calculatedCost = 0;
 			for(OrderItem oItem : order.getOrderItems()) {
-				calculatedCost += (oItem.getQuantity() * oItem.getUnitPrice());
+				calculatedCost += (oItem.getQuantity() * oItem.getMarketPrice());
 			}
 			if(totalCost != calculatedCost) {
 				match = false;

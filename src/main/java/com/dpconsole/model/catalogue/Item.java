@@ -89,7 +89,7 @@ public class Item extends Persistent {
 	}
 
 	@ElementCollection(targetClass = java.lang.String.class, fetch=FetchType.EAGER)
-	@CollectionTable(name="item_aliases", joinColumns = {
+	@CollectionTable(name="catalogue_item_aliases", joinColumns = {
 			@JoinColumn(name="item_id", nullable=false) })
 	@Column(name="alias")
 	@Cascade( {CascadeType.ALL, CascadeType.DELETE_ORPHAN} )
@@ -108,7 +108,7 @@ public class Item extends Persistent {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Item [name=" + name + ", description=" + description
