@@ -90,12 +90,4 @@ public class KitchenServiceImpl implements KitchenService {
 	public Kitchen getKitchenById(long kitchenId) throws Exception {
 		return (Kitchen) kitchenDao.get(Kitchen.class, kitchenId);
 	}
-
-	public KitchenDao getKitchenDao() {
-		return kitchenDao;
-	}
-
-	public void setKitchenDao(KitchenDao kitchenDao) {
-		this.kitchenDao = kitchenDao;
-	}
 }

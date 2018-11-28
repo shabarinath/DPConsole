@@ -164,6 +164,7 @@ CREATE TABLE order_items (
   manufacturing_price DOUBLE(10, 4) NOT NULL,
   market_price DOUBLE(10, 4) NOT NULL,
   dp_received_price DOUBLE(10, 4) NOT NULL,
+  list_index INT(10) NOT NULL DEFAULT 0,
   active BOOLEAN NOT NULL DEFAULT 1,
   PRIMARY KEY (id),
   UNIQUE KEY name_uk(order_id, kitchen_item_id)

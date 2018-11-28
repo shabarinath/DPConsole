@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
-
-	<!-- Appenders -->
 	<appender name="R" class="org.apache.log4j.RollingFileAppender">
 		<param name="File" value="../logs/dpconsole.log" />
 		<param name="Append" value="true" />
 		<param name="ImmediateFlush" value="true" />
-		<param name="Threshold" value="ERROR" />
 		<param name="MaxFileSize" value="10MB" />
 		<param name="MaxBackupIndex" value="10" />
-
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d [%t] %-5p (%F:%L) %c - %m%n" />
 		</layout>
@@ -18,12 +14,12 @@
 	
 	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d [%t] %-5p (%F:%L) - %m%n" />
+			<param name="ConversionPattern" value="%d [%t] %-5p (%F:%L) %c - %m%n" />
 		</layout>
 	</appender>
 
 	<root>
-		<priority value="ERROR" />
+		<priority value="INFO" />
 		<appender-ref ref="R" />
 	</root>
 </log4j:configuration>

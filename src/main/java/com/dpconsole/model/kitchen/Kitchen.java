@@ -18,7 +18,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import com.dpconsole.model.Persistent;
@@ -46,10 +45,8 @@ public class Kitchen extends Persistent {
 		this.name = name;
 	}
 
-	//TODO: confirm this
-	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name="kitchen_id", nullable = false)
-	@OrderColumn(name = "list_index")
 	public List<KitchenDeliveryPartner> getSupportedDeliveryPartners() {
 		return supportedDeliveryPartners;
 	}
@@ -80,7 +77,7 @@ public class Kitchen extends Persistent {
 	public void setMailBoxPassword(String mailBoxPassword) {
 		this.mailBoxPassword = mailBoxPassword;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Kitchen [name=" + name + ", mailBoxUserName=" + mailBoxUserName

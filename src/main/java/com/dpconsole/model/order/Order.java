@@ -45,7 +45,7 @@ public class Order extends Persistent {
 	private boolean manualReview;
 	private String manualReviewComments = "";
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name = "order_id", nullable = false)
 	@OrderColumn(name = "list_index")
 	public List<OrderItem> getOrderItems() {
@@ -55,7 +55,7 @@ public class Order extends Persistent {
 		this.orderItems = orderItems;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "kitchen_id", nullable = false)
 	public Kitchen getKitchen() {
 		return kitchen;
@@ -162,7 +162,7 @@ public class Order extends Persistent {
 	public void addReviewComment(String comment) {
 		this.manualReviewComments += (comment + "; ");
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Order [orderItems=" + orderItems + ", kitchen=" + kitchen
