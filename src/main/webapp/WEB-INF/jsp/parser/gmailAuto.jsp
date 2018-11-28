@@ -46,7 +46,7 @@
 		});		
 	});
 	$( "#processOrders" ).click(function() {
-	 $("#response").html("");	
+	 $("#response").html("<span class=\"text-success lead\"><b>Processing....</b></span>");	
 	  var startTime = $("#startTime").val();
 	  var endTime = $("#endTime").val();	  
 		 $.ajax({
