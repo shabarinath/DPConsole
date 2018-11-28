@@ -17,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Proxy;
+
 import com.dpconsole.model.Persistent;
 import com.dpconsole.model.catalogue.Item;
 
@@ -35,7 +37,7 @@ public class KitchenItem extends Persistent {
 	private double marketPrice;
 	private boolean active = true;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="item_id")
 	public Item getItem() {
 		return item;
@@ -44,7 +46,7 @@ public class KitchenItem extends Persistent {
 		this.item = item;
 	}
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="kitchen_id")
 	public Kitchen getKitchen() {
 		return kitchen;

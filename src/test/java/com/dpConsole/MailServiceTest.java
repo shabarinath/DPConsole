@@ -27,9 +27,9 @@ public class MailServiceTest {
 		SimpleDateFormat df1 = new SimpleDateFormat("MM/dd/yy");
 		String pastDateStr = "11/14/18";
 		Date pastDate = df1.parse(pastDateStr);
-		String futureDateStr = "11/24/18";
+		String futureDateStr = "11/28/18";
 		Date futureDate = df1.parse(futureDateStr);
-		Message[] messages = mailService.getMessagesWithCriteria("Kitchensofchina@gmail.com", "koc654321", dpEmails, "", pastDate, futureDate);
+		Message[] messages = mailService.getMessagesWithCriteria("Kitchensofchina@gmail.com", "koc654321", Arrays.asList(dpEmails), "", pastDate, futureDate);
 		ZomatoParser parser = new ZomatoParser();
 		parser.parse(new Kitchen(), new HashMap<>(), Arrays.asList(messages));
 		MailService mailSvc = new MailService();

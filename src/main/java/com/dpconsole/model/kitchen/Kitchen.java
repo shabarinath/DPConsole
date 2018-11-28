@@ -20,6 +20,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.apache.commons.collections4.ListUtils;
+
 import com.dpconsole.model.Persistent;
 
 /**
@@ -45,7 +47,7 @@ public class Kitchen extends Persistent {
 		this.name = name;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name="kitchen_id", nullable = false)
 	public List<KitchenDeliveryPartner> getSupportedDeliveryPartners() {
 		return supportedDeliveryPartners;
@@ -76,6 +78,15 @@ public class Kitchen extends Persistent {
 	}
 	public void setMailBoxPassword(String mailBoxPassword) {
 		this.mailBoxPassword = mailBoxPassword;
+	}
+	
+	public KitchenDeliveryPartner getSupportedDeliveryPartner(DeliveryPartner deliveryPartner) {
+		for(KitchenDeliveryPartner kdp : ListUtils.emptyIfNull(this.supportedDeliveryPartners)) {
+			if(deliveryPartner == kdp.getDeliveryPartner()) {
+				return kdp;
+			}
+		}
+		return null;
 	}
 
 	@Override

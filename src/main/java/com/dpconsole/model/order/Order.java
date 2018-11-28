@@ -47,7 +47,7 @@ public class Order extends Persistent {
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name = "order_id", nullable = false)
-	@OrderColumn(name = "list_index")
+	/*@OrderColumn(name = "list_index")*/
 	public List<OrderItem> getOrderItems() {
 		return orderItems;
 	}
@@ -55,7 +55,7 @@ public class Order extends Persistent {
 		this.orderItems = orderItems;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "kitchen_id", nullable = false)
 	public Kitchen getKitchen() {
 		return kitchen;

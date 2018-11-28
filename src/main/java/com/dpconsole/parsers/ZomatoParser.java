@@ -16,6 +16,7 @@ import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.kitchen.KitchenItem;
 import com.dpconsole.model.order.Order;
 import com.dpconsole.model.order.OrderItem;
+import com.dpconsole.model.order.Status;
 import com.dpconsole.utils.Utils;
 
 /**
@@ -55,7 +56,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 			totalAmount = getTotalAmount(content, order).replaceAll("₹", "");
 			order.setDeliveryPartner(DeliveryPartner.ZOMATO);
 			order.setOrderedTime(orderedTime);
-			//order.setStatus(status);//TODO: Parse this
+			order.setStatus("DELIVERED");
 			order.setDeliveryPartnerOrderId(orderId);
 			order.setKitchen(kitchen);
 			order.setParsedTime(Utils.getSystemTimeInGMT());
@@ -63,7 +64,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 			order.setDeliveryPartnerOrderId(orderId);
 			order.setKitchen(kitchen);
 			orders.add(order);
-			System.out.println("orderId: " +orderId.trim()+" date: "+dateStr.trim()+" totalAmount: "+totalAmount);
+			logger.info("orderId: " +orderId.trim()+" date: "+dateStr.trim()+" totalAmount: "+totalAmount);
 		}
 		return orders;
 
@@ -104,26 +105,28 @@ public class ZomatoParser implements Parser<List<Message>> {
 		List<OrderItem> orderItems = new ArrayList<>();
 		for(String str : sanitizedItems) {
 			if(str.length()<3){
+				order.setManualReview(true);
+				order.setManualReviewComments("OrderId: "+order.getDeliveryPartnerOrderId());
 				continue;
 			}
 			String itemName = StringUtils.trim(str.split(ESCAPE+PIPE_DELIM)[0]);
 			KitchenItem kitchenItem = kitchenItems.get(itemName);
 			if(StringUtils.isEmpty(itemName) || null == kitchenItem) {
 				order.setManualReview(true);
-				order.setManualReviewComments("Item Name: "+itemName+" kitchenObj: "+kitchenItem+" are be empty!!");
+				order.setManualReviewComments("Item Name: "+itemName+" kitchenObj: "+kitchenItem+" may be empty!!");
 				continue;
 			}
 			String quantity = StringUtils.trim((str.split(ESCAPE+PIPE_DELIM)[1]).split("x")[0].replace("(", ""));
-			String dpReceivedPrice = StringUtils.trim(str.split(ESCAPE+PIPE_DELIM)[2]);
+			String dpReceivedTotalPricePerItem = StringUtils.trim(str.split(ESCAPE+PIPE_DELIM)[2]).replaceAll("₹", "");
+			Double dpReceivedUnitPrice = (Double.parseDouble(dpReceivedTotalPricePerItem)/Integer.parseInt(quantity));
 			OrderItem orderItem = new OrderItem();
 			orderItem.setQuantity(Integer.parseInt(quantity));
 			orderItem.setManufacturingPrice(kitchenItem.getManufacturingPrice());
 			orderItem.setMarketPrice(kitchenItem.getMarketPrice());
-			orderItem.setDpReceivedPrice(Double.valueOf(dpReceivedPrice));
+			orderItem.setDpReceivedPrice(dpReceivedUnitPrice);  //TODO: is this unit price
 			orderItem.setKitchenItem(kitchenItem);
 			orderItems.add(orderItem);
 			order.setOrderItems(orderItems);
-			System.out.println(orderItem.toString());
 		}
 	}
 
@@ -213,7 +216,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 		if (o instanceof String) {
 			content = ((String) o).replaceAll(HTML_COMMENTS_ESCAPCE_REGEX, "").replaceAll(HTML_CLEAN_REGEX, "");
 			int index = content.indexOf(EmailAttribute.CUSTOMER_NAME.getName());
-			content = content.substring(index);
+			content = (index>0) ? content.substring(index):"";
 		}
 		return content;
 	}

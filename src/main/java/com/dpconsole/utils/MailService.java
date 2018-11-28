@@ -3,6 +3,7 @@ package com.dpconsole.utils;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
@@ -37,11 +38,10 @@ public class MailService {
 		 props.put("mail.store.protocol", protocol);
 	 }
 	 
-	public Message[] getMessagesWithCriteria(String email, String password, String[] dpEmails, 
+	public Message[] getMessagesWithCriteria(String email, String password, List<String> dpEmails, 
 		String subject, Date stateDate, Date endDate) throws MessagingException, ParseException{
 		props = new Properties();
 		props.put("mail.store.protocol", protocol);
-		
 	 	Session session = Session.getDefaultInstance(props, null);
 		store = session.getStore(protocol);
 		store.connect(host, email,password);
@@ -53,7 +53,7 @@ public class MailService {
 	 }
 
 	private SearchTerm prepareCriteriaQuery(Date stateDate, Date endDate,
-			String[] dpEmails) {
+			List<String> dpEmails) {
 		SearchTerm newerThan = new ReceivedDateTerm(ComparisonTerm.GE, stateDate);
 		SearchTerm olderThan = new ReceivedDateTerm(ComparisonTerm.LE, endDate);
 		SearchTerm andTerm = new AndTerm(olderThan, newerThan);

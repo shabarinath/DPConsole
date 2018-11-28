@@ -149,8 +149,8 @@ CREATE TABLE orders (
   manual_review_comments TEXT DEFAULT NULL,
   payment_type VARCHAR(255) DEFAULT NULL,
   active BOOLEAN NOT NULL DEFAULT 1,  
-  PRIMARY KEY (id)
---  UNIQUE KEY name_uk(kitchen_id, delivery_partner, dp_order_id)
+  PRIMARY KEY (id),
+  UNIQUE KEY dp_order_id_uk(dp_order_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 

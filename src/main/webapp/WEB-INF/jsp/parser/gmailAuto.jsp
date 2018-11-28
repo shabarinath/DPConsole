@@ -7,7 +7,7 @@
 				<div class="form-horizontal">
 					<h2>
 					<span class="highlight primary text-info">Process Zomato Emails </span>
-					</h2>
+					</h2>					
 					<div class="control-group">
 						<label class="control-label" for="inputEmail">Start Time</label>
 						<div class="controls" style="position: relative">
@@ -25,8 +25,15 @@
 					</div>
 				</div>
 			</div>
+			<div class="span6">
+
+          <div class="group section-wrap upper" id="upper">
+            <div id="response">					
+			</div>            
+          </div>
 		</div>
 	</div>
+</div>
 </section>
 <script>
 //MM/DD/YY HH:mm:ss
@@ -39,17 +46,22 @@
 		});		
 	});
 	$( "#processOrders" ).click(function() {
+	 $("#response").html("");	
 	  var startTime = $("#startTime").val();
 	  var endTime = $("#endTime").val();	  
 		 $.ajax({
 			type: "GET",
-			url: "/processZomatoOrders?startTime="+startTime+"&endTime="+endTime,
-			//data: JSON.stringify(obj),
-			contentType: "application/json; charset=utf-8",
+			url: "/processZomatoOrders?startTime="+startTime+"&endTime="+endTime,	
+			contentType: "application/json",
 			dataType: "json",
-			success: function (r) {
-				alert(r.d);
-			}
+			success: function(response) {	
+				if(response.error==true) {
+					$("#response").html("<span class=\"text-error lead\"><b>"+response.status+"</span>");	
+				} else if(response.error==false) {
+					$("#response").html("<span class=\"text-success lead\"><b>"+response.status+"</span>");	
+				}
+				
+		    }
 		});
 	});	
 </script>
