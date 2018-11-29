@@ -15,7 +15,8 @@ public enum EmailAttribute {
 	PREPAID("Prepaid"),
 	COD("COD"),
 	CUSTOMIZE("Customize :"),
-	ZOMATO_FOOTER("Zomato Media Pvt. Ltd.");
+	ZOMATO_FOOTER("Zomato Media Pvt. Ltd."),
+	CASH_TO_BE_COLLECTED_FROM("Cash to be collected from");
 
 	private String name;
 

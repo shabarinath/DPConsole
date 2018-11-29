@@ -16,7 +16,6 @@ import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.kitchen.KitchenItem;
 import com.dpconsole.model.order.Order;
 import com.dpconsole.model.order.OrderItem;
-import com.dpconsole.model.order.Status;
 import com.dpconsole.utils.Utils;
 
 /**
@@ -31,6 +30,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 	private static final String ESCAPE="\\";
 	private static final String HTML_COMMENTS_ESCAPCE_REGEX = "<!--.*?-->";
 	private static final String HTML_CLEAN_REGEX="<[^>]+>";
+	private static final String RUPEE_UNICODE="\\u20B9";
 
 	private static final Logger logger = LoggerFactory.getLogger(ZomatoParser.class);
 
@@ -53,7 +53,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 			dateStr = getOrderDate(content); //2018-11-21
 			Date orderedTime = Utils.convertStringToDate("yyyy-MM-dd", dateStr);
 			setOrderItems(content, kitchenItems, order);
-			totalAmount = getTotalAmount(content, order).replaceAll("₹", "");
+			totalAmount = getTotalAmount(content, order).replaceAll(RUPEE_UNICODE, "");
 			order.setDeliveryPartner(DeliveryPartner.ZOMATO);
 			order.setOrderedTime(orderedTime);
 			order.setStatus("DELIVERED");
@@ -72,14 +72,15 @@ public class ZomatoParser implements Parser<List<Message>> {
 
 	private String getTotalAmount(String content, Order order) {
 		String totalAmount = "";
+		EmailAttribute attribute = null;
 		if(StringUtils.isNotEmpty(content)) {
-			if(content.contains(EmailAttribute.PREPAID.getName())) {
-				order.setPaymentType(EmailAttribute.PREPAID.getName());
-				totalAmount = getAttributeValues(content, EmailAttribute.PREPAID, EmailAttribute.ZOMATO_FOOTER);
-			}
-			else if(content.contains(EmailAttribute.COD.getName())) {
-				order.setPaymentType(EmailAttribute.COD.getName());
-				totalAmount = getAttributeValues(content, EmailAttribute.COD, EmailAttribute.ZOMATO_FOOTER);
+			attribute = (content.contains(EmailAttribute.PREPAID.getName()) ? EmailAttribute.PREPAID : 
+					(content.contains(EmailAttribute.COD.getName()) ? EmailAttribute.COD:null));
+			order.setPaymentType(attribute.getName());
+			if(content.contains(EmailAttribute.CASH_TO_BE_COLLECTED_FROM.getName())) {
+				totalAmount = getAttributeValues(content, attribute, EmailAttribute.CASH_TO_BE_COLLECTED_FROM);
+			} else {
+				totalAmount = getAttributeValues(content, attribute, EmailAttribute.ZOMATO_FOOTER);
 			}
 		}
 		return totalAmount.trim();
@@ -117,7 +118,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 				continue;
 			}
 			String quantity = StringUtils.trim((str.split(ESCAPE+PIPE_DELIM)[1]).split("x")[0].replace("(", ""));
-			String dpReceivedTotalPricePerItem = StringUtils.trim(str.split(ESCAPE+PIPE_DELIM)[2]).replaceAll("₹", "");
+			String dpReceivedTotalPricePerItem = StringUtils.trim(str.split(ESCAPE+PIPE_DELIM)[2]).replaceAll(RUPEE_UNICODE, "");
 			Double dpReceivedUnitPrice = (Double.parseDouble(dpReceivedTotalPricePerItem)/Integer.parseInt(quantity));
 			OrderItem orderItem = new OrderItem();
 			orderItem.setQuantity(Integer.parseInt(quantity));
