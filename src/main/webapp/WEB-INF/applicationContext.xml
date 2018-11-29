@@ -32,9 +32,32 @@
 			<value>
 				hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
 				hibernate.show_sql=false
+				connection.autoReconnect=true
+				connection.autoReconnectForPools=true
+				connection.is-connection-validation-required=true
 			</value>
 		</property>
 	</bean>
+	
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactory" scope="singleton" />
+		
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" rollback-for="Throwable" />
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config proxy-target-class="false">
+		<aop:pointcut id="serviceMethods"
+			expression="execution(* com.dpconsole.service.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
+	</aop:config>
+
+	<aop:aspectj-autoproxy />
 
 	<!-- DAO Object Definitions -->
 
