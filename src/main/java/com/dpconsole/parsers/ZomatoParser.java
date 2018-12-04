@@ -75,7 +75,6 @@ public class ZomatoParser implements Parser<List<Message>> {
 				long end = System.currentTimeMillis();
 				long turnAroundTime = end - start;
 				logger.info("Turn Around Time for parsing for orderId: "+orderId+" "+turnAroundTime+" ms");
-				//logger.info("orderId: " +orderId.trim()+" date: "+dateStr.trim()+" totalAmount: "+totalAmount);
 			}catch(Exception e) {
 				logger.error("Exception occured :", e);
 			}

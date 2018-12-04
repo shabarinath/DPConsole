@@ -52,14 +52,14 @@ TABLE.displayTableReport td a:hover {text-decoration: underline;}
 .sortable a:hover { text-decoration:underline !important; }
 
 .sortable.sorted.order1{
-	/*background-image:url(/img/arrow_down.gif);*/
+	/*background-image:url(../img/arrow_down.gif);*/
 	background-position:right;	
 	background-repeat:no-repeat;
 	border-bottom: 1px solid #5E9FCB;
 }
 
 .sortable.sorted.order2{
-	/*background-image:url(/img/arrow_up.gif);*/
+	/*background-image:url(../img/arrow_up.gif);*/
 	background-position:right;	
 	background-repeat:no-repeat;	
 }
@@ -126,19 +126,19 @@ TABLE.displayTableReport td a:hover {text-decoration: underline;}
 }
 
 .displayTable th.sortable:hover{
-	background:url(/img/table/selected_heading_row_down.gif) right no-repeat;
+	background:url(../img/table/selected_heading_row_down.gif) right no-repeat;
 }
 .displayTable th.order2:hover{
-	background:url(/img/table/selected_heading_row_up.gif) right no-repeat;
+	background:url(../img/table/selected_heading_row_up.gif) right no-repeat;
 }
 .displayTable th.order1{
-	background:url(/img/table/selected_heading_row_down.gif) right no-repeat;
+	background:url(../img/table/selected_heading_row_down.gif) right no-repeat;
 	height:32px;
 	border-right:1px solid #ccc;
 	padding:4px 8px;
 }
 .displayTable th.order2{
-	background:url(/img/table/selected_heading_row_up.gif) right no-repeat;
+	background:url(../img/table/selected_heading_row_up.gif) right no-repeat;
 	height:32px;
 	border-right:1px solid #ccc;
 	padding:4px 8px;
@@ -164,7 +164,7 @@ TABLE.displayTableReport td a:hover {text-decoration: underline;}
 	position:relative;
 }
 .export-select .select-left {
-	background:url("/img/table/export.png") no-repeat scroll 0 -10px transparent;
+	background:url("../img/table/export.png") no-repeat scroll 0 -10px transparent;
 	display:block;
 	height:100%;
 	left:0;
@@ -174,7 +174,7 @@ TABLE.displayTableReport td a:hover {text-decoration: underline;}
 	width:3px;
 }
 .export-select .select-right {
-	background:url("/img/table/export.png") no-repeat scroll 0 -110px transparent;
+	background:url("../img/table/export.png") no-repeat scroll 0 -110px transparent;
 	height:100%;
 	position:absolute;
 	right:0;
@@ -182,7 +182,7 @@ TABLE.displayTableReport td a:hover {text-decoration: underline;}
 	width:20px;
 }
 .export-select .select-middle {
-	background:url("/img/table/export_center.png") repeat-x scroll 0 -10px transparent;
+	background:url("../img/table/export_center.png") repeat-x scroll 0 -10px transparent;
 	color:#676D70;
 	display:block;
 	font:11px/19px Tahoma,Helvetica,sans-serif;
@@ -276,13 +276,13 @@ table tr td.middle {
 	margin: 3px 0px 0px 3px;
 }
 .previousArrowIcon {
-	background: url(/img/glyphicons-halflings.png) no-repeat -28px -165px;
+	background: url(../img/glyphicons-halflings.png) no-repeat -28px -165px;
 	float: left;
 	width: 6px;
 	height: 11px;
 }
 .nextArrowIcon {
-	background: url(/img/glyphicons-halflings.png) no-repeat -4px -165px;
+	background: url(../img/glyphicons-halflings.png) no-repeat -4px -165px;
 	float: left;
 	width: 6px;
 	height: 11px;
@@ -411,10 +411,10 @@ h2 .mainTableHead_right select{
 	border-bottom: 0;
 } 
 .mainTableOuterDiv .table thead th.selectedBottom a, .mainTableOuterDiv .table .sortable.sorted.order1 a {
-    background: url("/img/sorting_arrows.png") no-repeat scroll right bottom transparent;
+    background: url("../img/sorting_arrows.png") no-repeat scroll right bottom transparent;
 }
 .mainTableOuterDiv .table thead th.selectedUp a, .mainTableOuterDiv .table .sortable.sorted.order2 a {
-    background: url("/img/sorting_arrows.png") no-repeat scroll right top transparent;
+    background: url("../img/sorting_arrows.png") no-repeat scroll right top transparent;
 }
 .mainTableOuterDiv .table thead th a {
     display: block;
@@ -556,7 +556,7 @@ TABLE.displayTable td a:hover {text-decoration: underline;}
 	background: #BDD0DA;
 	color: #414141;
 	height:24px;
-	background: #fafafa url(/img/table/fhbg.gif) repeat-x bottom;
+	background: #fafafa url(../img/table/fhbg.gif) repeat-x bottom;
 	border: 1px solid #ccc;
 	border-bottom: 0px;
 	

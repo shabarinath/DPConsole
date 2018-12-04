@@ -26,3 +26,5 @@ Discussion regarding order status
 8) Parse zomato mail time as order time (done)
 9) zomato emails time based support also (done)
 10) Validate all timezone conversions 
+11) show items details in orders listing page
+12) Add kitchen in gmail parsing page

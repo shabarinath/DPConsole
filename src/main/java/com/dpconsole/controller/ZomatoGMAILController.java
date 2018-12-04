@@ -59,7 +59,11 @@ public class ZomatoGMAILController {
 	@RequestMapping(value = "/zomatoGmailAuto", method = RequestMethod.GET)
 	public String loadPage(Model model) throws Exception{
 		try {
-			return "parser/gmailAuto";
+			List<Kitchen> kitchens = kitchenService.getAllKitchens();
+			model.addAttribute("kitchens", kitchens);
+			model.addAttribute("deliveryPartners", DeliveryPartner.values());
+			model.addAttribute("headerValue", "Zomato Email Parser");
+			return "orders/layout";
 		} catch(Exception e) {
 			logger.error("Unable to load Gmail Auto Page!! .", e);
 			throw e;
@@ -69,17 +73,17 @@ public class ZomatoGMAILController {
 	@RequestMapping(value = "/processZomatoOrders", method = RequestMethod.GET)
 	@ResponseBody
 	public String dashboard(Model model,
+			@RequestParam("kitchenId") long kitchenId,
 			@RequestParam("startTime") String startTime,
 			@RequestParam("endTime") String endTime) throws Exception{
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		try {
 			ResponseObj obj = new ResponseObj();
-			if (validateFormDataData(startTime, endTime, obj)) {
+			if (validateFormDataData(startTime, endTime, obj, kitchenId)) {
 				String json =  ow.writeValueAsString(obj);
 				return json;
 			}
 			ZomatoParser zomatoParser = new ZomatoParser();
-			Long kitchenId = 5L; //TODO: Fetch this from UI
 			MailService mailService = new MailService();
 			Date startDate = Utils.convertStringToDate(INPUT_DATE_FORMAT, startTime);
 			Date endDate = Utils.convertStringToDate(INPUT_DATE_FORMAT, endTime);
@@ -115,7 +119,7 @@ public class ZomatoGMAILController {
 		}
 	}
 
-	private boolean validateFormDataData(String startTime, String endTime, ResponseObj responseObj) throws JsonProcessingException, ParseException, java.text.ParseException {
+	private boolean validateFormDataData(String startTime, String endTime, ResponseObj responseObj, long kitchenId) throws JsonProcessingException, ParseException, java.text.ParseException {
 		if(StringUtils.isEmpty(startTime) || StringUtils.isEmpty(endTime)) {
 			responseObj.setStatus("Input cannot be empty!!");
 			responseObj.setError(true);
@@ -125,6 +129,11 @@ public class ZomatoGMAILController {
 		Date endDate = Utils.convertStringToDate("yyyy-MM-dd HH:mm", endTime);
 		if(startDate.after(endDate)) {
 			responseObj.setStatus("Error: EndDate should be greater than StartDate ");
+			responseObj.setError(true);
+			return true;
+		}
+		if(kitchenId<=0) {
+			responseObj.setStatus("Select Kitchen!!");
 			responseObj.setError(true);
 			return true;
 		}

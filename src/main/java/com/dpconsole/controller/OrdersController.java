@@ -49,7 +49,8 @@ public class OrdersController {
 			List<Kitchen> kitchens = kitchenService.getAllKitchens();
 			model.addAttribute("kitchens", kitchens);
 			model.addAttribute("deliveryPartners", DeliveryPartner.values());
-			return "orders/ordersLayout";
+			model.addAttribute("headerValue", "Order Details");
+			return "orders/layout";
 		} catch(Exception e) {
 			logger.error("Failed to load orders layout", e);
 			throw e;
