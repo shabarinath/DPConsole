@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.mail.Message;
 
@@ -51,11 +52,11 @@ public class ZomatoParser implements Parser<List<Message>> {
 			Order order = new Order();
 			orderId = getAttributeValues(content,EmailAttribute.ORDER_ID,EmailAttribute.Date);
 			dateStr = getOrderDate(content); //2018-11-21
-			Date orderedTime = Utils.convertStringToDate("yyyy-MM-dd", dateStr);
+			Date orderedTime = message.getReceivedDate();
 			setOrderItems(content, kitchenItems, order);
 			totalAmount = getTotalAmount(content, order).replaceAll(RUPEE_UNICODE, "");
 			order.setDeliveryPartner(DeliveryPartner.ZOMATO);
-			order.setOrderedTime(orderedTime);
+			order.setOrderedTime(Utils.convertDateToGMT(orderedTime, TimeZone.getDefault()));
 			order.setStatus("DELIVERED");
 			order.setDeliveryPartnerOrderId(orderId);
 			order.setKitchen(kitchen);
@@ -114,7 +115,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 			KitchenItem kitchenItem = kitchenItems.get(itemName);
 			if(StringUtils.isEmpty(itemName) || null == kitchenItem) {
 				order.setManualReview(true);
-				order.setManualReviewComments("Item Name: "+itemName+" kitchenObj: "+kitchenItem+" may be empty!!");
+				order.setManualReviewComments("Item Name: "+itemName+" missing!!");
 				continue;
 			}
 			String quantity = StringUtils.trim((str.split(ESCAPE+PIPE_DELIM)[1]).split("x")[0].replace("(", ""));

@@ -22,4 +22,5 @@ Discussion regarding order status
 4) Add column in orders table with the post commission amount paid, Delivery partner paid
 5) Secure links
 6) Test time based searching 
-4) Add column in orders table with the post commission amount paid, Delivery partner paid - DOne
+7) Add column in orders table with the post commission amount paid, Delivery partner paid - DOne
+8) Parse zomato mail time as order time

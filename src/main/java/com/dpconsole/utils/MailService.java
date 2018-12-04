@@ -49,8 +49,20 @@ public class MailService {
 		inbox.open(Folder.READ_ONLY);
 		SearchTerm rangeAndFromAddressFilter = prepareCriteriaQuery(stateDate, endDate, dpEmails);
 		Message[] messages = inbox.search(rangeAndFromAddressFilter);
+		messages = filterMessageByTime(messages, stateDate, endDate);
 		return messages;
 	 }
+
+	private Message[] filterMessageByTime(Message[] messages, Date stateDate, Date endDate) throws MessagingException {
+		List<Message> msgs = new ArrayList<Message>();
+		for(Message msg : messages) {
+			Date receivedDate = msg.getReceivedDate();
+			if(receivedDate.after(stateDate) && receivedDate.before(endDate)) {
+				msgs.add(msg);
+			}
+		}
+		return msgs.toArray(new Message[msgs.size()]);
+	}
 
 	private SearchTerm prepareCriteriaQuery(Date stateDate, Date endDate,
 			List<String> dpEmails) {
