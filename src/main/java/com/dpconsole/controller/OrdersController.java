@@ -43,7 +43,7 @@ public class OrdersController {
 	@Autowired
 	private OrderService orderService;
 
-	@RequestMapping(value = "/ordersLayout", method = RequestMethod.GET)
+	@RequestMapping(value = "/orderLayout", method = RequestMethod.GET)
 	public String loadPage(Model model) throws Exception{
 		try {
 			List<Kitchen> kitchens = kitchenService.getAllKitchens();

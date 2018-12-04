@@ -86,6 +86,7 @@ CREATE TABLE kitchens (
   mailbox_username VARCHAR(255) NOT NULL,    
   mailbox_password VARCHAR(255) NOT NULL,       
   active BOOLEAN NOT NULL DEFAULT 1,
+  mailbox_folder VARCHAR(255) NOT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY name_uk(name)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
@@ -151,7 +152,9 @@ CREATE TABLE orders (
   manual_review BOOLEAN NOT NULL DEFAULT 0,
   manual_review_comments TEXT DEFAULT NULL,
   payment_type VARCHAR(255) DEFAULT NULL,
-  active BOOLEAN NOT NULL DEFAULT 1,  
+  active BOOLEAN NOT NULL DEFAULT 1, 
+  restaurant_promo DOUBLE(10, 4) NOT NULL DEFAULT 0,
+  piggy_bank_coins DOUBLE(10, 4) NOT NULL DEFAULT 0, 
   PRIMARY KEY (id),
   UNIQUE KEY dp_order_id_uk(dp_order_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;

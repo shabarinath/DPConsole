@@ -16,7 +16,11 @@ public enum EmailAttribute {
 	COD("COD"),
 	CUSTOMIZE("Customize :"),
 	ZOMATO_FOOTER("Zomato Media Pvt. Ltd."),
-	CASH_TO_BE_COLLECTED_FROM("Cash to be collected from");
+	CASH_TO_BE_COLLECTED_FROM("Cash to be collected from"),
+	TAXES("Taxes"),
+	PIGGY_BANK_DISCOUNT("Discount using Piggybank Coins"),
+	ZOMATO_PROMO("Zomato Promo"),
+	QUANTITY("Quantity :");
 
 	private String name;
 

@@ -39,33 +39,46 @@ public class ZomatoParser implements Parser<List<Message>> {
 	public List<Order> parse(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, List<Message> messages) throws Exception {
 		List<Order> orders = new ArrayList<>();
 		for(Message message : messages) {
-			if(message == null) {
-				continue;
+			try {
+				if(message == null) {
+					continue;
+				}
+				long start = System.currentTimeMillis();
+				String content = ZomatoParser.getOrderContent(message);
+				if(StringUtils.isEmpty(content)) {
+					logger.info("content is empty");
+					continue;
+				}
+				String orderId=null;
+				String totalAmount = null; 
+				double restaurantPromo;
+				double piggybankCoins;
+				Order order = new Order();
+				orderId = getAttributeValues(content,EmailAttribute.ORDER_ID,EmailAttribute.Date);
+				order.setDeliveryPartnerOrderId(orderId);
+				Date orderedTime = message.getReceivedDate();
+				setOrderItems(content, kitchenItems, order);
+				restaurantPromo = getRestaurantPromo(content, order);
+				piggybankCoins = getPiggyBankCoins(content, order);
+				totalAmount = getTotalAmount(content, order);
+				order.setRestaurantPromo(restaurantPromo);
+				order.setPiggybankCoins(piggybankCoins);
+				order.setDeliveryPartner(DeliveryPartner.ZOMATO);
+				order.setOrderedTime(Utils.convertDateToGMT(orderedTime, TimeZone.getTimeZone("GMT")));
+				order.setStatus("DELIVERED");
+				order.setKitchen(kitchen);
+				order.setParsedTime(Utils.getSystemTimeInGMT());
+				order.setTotalCost(Double.parseDouble(totalAmount));
+				order.setDeliveryPartnerOrderId(orderId);
+				order.setKitchen(kitchen);
+				orders.add(order);
+				long end = System.currentTimeMillis();
+				long turnAroundTime = end - start;
+				logger.info("Turn Around Time for parsing for orderId: "+orderId+" "+turnAroundTime+" ms");
+				//logger.info("orderId: " +orderId.trim()+" date: "+dateStr.trim()+" totalAmount: "+totalAmount);
+			}catch(Exception e) {
+				logger.error("Exception occured :", e);
 			}
-			String content = ZomatoParser.getOrderContent(message);
-			if(StringUtils.isEmpty(content)) {
-				continue;
-			}
-			String orderId=null;
-			String dateStr=null;
-			String totalAmount = null;
-			Order order = new Order();
-			orderId = getAttributeValues(content,EmailAttribute.ORDER_ID,EmailAttribute.Date);
-			dateStr = getOrderDate(content); //2018-11-21
-			Date orderedTime = message.getReceivedDate();
-			setOrderItems(content, kitchenItems, order);
-			totalAmount = getTotalAmount(content, order).replaceAll(RUPEE_UNICODE, "");
-			order.setDeliveryPartner(DeliveryPartner.ZOMATO);
-			order.setOrderedTime(Utils.convertDateToGMT(orderedTime, TimeZone.getDefault()));
-			order.setStatus("DELIVERED");
-			order.setDeliveryPartnerOrderId(orderId);
-			order.setKitchen(kitchen);
-			order.setParsedTime(Utils.getSystemTimeInGMT());
-			order.setTotalCost(Double.parseDouble(totalAmount));
-			order.setDeliveryPartnerOrderId(orderId);
-			order.setKitchen(kitchen);
-			orders.add(order);
-			logger.info("orderId: " +orderId.trim()+" date: "+dateStr.trim()+" totalAmount: "+totalAmount);
 		}
 		return orders;
 
@@ -74,27 +87,38 @@ public class ZomatoParser implements Parser<List<Message>> {
 	private String getTotalAmount(String content, Order order) {
 		String totalAmount = "";
 		EmailAttribute attribute = null;
-		if(StringUtils.isNotEmpty(content)) {
-			attribute = (content.contains(EmailAttribute.PREPAID.getName()) ? EmailAttribute.PREPAID : 
+		try {
+			if(StringUtils.isNotEmpty(content)) {
+				attribute = (content.contains(EmailAttribute.PREPAID.getName()) ? EmailAttribute.PREPAID : 
 					(content.contains(EmailAttribute.COD.getName()) ? EmailAttribute.COD:null));
-			order.setPaymentType(attribute.getName());
-			if(content.contains(EmailAttribute.CASH_TO_BE_COLLECTED_FROM.getName())) {
-				totalAmount = getAttributeValues(content, attribute, EmailAttribute.CASH_TO_BE_COLLECTED_FROM);
-			} else {
-				totalAmount = getAttributeValues(content, attribute, EmailAttribute.ZOMATO_FOOTER);
+				order.setPaymentType(attribute.getName());
+				if(content.contains(EmailAttribute.CASH_TO_BE_COLLECTED_FROM.getName())) {
+					totalAmount = getAttributeValues(content, attribute, EmailAttribute.CASH_TO_BE_COLLECTED_FROM);
+				} else {
+					totalAmount = getAttributeValues(content, attribute, EmailAttribute.ZOMATO_FOOTER);
+				}
 			}
+		}catch(Exception e) {
+			setManualReviewDetail(order, "Total Amount Parsing Failed: ");
 		}
-		return totalAmount.trim();
+		return totalAmount.replaceAll(RUPEE_UNICODE, "").replaceAll(",", "").trim();
 	}
 
 	private void setOrderItems(String content, Map<String, KitchenItem> kitchenItems, Order order) {
 		String items = "";
 		if(StringUtils.isNotEmpty(content)) {
 			int beginIndex = content.indexOf(EmailAttribute.Date.getName())+EmailAttribute.Date.getName().length()+10;
-			if(content.contains(EmailAttribute.RESTUARANT_PROMO.getName())) {
+			if(content.contains(EmailAttribute.TAXES.getName())) {
+				int endIndex = content.indexOf(EmailAttribute.TAXES.getName());
+				items = content.substring(beginIndex, endIndex);
+			} else if(content.contains(EmailAttribute.RESTUARANT_PROMO.getName())) {
 				int endIndex = content.indexOf(EmailAttribute.RESTUARANT_PROMO.getName());
 				items = content.substring(beginIndex, endIndex);
-			} else if(content.contains(EmailAttribute.PAID_BY.getName())) {
+			} else if(content.contains(EmailAttribute.PIGGY_BANK_DISCOUNT.getName())) {
+				int endIndex = content.indexOf(EmailAttribute.PIGGY_BANK_DISCOUNT.getName());
+				items = content.substring(beginIndex, endIndex);
+			} 
+			else if(content.contains(EmailAttribute.PAID_BY.getName())) {
 				int endIndex = content.indexOf(EmailAttribute.PAID_BY.getName());
 				items = content.substring(beginIndex, endIndex);
 			}
@@ -107,15 +131,13 @@ public class ZomatoParser implements Parser<List<Message>> {
 		List<OrderItem> orderItems = new ArrayList<>();
 		for(String str : sanitizedItems) {
 			if(str.length()<3){
-				order.setManualReview(true);
-				order.setManualReviewComments("OrderId: "+order.getDeliveryPartnerOrderId());
+				setManualReviewDetail(order, "Reflow OrderId ");
 				continue;
 			}
 			String itemName = StringUtils.trim(str.split(ESCAPE+PIPE_DELIM)[0]);
 			KitchenItem kitchenItem = kitchenItems.get(itemName);
 			if(StringUtils.isEmpty(itemName) || null == kitchenItem) {
-				order.setManualReview(true);
-				order.setManualReviewComments("Item Name: "+itemName+" missing!!");
+				setManualReviewDetail(order, "Item Name: "+itemName+" missing!!");
 				continue;
 			}
 			String quantity = StringUtils.trim((str.split(ESCAPE+PIPE_DELIM)[1]).split("x")[0].replace("(", ""));
@@ -142,6 +164,8 @@ public class ZomatoParser implements Parser<List<Message>> {
 	private String sanitizeItemsContent(String itemsSection) {
 		if(itemsSection.contains(EmailAttribute.CUSTOMIZE.getName())) {
 			itemsSection = removeCustomizeBlock(itemsSection);
+		} else if(itemsSection.contains(EmailAttribute.QUANTITY.getName())) {
+			itemsSection = removeQuantityBlock(itemsSection);
 		}
 		String[] splittedStr = itemsSection.trim().replaceAll(NEW_LINE_REGEX, COMMA_DELIM).split(COMMA_DELIM);
 		StringBuffer itemsBuffer = new StringBuffer();
@@ -162,6 +186,18 @@ public class ZomatoParser implements Parser<List<Message>> {
 		return itemsBuffer.toString();
 	}
 
+	private String removeQuantityBlock(String itemsSection) {
+		if(StringUtils.isNotEmpty(itemsSection)) {
+			String firstPart = itemsSection.split(EmailAttribute.QUANTITY.getName())[0];
+			String secondPart = itemsSection.split(EmailAttribute.QUANTITY.getName())[1];
+			if(secondPart.contains("]")) {
+				secondPart = secondPart.substring(secondPart.indexOf("]"), secondPart.length()).replaceAll("]", "");
+			}
+			return firstPart+secondPart;
+		}
+		return "";
+	}
+
 	/**
 	 * Returns items order block after
 	 * removing customize block.
@@ -180,22 +216,6 @@ public class ZomatoParser implements Parser<List<Message>> {
 	}
 
 	/**
-	 * Returns order date
-	 *
-	 * @param content
-	 * @return
-	 */
-	private String getOrderDate(String content) {
-		String date ="";
-		if(null != content && content.length() >0) {
-			int startIndex = content.indexOf(EmailAttribute.Date.getName());
-			int dateAttriLen = EmailAttribute.Date.getName().length();
-			date = StringUtils.substring(content, startIndex+dateAttriLen, startIndex+dateAttriLen+10);
-		}
-		return date;
-	}
-
-	/**
 	 * Returns element value base on
 	 * predecessor and successor elements
 	 *
@@ -209,7 +229,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 		if(null != content && content.length() >0) {
 			attributeValue = StringUtils.substringBetween(content, matcher.getName(), succeeding.getName());
 		}
-		return attributeValue.trim();
+		return (attributeValue != null) ?attributeValue.trim():attributeValue;
 	}
 
 	private static String getOrderContent(Message message) throws Exception {
@@ -221,5 +241,51 @@ public class ZomatoParser implements Parser<List<Message>> {
 			content = (index>0) ? content.substring(index):"";
 		}
 		return content;
+	}
+	
+	private double getPiggyBankCoins(String content, Order order) {
+		double piggyBankCoins=0;
+		try {
+			if(StringUtils.isNotEmpty(content) && content.contains(EmailAttribute.PIGGY_BANK_DISCOUNT.getName())) {
+				String piggyBankCoinsStr = getAttributeValues(content, EmailAttribute.PIGGY_BANK_DISCOUNT, EmailAttribute.PAID_BY)
+						.replaceAll("\\(", "").replaceAll("\\)", "").replaceAll(RUPEE_UNICODE, "").replaceAll(",", "");
+				piggyBankCoins = Double.parseDouble(piggyBankCoinsStr);
+			}
+		}catch(Exception e) {
+			setManualReviewDetail(order, "Piggy Bank Coins error!!");
+			logger.error("Exception while parsing restaurant promo reason: ", e);
+		}
+		return piggyBankCoins;
+	}
+
+	private double getRestaurantPromo(String content, Order order) {
+		double restaurantPromo = 0;
+		String promoStr = "";
+		if(StringUtils.isNotEmpty(content)) {
+			try {
+				if(content.contains(EmailAttribute.ZOMATO_PROMO.getName())) {
+					promoStr = getAttributeValues(content, EmailAttribute.RESTUARANT_PROMO, EmailAttribute.ZOMATO_PROMO);
+				} else if(content.contains(EmailAttribute.PIGGY_BANK_DISCOUNT.getName())) {
+					promoStr = getAttributeValues(content, EmailAttribute.RESTUARANT_PROMO, EmailAttribute.PIGGY_BANK_DISCOUNT);
+				} else if(content.contains(EmailAttribute.PAID_BY.getName())) {
+					promoStr = getAttributeValues(content, EmailAttribute.RESTUARANT_PROMO, EmailAttribute.PAID_BY);
+				}
+				if(StringUtils.isNotEmpty(promoStr)) {
+					promoStr = promoStr.replaceAll("\\(", "").replaceAll("\\)", "").replaceAll(RUPEE_UNICODE, "").replaceAll(",", "");
+					restaurantPromo = Double.parseDouble(promoStr);
+				}
+			}catch(Exception e) {
+				setManualReviewDetail(order, "Restaurant promo parsing error!!");
+				logger.error("Exception while parsing restaurant promo reason: ", e);
+			}
+		}
+		return restaurantPromo;
+	}
+	
+	private void setManualReviewDetail(Order ord, String comments) {
+		ord.setManualReview(true);
+		StringBuffer cmts = new StringBuffer(ord.getDeliveryPartnerOrderId()+" : "+ord.getManualReviewComments().toString());
+		cmts.append(" | ").append(comments);
+		ord.setManualReviewComments(cmts.toString());
 	}
 }

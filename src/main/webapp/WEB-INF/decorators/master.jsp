@@ -124,7 +124,7 @@
                         </ul>
                       </li>
 					  <li>
-                        <a href="/ordersLayout">Orders</a>
+                        <a href="/orderLayout">Orders</a>
                         <!-- <ul class="dropdown-menu">
                           <li><a href="portfolio-2cols.html">Portfolio 2 columns</a></li>
                           <li><a href="portfolio-3cols.html">Portfolio 3 columns</a></li>

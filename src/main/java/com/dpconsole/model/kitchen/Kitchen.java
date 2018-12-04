@@ -37,6 +37,7 @@ public class Kitchen extends Persistent {
 	private String name;
 	private String mailBoxUserName;
 	private String mailBoxPassword;
+	private String mailBoxFolder;
 	private List<KitchenDeliveryPartner> supportedDeliveryPartners;
 	private boolean active = true;
 
@@ -90,7 +91,13 @@ public class Kitchen extends Persistent {
 		}
 		return null;
 	}
-
+	@Column(name="mailbox_folder")
+	public String getMailBoxFolder() {
+		return mailBoxFolder;
+	}
+	public void setMailBoxFolder(String mailBoxFolder) {
+		this.mailBoxFolder = mailBoxFolder;
+	}
 	@Override
 	public String toString() {
 		return "Kitchen [name=" + name + ", mailBoxUserName=" + mailBoxUserName

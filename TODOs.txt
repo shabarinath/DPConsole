@@ -23,4 +23,6 @@ Discussion regarding order status
 5) Secure links
 6) Test time based searching 
 7) Add column in orders table with the post commission amount paid, Delivery partner paid - DOne
-8) Parse zomato mail time as order time
+8) Parse zomato mail time as order time (done)
+9) zomato emails time based support also (done)
+10) Validate all timezone conversions 

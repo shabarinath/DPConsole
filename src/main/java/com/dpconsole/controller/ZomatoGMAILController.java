@@ -68,45 +68,50 @@ public class ZomatoGMAILController {
 	
 	@RequestMapping(value = "/processZomatoOrders", method = RequestMethod.GET)
 	@ResponseBody
-	public String dashboard(
+	public String dashboard(Model model,
 			@RequestParam("startTime") String startTime,
 			@RequestParam("endTime") String endTime) throws Exception{
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		try {
-			ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 			ResponseObj obj = new ResponseObj();
 			if (validateFormDataData(startTime, endTime, obj)) {
 				String json =  ow.writeValueAsString(obj);
 				return json;
 			}
 			ZomatoParser zomatoParser = new ZomatoParser();
-			Long kitchenId = 1L; //TODO: Fetch this from UI
+			Long kitchenId = 5L; //TODO: Fetch this from UI
 			MailService mailService = new MailService();
 			Date startDate = Utils.convertStringToDate(INPUT_DATE_FORMAT, startTime);
 			Date endDate = Utils.convertStringToDate(INPUT_DATE_FORMAT, endTime);
 			Kitchen kitchen = kitchenService.getKitchenById(kitchenId);
 			String userName = kitchen.getMailBoxUserName();
 			String password = kitchen.getMailBoxPassword();
+			String mailBoxFolder = kitchen.getMailBoxFolder();
 			KitchenDeliveryPartner kdp = kitchen.getSupportedDeliveryPartner(DeliveryPartner.ZOMATO);
 			String dpEmailIds = (kdp!=null)?kdp.getEmailIds():null;
 			if(!StringUtils.isNoneEmpty(userName, password, dpEmailIds)) {
 				String json = ow.writeValueAsString(new ResponseObj("Configuration Error: UserName, Password or EmailIds are not configured!!", true));
 				return json;
 			}
-			Message[] messages = mailService.getMessagesWithCriteria(userName, password, Arrays.asList(dpEmailIds.split(",")), "", startDate, endDate);
+			long start = System.currentTimeMillis();
+			Message[] messages = mailService.getMessagesWithCriteria(userName, password, Arrays.asList(dpEmailIds.split(",")), "", startDate, endDate, mailBoxFolder);
+			long end = System.currentTimeMillis();
+			long turnAroundTime = end - start;
+			logger.info("Turn Around Time for fetching emails: "+turnAroundTime+" ms");
 			Map<String, KitchenItem> kitchenItems = kitchenService.getAllKitchenItems(kitchenId);
 			List<Order> orders = zomatoParser.parse(kitchen, kitchenItems, Arrays.asList(messages));
 			for(Order order: orders) {
 				try {
 					orderService.saveOrUpdateOrder(order);
 				} catch(DataIntegrityViolationException  e) {
-					logger.error("Duplicate processing of orders!!!");
-					return ow.writeValueAsString(new ResponseObj("Duplicate processing of orders!!!", true));
+					logger.error("Duplicate processing of orders!!! "+order.getDeliveryPartnerOrderId());
+					/*return ow.writeValueAsString(new ResponseObj("Duplicate processing of orders!!!", true));*/
 				}
 			}
 			return ow.writeValueAsString(new ResponseObj("Processed "+messages.length+" Zomato orders!!", false));
 		} catch(Exception e) {
-			logger.error("Unable to load Gmail Auto Page!! .", e);
-			throw e;
+			logger.error("Exception while parsing!!! .", e);
+			return ow.writeValueAsString(new ResponseObj("Exception while processing!!!", true));
 		}
 	}
 

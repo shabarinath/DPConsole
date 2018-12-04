@@ -46,6 +46,8 @@ public class Order extends Persistent {
 	private String notes;
 	private boolean manualReview;
 	private String manualReviewComments = "";
+	private double restaurantPromo;
+	private double piggybankCoins;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name = "order_id", nullable = false)
@@ -180,7 +182,20 @@ public class Order extends Persistent {
 	public void addReviewComment(String comment) {
 		this.manualReviewComments += (comment + "; ");
 	}
-
+	@Column(name = "restaurant_promo")
+	public double getRestaurantPromo() {
+		return restaurantPromo;
+	}
+	@Column(name = "piggy_bank_coins")
+	public double getPiggybankCoins() {
+		return piggybankCoins;
+	}
+	public void setRestaurantPromo(double restaurantPromo) {
+		this.restaurantPromo = restaurantPromo;
+	}
+	public void setPiggybankCoins(double piggybankCoins) {
+		this.piggybankCoins = piggybankCoins;
+	}
 	@Override
 	public String toString() {
 		return "Order [orderItems=" + orderItems + ", kitchen=" + kitchen

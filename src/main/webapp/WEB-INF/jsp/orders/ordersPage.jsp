@@ -78,7 +78,7 @@
 				<display:column title="Kitchen" sortable="true" property="kitchen.name" escapeXml="true" sortName="o.kitchen.name" />
 				<display:column title="Deliver Partner" sortable="true" property="deliveryPartner" escapeXml="true" sortName="o.deliveryPartner"/>
 				<display:column title="Order Time" sortable="true" escapeXml="true" property="orderedTime" sortName="o.orderedTime" />
-				<display:column title="Total" sortable="true" escapeXml="true" property="totalCost" sortName="o.totalCost" />
+				<display:column title="Total" sortable="true" escapeXml="false" sortName="o.totalCost" >&#8377; ${order.totalCost}</display:column>
 				<display:column title="DP Paid" sortable="false" escapeXml="true">0</display:column>
 			</display:table>
 		</ajax:displayTag>

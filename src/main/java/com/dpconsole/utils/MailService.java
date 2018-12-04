@@ -19,6 +19,11 @@ import javax.mail.search.OrTerm;
 import javax.mail.search.ReceivedDateTerm;
 import javax.mail.search.SearchTerm;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.dpconsole.parsers.ZomatoParser;
+
 /**
  * @author SHABARINATH
  * 23-Nov-2018 5:55:43 pm 2018 
@@ -26,11 +31,12 @@ import javax.mail.search.SearchTerm;
 
 public class MailService {
 	 private static final String protocol = "imaps";
-	 private static final String folder="inbox";
 	 private static final String host = "imap.gmail.com";
 	 Folder inbox = null;
 	 Store store = null;
 	 Properties props = null;
+	 
+	 private static final Logger logger = LoggerFactory.getLogger(ZomatoParser.class);
 	 
 	 @PostConstruct
 	 private void init() {
@@ -39,13 +45,13 @@ public class MailService {
 	 }
 	 
 	public Message[] getMessagesWithCriteria(String email, String password, List<String> dpEmails, 
-		String subject, Date stateDate, Date endDate) throws MessagingException, ParseException{
+		String subject, Date stateDate, Date endDate, String mailBoxFolder) throws MessagingException, ParseException{
 		props = new Properties();
 		props.put("mail.store.protocol", protocol);
 	 	Session session = Session.getDefaultInstance(props, null);
 		store = session.getStore(protocol);
 		store.connect(host, email,password);
-		inbox = store.getFolder(folder);
+		inbox = store.getFolder(mailBoxFolder);
 		inbox.open(Folder.READ_ONLY);
 		SearchTerm rangeAndFromAddressFilter = prepareCriteriaQuery(stateDate, endDate, dpEmails);
 		Message[] messages = inbox.search(rangeAndFromAddressFilter);
@@ -69,13 +75,20 @@ public class MailService {
 		SearchTerm newerThan = new ReceivedDateTerm(ComparisonTerm.GE, stateDate);
 		SearchTerm olderThan = new ReceivedDateTerm(ComparisonTerm.LE, endDate);
 		SearchTerm andTerm = new AndTerm(olderThan, newerThan);
-		ArrayList<FromStringTerm> fromAddressSearchTermList = new ArrayList<FromStringTerm>(); 
-		for(String dpOrdersEmail: dpEmails) {
-			fromAddressSearchTermList.add(new FromStringTerm(dpOrdersEmail));
+		ArrayList<FromStringTerm> fromAddressSearchTermList = new ArrayList<FromStringTerm>();
+		SearchTerm fromAddressTerm =  null;
+		OrTerm orTerm = null;
+		if(dpEmails.size() ==1) {
+			fromAddressTerm = new FromStringTerm(dpEmails.get(0));
+		} else {
+			for(String dpOrdersEmail: dpEmails) {
+				fromAddressSearchTermList.add(new FromStringTerm(dpOrdersEmail));
+			}
+			orTerm = new OrTerm(fromAddressSearchTermList.toArray(
+					new FromStringTerm[fromAddressSearchTermList.size()]));
 		}
-		OrTerm orTerm = new OrTerm(fromAddressSearchTermList.toArray(
-				new FromStringTerm[fromAddressSearchTermList.size()]));
-		SearchTerm rangeAndFromAddressFilter = new AndTerm(andTerm, orTerm);
+		SearchTerm rangeAndFromAddressFilter = fromAddressTerm != null ? new AndTerm(andTerm, fromAddressTerm) :
+			new AndTerm(andTerm, orTerm);
 		return rangeAndFromAddressFilter;
 	}
 	
