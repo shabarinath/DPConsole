@@ -236,6 +236,7 @@ table tr td.middle {
 	padding: 4px;
 	overflow: hidden;
 	background: #f1f1f1;
+	float:right;
 }
 .pageNavigation {
 	float: right;

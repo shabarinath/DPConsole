@@ -3,7 +3,7 @@
 <section id="intro">
     <div class="container">
 		<h2>
-			<span class="highlight primary text-info">${headerValue}</span>
+			<span class="highlight primary text-info btn-rounded">${headerValue}</span>
 		</h2>
 		<div class="control-group">		
 			<div class="controls" style="position: relative">
