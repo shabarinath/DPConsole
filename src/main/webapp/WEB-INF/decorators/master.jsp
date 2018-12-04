@@ -41,6 +41,7 @@
 <link rel="stylesheet" href="<c:url value="/resources/css/refineslide-theme-dark.css"/>">
 <link rel="stylesheet" href="<c:url value="/resources/css/refineslide-theme-dark.css"/>">
 <link rel="stylesheet" href="<c:url value="/resources/color/default.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/css/table.css"/>">
 <link rel="stylesheet" href="<c:url value="/resources/js/google-code-prettify/prettify.css"/>">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"/>
@@ -52,7 +53,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/modernizr.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.easing.1.3.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/google-code-prettify/prettify.js"/>">
+<script type="text/javascript" src="<c:url value="/resources/js/google-code-prettify/prettify.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/bootstrap.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.prettyPhoto.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/portfolio/jquery.quicksand.js"/>"></script>
@@ -64,6 +65,8 @@
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.refineslide.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.ui.totop.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/custom.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/common.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/wrapper.js"/>"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>  
 <decorator:head />
@@ -121,7 +124,7 @@
                         </ul>
                       </li>
 					  <li>
-                        <a href="/orders">Orders</a>
+                        <a href="/ordersLayout">Orders</a>
                         <!-- <ul class="dropdown-menu">
                           <li><a href="portfolio-2cols.html">Portfolio 2 columns</a></li>
                           <li><a href="portfolio-3cols.html">Portfolio 3 columns</a></li>
@@ -177,7 +180,7 @@
   </header>
 </head>
 <body>
-<div class="container">
+<div class="container" id = "containerBody">
 	<decorator:body /> 								
 </div>
 	<!-- Footer

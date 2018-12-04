@@ -65,7 +65,7 @@ public class OrderDaoImpl extends DaoImpl implements OrderDao {
 
 		StringBuffer countQuery = new StringBuffer("SELECT COUNT(*) ").append(queryString);
 		if(Utils.isEmpty(sortName)) {
-			sortName = "o.kitchen.id, o.orderedTime";
+			sortName = "o.orderedTime";
 		}
 
 		queryString.append(" ORDER BY " + sortName + (isDecendingOrder ? " desc" : " asc"));

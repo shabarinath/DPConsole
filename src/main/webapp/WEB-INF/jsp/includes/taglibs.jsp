@@ -6,3 +6,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
+<%@ taglib prefix="ajax" uri="http://ajaxtags.sourceforge.net/tags/ajaxtags" %>
+<%@ taglib prefix="dp" uri="/dp.tld" %>

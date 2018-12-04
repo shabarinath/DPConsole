@@ -4,9 +4,9 @@
     <div class="container">
 		<div class="control-group">		
 			<div class="controls" style="position: relative">
-				<span style="margin-left:10px;"/>		
+				<span style="margin-left:10px;"></span>	
 				<input type="text" id="startTime" placeholder="Start Time"/> 
-				<span style="margin-left:3px;"/>				
+				<span style="margin-left:3px;"></span>				
 				<input type="text" id="endTime" placeholder="End Time"/>
 				<select id="kitchens">				
 					<option value="0">All</option>
@@ -49,7 +49,7 @@ $("#submit").click(function() {
 	} else {
 		$.ajax({
 		type: "GET",
-		url: "/getOrderDetails?startTime="+startTime+"&endTime="+endTime+"&kitchenId="+kitchenId+"&deliveryPartner="+deliveryPartner,	
+		url: "/orders?startTime="+startTime+"&endTime="+endTime+"&kitchenId="+kitchenId+"&deliveryPartner="+deliveryPartner,	
 		contentType: "application/json",
 		dataType: "html",
 		success: function(response) {				

@@ -16,7 +16,7 @@ import java.util.List;
 import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.order.Order;
 import com.dpconsole.model.order.OrderItem;
-import com.dpconsole.parsers.SwiggyParser;
+import com.dpconsole.parsers.FoodPandaParser;
 
 /**
  * @author nanda.malve
@@ -25,10 +25,10 @@ import com.dpconsole.parsers.SwiggyParser;
 public class CSVParserTest {
 
 	public static void main(String ars[]) throws Exception {
-		SwiggyParser fpp = new SwiggyParser();
-		List<Order> orders = fpp.parse(new Kitchen(), new HashMap<>(), "src/test/java/com/dpConsole/FOOD-FOR-U-SWIGGY.csv");
-		//FoodPandaParser fpp = new FoodPandaParser();
-		//List<Order> orders = fpp.parse(new Kitchen(), new HashMap<>(), "src/test/java/com/dpConsole/FOOD-PANDA.csv");
+		//SwiggyParser fpp = new SwiggyParser();
+		//List<Order> orders = fpp.parse(new Kitchen(), new HashMap<>(), "src/test/java/com/dpConsole/FOOD-FOR-U-SWIGGY.csv");
+		FoodPandaParser fpp = new FoodPandaParser();
+		List<Order> orders = fpp.parse(new Kitchen(), new HashMap<>(), "src/test/java/com/dpConsole/FOOD-PANDA.csv");
 		for(Order o : orders) {
 			System.out.println(o.toString());
 			if(o.getOrderItems() == null) {

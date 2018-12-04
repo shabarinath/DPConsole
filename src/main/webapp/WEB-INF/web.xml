@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+<web-app
+	version="3.0"
+	xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+						http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	>
+	
+	<display-name>DP Console</display-name>
+    <description>Delivery Partner Console for Restuarants</description>
 
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			/WEB-INF/applicationContext.xml,
-			/WEB-INF/spring-security.xml,	
+			/WEB-INF/applicationContext.xml
+			/WEB-INF/spring-security.xml
 		</param-value>
 	</context-param>
 	
@@ -41,7 +48,7 @@
 	</filter-mapping>
 	
 	<filter>
-        <filter-name>mspHibernateFilter</filter-name>
+        <filter-name>openSessionFilter</filter-name>
         <filter-class>
             org.springframework.orm.hibernate3.support.OpenSessionInViewFilter
         </filter-class>
@@ -52,7 +59,7 @@
     </filter>
     
    	<filter-mapping>
-		<filter-name>mspHibernateFilter</filter-name>
+		<filter-name>openSessionFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
@@ -72,20 +79,52 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
-	<!-- <filter>
-	   <filter-name>openSessionInViewFilter</filter-name>
-	   <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
-	   <init-param>
-	        <param-name>sessionFactoryBeanName</param-name>
-	        <param-value>sessionFactory</param-value>
-	   </init-param>
-	</filter>
+	<session-config>
+        <session-timeout>120</session-timeout>
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
+    
+    <jsp-config>
+        <!-- Tag libraries -->
+		<taglib>
+			<taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/c.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://java.sun.com/jsp/jstl/fmt</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/fmt.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://java.sun.com/jsp/jstl/functions</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/fn.tld</taglib-location>
+		</taglib>
 	
-	<filter-mapping>
-	        <filter-name>openSessionInViewFilter</filter-name>
-	        <url-pattern>/*</url-pattern>
-	</filter-mapping>
-		 -->
+		<taglib>
+			<taglib-uri>http://www.springframework.org/tags</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/spring.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://www.springframework.org/tags/form</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/spring-form.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://ajaxtags.sourceforge.net/tags/ajaxtags</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/ajaxtags.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://www.atg.com/taglibs/json</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/json.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://displaytag.sf.net</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/displaytag.tld</taglib-location>
+		</taglib>
+	    <taglib>
+	        <taglib-uri>/dp.tld</taglib-uri>
+	        <taglib-location>/WEB-INF/tlds/dp.tld</taglib-location>
+	    </taglib>
+	</jsp-config>
+	
 	<filter>
 	    <filter-name>sitemesh</filter-name>
 	    <filter-class>
@@ -97,5 +136,19 @@
 	    <filter-name>sitemesh</filter-name>
 	    <url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	<filter>
+      <filter-name>ResponseOverrideFilter</filter-name>
+      <filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+      <filter-name>ResponseOverrideFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <welcome-file-list>
+        <welcome-file>/</welcome-file>
+    </welcome-file-list>
 
 </web-app>

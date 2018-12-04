@@ -9,6 +9,16 @@ function submitForm(formName, param, divId) {
 	return post(formName, divId);
 };
 
+function postSearchForm(formName, searchId, divId, defVal) {
+	var value = trim($("#" + searchId).val());
+	if ((value == 'Search here') || (value == 'Search By Name')|| (value == defVal)) {
+		$("#" + searchId).val('');
+	}
+	document.forms[formName].appendChild(createHiddenElement('fromSearch',
+			'fromSearch', 'fromSearch'));
+	return post(formName, divId);
+};
+
 function createHiddenElement(name, value, id) {
 	var field = document.createElement("input");
 	field.setAttribute("type", "hidden");
