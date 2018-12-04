@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -40,13 +41,15 @@ public class Order extends Persistent {
 	private String status;
 	private String paymentType;
 	private double totalCost;
+	private double postCommissionAmount;
+	private double dpReceivedPrice;
 	private String notes;
 	private boolean manualReview;
 	private String manualReviewComments = "";
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name = "order_id", nullable = false)
-	/*@OrderColumn(name = "list_index")*/
+	@OrderColumn(name = "list_index")
 	public List<OrderItem> getOrderItems() {
 		return orderItems;
 	}
@@ -128,6 +131,22 @@ public class Order extends Persistent {
 	}
 	public void setTotalCost(double totalCost) {
 		this.totalCost = totalCost;
+	}
+
+	@Column(name = "post_commission_amount")
+	public double getPostCommissionAmount() {
+		return postCommissionAmount;
+	}
+	public void setPostCommissionAmount(double postCommissionAmount) {
+		this.postCommissionAmount = postCommissionAmount;
+	}
+
+	@Column(name = "dp_received_price")
+	public double getDpReceivedPrice() {
+		return dpReceivedPrice;
+	}
+	public void setDpReceivedPrice(double dpReceivedPrice) {
+		this.dpReceivedPrice = dpReceivedPrice;
 	}
 
 	@Column(name = "manual_review")

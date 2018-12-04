@@ -32,13 +32,19 @@ import com.dpconsole.utils.Utils;
  */
 public abstract class CSVParser implements Parser<String> {
 
+	private CSVFormat format = CSVFormat.DEFAULT.withDelimiter(getDelimiter()).withHeader().withIgnoreHeaderCase();
+
+	private org.apache.commons.csv.CSVParser parser;
+
 	public abstract char getDelimiter();
 
 	public abstract int getSkipLinesCount();
 
-	private CSVFormat format = CSVFormat.DEFAULT.withDelimiter(getDelimiter()).withHeader().withIgnoreHeaderCase();
-
 	public abstract List<Order> parseRecords(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, List<CSVRecord> csvRecords);
+
+	org.apache.commons.csv.CSVParser getParser() {
+		return parser;
+	}
 
 	@Override
 	public List<Order> parse(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, String filePath) throws Exception {
@@ -60,7 +66,7 @@ public abstract class CSVParser implements Parser<String> {
 			reader.readLine();
 		}
 
-		org.apache.commons.csv.CSVParser parser = org.apache.commons.csv.CSVParser.parse(reader, format);
+		parser = org.apache.commons.csv.CSVParser.parse(reader, format);
 
 		return parser.getRecords();
 	}

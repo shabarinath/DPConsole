@@ -95,7 +95,6 @@ public class FoodPandaParser extends CSVParser {
 		String[] itemsArray = itemsStr.split(";");
 		int parsedCount = 0;
 		for(String itemStr : itemsArray) {
-			itemStr = itemStr.trim();
 			if(Utils.isEmpty(itemStr)) {
 				continue;
 			}
@@ -104,13 +103,13 @@ public class FoodPandaParser extends CSVParser {
 			OrderItem orderItem = new OrderItem();
 			int quantity = Integer.valueOf(item[0]);
 			orderItem.setQuantity(quantity);
+			orderItem.setDpReceivedPrice(0);
 			parsedCount += quantity;
 			KitchenItem kItem = kItems.get(item[1]);
 			if(kItem != null) {
 				orderItem.setKitchenItem(kItem);
 				orderItem.setManufacturingPrice(kItem.getManufacturingPrice());
 				orderItem.setMarketPrice(kItem.getMarketPrice());
-				orderItem.setDpReceivedPrice(0);
 			} else {
 				String comment = "Kitchen Item not found for " + item[1];
 				addReviewComment(logger, order, comment, null);
