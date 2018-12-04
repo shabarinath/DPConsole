@@ -14,6 +14,7 @@ import java.util.List;
 
 import com.dpconsole.model.PartialPage;
 import com.dpconsole.model.catalogue.Category;
+import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.kitchen.KitchenDiscount;
 import com.dpconsole.model.kitchen.KitchenItem;
 
@@ -30,5 +31,7 @@ public interface KitchenDao extends Dao {
 	PartialPage<KitchenDiscount> getKitchenDiscounts(long kitchenId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception;
 
 	List<KitchenItem> getAllKitchenItems(long kitchenId) throws Exception;
+
+	List<Kitchen> getAllKitchens() throws Exception;
 
 }

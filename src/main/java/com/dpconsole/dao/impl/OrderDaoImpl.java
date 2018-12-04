@@ -14,8 +14,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import com.dpconsole.dao.OrderDao;
 import com.dpconsole.model.PartialPage;
+import com.dpconsole.model.kitchen.DeliveryPartner;
 import com.dpconsole.model.order.Order;
 import com.dpconsole.utils.Utils;
 
@@ -27,7 +31,7 @@ public class OrderDaoImpl extends DaoImpl implements OrderDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public PartialPage<Order> getOrdersByCriteria(long kitchenId, long deliveryPartnerId, Date startCreatedTime,
+	public PartialPage<Order> getOrdersByCriteria(long kitchenId, String deliveryPartner, Date startCreatedTime,
 			Date endCreatedTime, String sortName, boolean isDecendingOrder, int pageNo, int pageSize)
 					throws Exception {
 		List<Object> queryParams = new ArrayList<>();
@@ -36,22 +40,32 @@ public class OrderDaoImpl extends DaoImpl implements OrderDao {
 			queryString.append(" WHERE o.kitchen.id = ? ");
 			queryParams.add(kitchenId);
 		}
-		if (deliveryPartnerId > 0) {
-			queryString.append(" WHERE o.deliveryPartner.id = ? ");
-			queryParams.add(deliveryPartnerId);
+		if (StringUtils.isNotEmpty(deliveryPartner)) {
+			if(CollectionUtils.isNotEmpty(queryParams)) {
+				queryString.append(" AND ");
+			} else {
+				queryString.append(" WHERE ");
+			}
+			queryString.append(" o.deliveryPartner= ? ");
+			queryParams.add(DeliveryPartner.valueOf(deliveryPartner));
 		}
 		if(startCreatedTime != null) {
-			queryString.append(" AND o.createdTime >= ?");
+			if(CollectionUtils.isNotEmpty(queryParams)) {
+				queryString.append(" AND ");
+			} else {
+				queryString.append(" WHERE ");
+			}
+			queryString.append(" o.orderedTime >= ?");
 			queryParams.add(startCreatedTime);
 		}
 		if(endCreatedTime != null) {
-			queryString.append(" AND o.createdTime <= ?");
+			queryString.append(" AND o.orderedTime <= ?");
 			queryParams.add(endCreatedTime);
 		}
 
 		StringBuffer countQuery = new StringBuffer("SELECT COUNT(*) ").append(queryString);
 		if(Utils.isEmpty(sortName)) {
-			sortName = "o.kitchen.id, o.createdTime";
+			sortName = "o.kitchen.id, o.orderedTime";
 		}
 
 		queryString.append(" ORDER BY " + sortName + (isDecendingOrder ? " desc" : " asc"));

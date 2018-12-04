@@ -42,4 +42,6 @@ public interface KitchenService {
 
 	Kitchen getKitchenById(long kitchenId) throws Exception;
 
+	List<Kitchen> getAllKitchens() throws Exception;
+
 }

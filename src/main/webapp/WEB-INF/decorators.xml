@@ -8,5 +8,6 @@
         <pattern>*ajax*</pattern>
         <pattern>/login*</pattern>
         <pattern>/changePassword*</pattern>
+		<pattern>/getOrderDetails*</pattern>
     </excludes>
 </decorators>

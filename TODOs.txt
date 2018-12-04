@@ -20,3 +20,5 @@ Discussion regarding order status
 2) Packing cost aganist item
 3) Store order time as gmail mail time
 4) Add column in orders table with the post commission amount paid, Delivery partner paid
+5) Secure links
+6) Test time based searching 

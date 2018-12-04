@@ -16,6 +16,7 @@ import java.util.List;
 import com.dpconsole.dao.KitchenDao;
 import com.dpconsole.model.PartialPage;
 import com.dpconsole.model.catalogue.Category;
+import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.kitchen.KitchenDiscount;
 import com.dpconsole.model.kitchen.KitchenItem;
 import com.dpconsole.utils.Utils;
@@ -86,5 +87,12 @@ public class KitchenDaoImpl extends DaoImpl implements KitchenDao {
 	public List<KitchenItem> getAllKitchenItems(long kitchenId) throws Exception {
 		List<KitchenItem> kItems = getHibernateTemplate().find("FROM KitchenItem ki WHERE ki.kitchen.id = ?", new Object[]{kitchenId});
 		return !kItems.isEmpty() ? kItems : null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Kitchen> getAllKitchens() throws Exception {
+		List<Kitchen> kitchens = getHibernateTemplate().find("FROM Kitchen k");
+		return kitchens;
 	}
 }

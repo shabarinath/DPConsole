@@ -44,7 +44,7 @@
 <link rel="stylesheet" href="<c:url value="/resources/js/google-code-prettify/prettify.css"/>">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"/>
-
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 
 <!--<link rel="stylesheet/less" type="text/css" href="/customStyles?_ajax=true"> -->
 
@@ -65,6 +65,7 @@
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.ui.totop.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/custom.js"/>"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>  
 <decorator:head />
 <header>
     <!-- Navbar
@@ -119,8 +120,17 @@
                           <li><a href="404.html">404</a></li> -->
                         </ul>
                       </li>
+					  <li>
+                        <a href="/orders">Orders</a>
+                        <!-- <ul class="dropdown-menu">
+                          <li><a href="portfolio-2cols.html">Portfolio 2 columns</a></li>
+                          <li><a href="portfolio-3cols.html">Portfolio 3 columns</a></li>
+                          <li><a href="portfolio-4cols.html">Portfolio 4 columns</a></li>
+                          <li><a href="portfolio-detail.html">Portfolio detail</a></li>
+                        </ul> -->
+                      </li>
                       <li>
-                        <a href="#">Dashboard</a>
+                        <a href="/dashboard">Dashboard</a>
                         <!-- <ul class="dropdown-menu">
                           <li><a href="portfolio-2cols.html">Portfolio 2 columns</a></li>
                           <li><a href="portfolio-3cols.html">Portfolio 3 columns</a></li>

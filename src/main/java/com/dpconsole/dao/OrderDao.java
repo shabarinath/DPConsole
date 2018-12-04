@@ -21,7 +21,7 @@ import com.dpconsole.model.order.Order;
  */
 public interface OrderDao extends Dao {
 
-	PartialPage<Order> getOrdersByCriteria(long kitchenId, long deliveryPartnerId, Date startCreatedTime,
+	PartialPage<Order> getOrdersByCriteria(long kitchenId, String deliveryPartner, Date startCreatedTime,
 			Date endCreatedTime, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception;
 
 }
