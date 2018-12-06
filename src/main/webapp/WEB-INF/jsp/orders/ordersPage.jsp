@@ -200,17 +200,17 @@ li{
 												Price
 											</th>							
 										</tr>
-									</thead>
-									<c:forEach items="${order.orderItems}" var="element"> 
+									</thead>										
+									<c:forEach items="${order.orderItems}" var="orderItem"> 
 									  <tr>
 										<td>
-											${element.kitchenItem.item.name}						
+											${orderItem.kitchenItem.item.name}						
 										</td>
 										<td>
-											${element.quantity}
+											${orderItem.quantity}
 										</td>
 										<td>
-											&#8377; ${element.dpReceivedPrice}
+											&#8377; ${orderItem.dpReceivedPrice}
 										</td>
 									  </tr>
 									</c:forEach>
