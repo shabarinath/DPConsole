@@ -144,6 +144,15 @@ li{
 	line-height:20px;
 	margin-left:3px;
 }
+.modal.fade {
+
+    top: 25% !important;
+    -webkit-transition: opacity .3s linear,top .3s ease-out;
+    -moz-transition: opacity .3s linear,top .3s ease-out;
+    -o-transition: opacity .3s linear,top .3s ease-out;
+    transition: opacity .3s linear,top .3s ease-out;
+
+}
 </style>
 
 <div class="mainTableOuterDiv">
@@ -171,18 +180,59 @@ li{
 				</display:setProperty>
 				<display:setProperty name="paging.banner.full">
 							<c:import url="/WEB-INF/jsp/includes/tablePagination.jsp?listPageNo=${ordersPage.pageNo}&listPageSize=${ordersPage.pageSize}&listTotalPages=${ordersPage.totalPages}&pageStatus=full" />
-				</display:setProperty>
-				
-				<display:column title="Order Id" sortable="true" property="deliveryPartnerOrderId" escapeXml="true" sortName="o.deliveryPartnerOrderId"  />
+				</display:setProperty>				
+				<display:column title="Order Id" sortable="true" escapeXml="false" sortName="o.deliveryPartnerOrderId">
+				<div onClick="loadItemDetails(${order.deliveryPartnerOrderId})">
+					<c:choose>         
+						 <c:when test = "${fn:length(order.orderItems) > 0}">
+							<a href="javascript:void(0);"> ${order.deliveryPartnerOrderId}</a>
+							<div hidden="hidden" id="order_${order.deliveryPartnerOrderId}">
+								<table>
+									<thead>
+										<tr>							
+											<th>
+												Name
+											</th>
+											<th>
+												Quantity
+											</th>
+											<th>
+												Price
+											</th>							
+										</tr>
+									</thead>
+									<c:forEach items="${order.orderItems}" var="element"> 
+									  <tr>
+										<td>
+											${element.kitchenItem.item.name}						
+										</td>
+										<td>
+											${element.quantity}
+										</td>
+										<td>
+											&#8377; ${element.dpReceivedPrice}
+										</td>
+									  </tr>
+									</c:forEach>
+								</table>				
+							</div>
+						 </c:when>				 									 
+						 <c:otherwise>
+							${order.deliveryPartnerOrderId}
+						 </c:otherwise>
+					</c:choose> 								
+				</div>
+				</display:column>
 				<display:column title="Kitchen" sortable="true" property="kitchen.name" escapeXml="true" sortName="o.kitchen.name" />
 				<display:column title="Deliver Partner" sortable="true" property="deliveryPartner" escapeXml="true" sortName="o.deliveryPartner"/>
 				<display:column title="Order Time" sortable="true" escapeXml="true" property="orderedTime" sortName="o.orderedTime" />
 				<display:column title="Total" sortable="true" escapeXml="false" sortName="o.totalCost" >&#8377; ${order.totalCost}</display:column>
-				<display:column title="DP Paid" sortable="false" escapeXml="true">0</display:column>
+				<display:column title="DP Paid" sortable="false" escapeXml="true">0</display:column>				
 			</display:table>
 		</ajax:displayTag>
 	</form>
-	<!-- <c:if test="${ordersPage.totalResults > 0}">
-		<span class="floatLeft">${ordersPage.totalResults} orders found, displaying ${((ordersPage.pageNo-1) * ordersPage.pageSize) + 1} To ${((ordersPage.pageNo-1) *ordersPage.pageSize) + fn:length(ordersPage.list)}.</span>
-	</c:if> -->
-</div>
+<script>
+	function loadItemDetails(orderId) {			
+		$("#order_"+orderId).toggle(1000);
+	}	
+</script>

@@ -9,7 +9,7 @@
 			<div class="controls" style="position: relative">
 				<span style="margin-left:10px;"></span>	
 				<select id="kitchens">					
-					
+					<option value="0">All</option>
 					<c:forEach items="${kitchens}" var="kitchen"  varStatus="loop">
 						<option value="${kitchen.id}">${kitchen.name}</option>
 					</c:forEach>							 
@@ -44,7 +44,8 @@ $(document).ready(function() {
 	var url = $(location).attr('href');
 	if(url.contains('zomatoGmailAuto')) {
 		$("#deliveryPartners").hide();	
-		$('#kitchens').children('option[value="0"]').css('display','none');		
+		$("#kitchens option[value='0']").prop('disabled', true);
+		//$('#kitchens').children('option[value="0"]').css('display','none');		
 	}
 });
 $("#submit").click(function() {
