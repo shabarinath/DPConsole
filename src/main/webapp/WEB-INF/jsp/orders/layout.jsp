@@ -43,9 +43,9 @@ $(document).ready(function() {
 	});	
 	var url = $(location).attr('href');
 	if(url.contains('zomatoGmailAuto')) {
-		$("#deliveryPartners").hide();	
-		$("#kitchens option[value='0']").prop('disabled', true);
-		//$('#kitchens').children('option[value="0"]').css('display','none');		
+		$("#deliveryPartners").hide();			
+		$('#kitchens option[value="1"]').attr("selected", "selected");
+		$('#kitchens').children('option[value="0"]').css('display','none');		
 	}
 });
 $("#submit").click(function() {
