@@ -82,4 +82,22 @@ public class OrdersController {
 			throw e;
 		}
 	}
+	
+	@RequestMapping(value = "/reviewOrders", method = RequestMethod.GET)
+	public String reviewOrders(Model model,
+			HttpServletRequest request) throws Exception{
+		try {
+			String tableId="order";
+			String sortName = DisplayTagUtils.getSortName(request, tableId, "");
+			boolean isDecendingOrder = DisplayTagUtils.isDecendingSortOrder(request, tableId, true);
+			int pageNo = DisplayTagUtils.getPage(request, tableId, 1);
+			int pageSize = DisplayTagUtils.getPageSize(request, tableId, 20);
+			PartialPage<Order> manualReviewOrders = orderService.getOrdersForManualReview(sortName, isDecendingOrder, pageNo, pageSize);
+			model.addAttribute("ordersPage", manualReviewOrders);
+			return "orders/manualReviewOrdersPage";
+		} catch(Exception e) {
+			logger.error("Failed to load orders", e);
+			throw e;
+		}
+	}
 }

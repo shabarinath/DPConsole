@@ -44,4 +44,10 @@ public class OrderServiceImpl implements OrderService {
 		return orderDao.getOrdersByCriteria(kitchenId, deliveryPartner, startCreatedTime, endCreatedTime, sortName, isDecendingOrder, pageNo, pageSize);
 	}
 
+	@Override
+	public PartialPage<Order> getOrdersForManualReview(String sortName, boolean isDecendingOrder, int pageNo,
+			int pageSize) throws Exception {
+		return orderDao.getOrdersForManualReview(sortName, isDecendingOrder, pageNo, pageSize);
+	}
+
 }

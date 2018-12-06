@@ -26,4 +26,6 @@ public interface OrderService {
 	PartialPage<Order> getOrdersByCriteria(long kitchenId, String deliveryPartner, Date startCreatedTime,
 			Date endCreatedTime, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception;
 
+	PartialPage<Order> getOrdersForManualReview(String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception;
+
 }

@@ -73,4 +73,20 @@ public class OrderDaoImpl extends DaoImpl implements OrderDao {
 		return getHibernatePage(queryString.toString(), countQuery.toString(), queryParams, pageNo, pageSize);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public PartialPage<Order> getOrdersForManualReview(String sortName, boolean isDecendingOrder, int pageNo,
+			int pageSize) throws Exception {
+		List<Object> queryParams = new ArrayList<>();
+		StringBuffer queryString = new StringBuffer("FROM Order o WHERE o.manualReview = ?");
+		queryParams.add(true);
+		StringBuffer countQuery = new StringBuffer("SELECT COUNT(*) ").append(queryString);
+		if(Utils.isEmpty(sortName)) {
+			sortName = "o.orderedTime";
+		}
+
+		queryString.append(" ORDER BY " + sortName + (isDecendingOrder ? " desc" : " asc"));
+		return getHibernatePage(queryString.toString(), countQuery.toString(), queryParams, pageNo, pageSize);
+	}
+
 }

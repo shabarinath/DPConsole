@@ -123,14 +123,14 @@
                           <li><a href="404.html">404</a></li> -->
                         </ul>
                       </li>
-					  <li>
-                        <a href="/orderLayout">Orders</a>
-                        <!-- <ul class="dropdown-menu">
-                          <li><a href="portfolio-2cols.html">Portfolio 2 columns</a></li>
-                          <li><a href="portfolio-3cols.html">Portfolio 3 columns</a></li>
-                          <li><a href="portfolio-4cols.html">Portfolio 4 columns</a></li>
-                          <li><a href="portfolio-detail.html">Portfolio detail</a></li>
-                        </ul> -->
+					  <li class="dropdown">
+                        <a href="javascript:void(0);">Orders</a>
+                        <ul class="dropdown-menu">
+                          <li><a href="/orderLayout">Processed</a></li>
+                          <li><a href="/reviewOrders">Review</a></li>
+                          <!-- <li><a href="portfolio-4cols.html">Portfolio 4 columns</a></li>
+                          <li><a href="portfolio-detail.html">Portfolio detail</a></li> -->
+                        </ul>
                       </li>
                       <li>
                         <a href="/dashboard">Dashboard</a>
