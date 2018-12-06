@@ -107,7 +107,10 @@ public class ZomatoParser implements Parser<List<Message>> {
 		String items = "";
 		if(StringUtils.isNotEmpty(content)) {
 			int beginIndex = content.indexOf(EmailAttribute.Date.getName())+EmailAttribute.Date.getName().length()+10;
-			if(content.contains(EmailAttribute.TAXES.getName())) {
+			if(content.contains(EmailAttribute.ZOMATO_PROMO.getName())) {
+				int endIndex = content.indexOf(EmailAttribute.ZOMATO_PROMO.getName());
+				items = content.substring(beginIndex, endIndex);
+			} else if(content.contains(EmailAttribute.TAXES.getName())) {
 				int endIndex = content.indexOf(EmailAttribute.TAXES.getName());
 				items = content.substring(beginIndex, endIndex);
 			} else if(content.contains(EmailAttribute.RESTUARANT_PROMO.getName())) {
