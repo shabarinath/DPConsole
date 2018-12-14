@@ -10,9 +10,9 @@
  */
 package com.dpconsole.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +67,7 @@ public class KitchenServiceImpl implements KitchenService {
 	@Override
 	public Map<String, KitchenItem> getAllKitchenItems(long kitchenId) throws Exception {
 		List<KitchenItem> kItems = kitchenDao.getAllKitchenItems(kitchenId);
-		Map<String, KitchenItem> kItemsMap = new HashMap<>();
+		Map<String, KitchenItem> kItemsMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		for(KitchenItem kItem : ListUtils.emptyIfNull(kItems)) {
 			kItemsMap.put(kItem.getItem().getName(), kItem);
 			for(String alias : kItem.getItem().getAliases()) {

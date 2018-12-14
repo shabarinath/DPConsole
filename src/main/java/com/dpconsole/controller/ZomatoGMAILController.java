@@ -101,7 +101,7 @@ public class ZomatoGMAILController {
 			Message[] messages = mailService.getMessagesWithCriteria(userName, password, Arrays.asList(dpEmailIds.split(",")), "", startDate, endDate, mailBoxFolder);
 			long end = System.currentTimeMillis();
 			long turnAroundTime = end - start;
-			logger.info("Turn Around Time for fetching emails: "+turnAroundTime+" ms");
+			logger.info("Turn Around Time for fetching emails: "+messages.length+" is "+turnAroundTime+" ms");
 			Map<String, KitchenItem> kitchenItems = kitchenService.getAllKitchenItems(kitchenId);
 			List<Order> orders = zomatoParser.parse(kitchen, kitchenItems, Arrays.asList(messages));
 			for(Order order: orders) {
