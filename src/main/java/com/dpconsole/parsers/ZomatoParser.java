@@ -1,6 +1,7 @@
 package com.dpconsole.parsers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -32,9 +33,13 @@ public class ZomatoParser implements Parser<List<Message>> {
 	private static final String HTML_COMMENTS_ESCAPCE_REGEX = "<!--.*?-->";
 	private static final String HTML_CLEAN_REGEX="<[^>]+>";
 	private static final String RUPEE_UNICODE="\\u20B9";
+	
+	private static ArrayList<EmailAttribute> precedenceList = new ArrayList<EmailAttribute>(Arrays.asList(EmailAttribute.ZOMATO_PROMO, 
+			EmailAttribute.TAXES, EmailAttribute.RESTUARANT_PROMO, 
+			EmailAttribute.PIGGY_BANK_DISCOUNT, EmailAttribute.PAID_BY));
 
 	private static final Logger logger = LoggerFactory.getLogger(ZomatoParser.class);
-
+	
 	@Override
 	public List<Order> parse(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, List<Message> messages) throws Exception {
 		List<Order> orders = new ArrayList<>();
@@ -107,23 +112,18 @@ public class ZomatoParser implements Parser<List<Message>> {
 		String items = "";
 		if(StringUtils.isNotEmpty(content)) {
 			int beginIndex = content.indexOf(EmailAttribute.Date.getName())+EmailAttribute.Date.getName().length()+10;
-			if(content.contains(EmailAttribute.ZOMATO_PROMO.getName())) {
-				int endIndex = content.indexOf(EmailAttribute.ZOMATO_PROMO.getName());
-				items = content.substring(beginIndex, endIndex);
-			} else if(content.contains(EmailAttribute.TAXES.getName())) {
-				int endIndex = content.indexOf(EmailAttribute.TAXES.getName());
-				items = content.substring(beginIndex, endIndex);
-			} else if(content.contains(EmailAttribute.RESTUARANT_PROMO.getName())) {
-				int endIndex = content.indexOf(EmailAttribute.RESTUARANT_PROMO.getName());
-				items = content.substring(beginIndex, endIndex);
-			} else if(content.contains(EmailAttribute.PIGGY_BANK_DISCOUNT.getName())) {
-				int endIndex = content.indexOf(EmailAttribute.PIGGY_BANK_DISCOUNT.getName());
-				items = content.substring(beginIndex, endIndex);
-			} 
-			else if(content.contains(EmailAttribute.PAID_BY.getName())) {
-				int endIndex = content.indexOf(EmailAttribute.PAID_BY.getName());
-				items = content.substring(beginIndex, endIndex);
+			int nextAttribIndex = 0;
+			int count = 0;
+			for(EmailAttribute attrib : precedenceList) {
+				if(content.contains(attrib.getName())) {
+					int attribIndex = content.indexOf(attrib.getName());
+					if(count == 0 || attribIndex<nextAttribIndex) {
+						nextAttribIndex = attribIndex;
+					}
+					count = count+1;
+				}
 			}
+			items = content.substring(beginIndex, nextAttribIndex);
 		}
 		String[] sanitizedItems = sanitizeItemsContent(StringUtils.trim(items)).split(COMMA_DELIM);
 		/*
