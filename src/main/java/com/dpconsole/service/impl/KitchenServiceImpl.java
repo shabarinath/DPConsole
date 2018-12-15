@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dpconsole.dao.KitchenDao;
 import com.dpconsole.model.PartialPage;
 import com.dpconsole.model.catalogue.Category;
+import com.dpconsole.model.kitchen.DeliveryPartner;
 import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.kitchen.KitchenDiscount;
 import com.dpconsole.model.kitchen.KitchenItem;
@@ -65,8 +66,8 @@ public class KitchenServiceImpl implements KitchenService {
 	}
 
 	@Override
-	public Map<String, KitchenItem> getAllKitchenItems(long kitchenId) throws Exception {
-		List<KitchenItem> kItems = kitchenDao.getAllKitchenItems(kitchenId);
+	public Map<String, KitchenItem> getAllKitchenItems(long kitchenId, DeliveryPartner dp) throws Exception {
+		List<KitchenItem> kItems = kitchenDao.getAllKitchenItems(kitchenId, dp);
 		Map<String, KitchenItem> kItemsMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		for(KitchenItem kItem : ListUtils.emptyIfNull(kItems)) {
 			kItemsMap.put(kItem.getItem().getName(), kItem);

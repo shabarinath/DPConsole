@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.dpconsole.model.PartialPage;
 import com.dpconsole.model.catalogue.Category;
+import com.dpconsole.model.kitchen.DeliveryPartner;
 import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.kitchen.KitchenDiscount;
 import com.dpconsole.model.kitchen.KitchenItem;
@@ -38,7 +39,7 @@ public interface KitchenService {
 
 	void saveOrUpdateKitchenDiscount(KitchenDiscount kitchenDiscount) throws Exception;
 
-	Map<String, KitchenItem> getAllKitchenItems(long kitchenId) throws Exception;
+	Map<String, KitchenItem> getAllKitchenItems(long kitchenId, DeliveryPartner dp) throws Exception;
 
 	Kitchen getKitchenById(long kitchenId) throws Exception;
 

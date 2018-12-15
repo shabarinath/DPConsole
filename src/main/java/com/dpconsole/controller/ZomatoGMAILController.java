@@ -39,23 +39,23 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 /**
  * @author SHABARINATH
- * 25-Nov-2018 8:04:22 PM 2018 
+ * 25-Nov-2018 8:04:22 PM 2018
  */
 
 @Controller
 @SessionAttributes("gmailController")
 public class ZomatoGMAILController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(ZomatoGMAILController.class);
-	
+
 	private static final String INPUT_DATE_FORMAT="yyyy-MM-dd HH:mm";
-	
+
 	@Autowired
 	KitchenService kitchenService;
-	
+
 	@Autowired
 	OrderService orderService;
-	
+
 	@RequestMapping(value = "/zomatoGmailAuto", method = RequestMethod.GET)
 	public String loadPage(Model model) throws Exception{
 		try {
@@ -69,7 +69,7 @@ public class ZomatoGMAILController {
 			throw e;
 		}
 	}
-	
+
 	@RequestMapping(value = "/processZomatoOrders", method = RequestMethod.GET)
 	@ResponseBody
 	public String dashboard(Model model,
@@ -102,7 +102,7 @@ public class ZomatoGMAILController {
 			long end = System.currentTimeMillis();
 			long turnAroundTime = end - start;
 			logger.info("Turn Around Time for fetching emails: "+messages.length+" is "+turnAroundTime+" ms");
-			Map<String, KitchenItem> kitchenItems = kitchenService.getAllKitchenItems(kitchenId);
+			Map<String, KitchenItem> kitchenItems = kitchenService.getAllKitchenItems(kitchenId, DeliveryPartner.ZOMATO);
 			List<Order> orders = zomatoParser.parse(kitchen, kitchenItems, Arrays.asList(messages));
 			for(Order order: orders) {
 				try {
@@ -139,13 +139,13 @@ public class ZomatoGMAILController {
 		}
 		return false;
 	}
-	
+
 	class ResponseObj implements Serializable {
 		private static final long serialVersionUID = -7539197598047102123L;
 		String status;
 		boolean isError;
 		public ResponseObj() {
-		
+
 		}
 		public ResponseObj(String response, boolean isError) {
 			super();

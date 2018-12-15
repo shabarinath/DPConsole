@@ -1,2 +1,1 @@
-"# DPConsole" 
-Delivery Partner Console
+Delivery Partner Console for Restaurants

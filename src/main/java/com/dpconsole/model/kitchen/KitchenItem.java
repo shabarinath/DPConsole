@@ -12,6 +12,8 @@ package com.dpconsole.model.kitchen;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -31,6 +33,7 @@ public class KitchenItem extends Persistent {
 
 	private Item item;
 	private Kitchen kitchen;
+	private DeliveryPartner deliveryPartner;
 	private double manufacturingPrice;
 	private double packingPrice;
 	private double marketPrice;
@@ -52,6 +55,15 @@ public class KitchenItem extends Persistent {
 	}
 	public void setKitchen(Kitchen kitchen) {
 		this.kitchen = kitchen;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column(name="delivery_partner", nullable = false)
+	public DeliveryPartner getDeliveryPartner() {
+		return deliveryPartner;
+	}
+	public void setDeliveryPartner(DeliveryPartner deliveryPartner) {
+		this.deliveryPartner = deliveryPartner;
 	}
 
 	@Column(name = "manufacturing_price")
@@ -96,5 +108,4 @@ public class KitchenItem extends Persistent {
 				+ ", isPersisted()=" + isPersisted() + ", getClass()="
 				+ getClass() + ", toString()=" + super.toString() + "]";
 	}
-
 }
