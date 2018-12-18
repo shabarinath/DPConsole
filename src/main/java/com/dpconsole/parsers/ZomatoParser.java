@@ -15,9 +15,11 @@ import org.slf4j.LoggerFactory;
 
 import com.dpconsole.model.kitchen.DeliveryPartner;
 import com.dpconsole.model.kitchen.Kitchen;
+import com.dpconsole.model.kitchen.KitchenDeliveryPartner;
 import com.dpconsole.model.kitchen.KitchenItem;
 import com.dpconsole.model.order.Order;
 import com.dpconsole.model.order.OrderItem;
+import com.dpconsole.utils.CommissionUtil;
 import com.dpconsole.utils.Utils;
 
 /**
@@ -76,6 +78,12 @@ public class ZomatoParser implements Parser<List<Message>> {
 				order.setTotalCost(Double.parseDouble(totalAmount));
 				order.setDeliveryPartnerOrderId(orderId);
 				order.setKitchen(kitchen);
+				
+				CommissionUtil util = new CommissionUtil();
+				KitchenDeliveryPartner kdp = kitchen.getSupportedDeliveryPartner(DeliveryPartner.ZOMATO);
+				double postCommissionAmount = util.getPostCommissionAmount(kdp, order);
+				order.setPostCommissionAmount(postCommissionAmount);
+				
 				orders.add(order);
 				long end = System.currentTimeMillis();
 				long turnAroundTime = end - start;

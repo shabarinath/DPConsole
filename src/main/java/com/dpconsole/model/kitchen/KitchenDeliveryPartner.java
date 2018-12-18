@@ -31,7 +31,11 @@ public class KitchenDeliveryPartner extends Persistent {
 	private String emailIds;
 	private double commissionPercentage;
 	private boolean active = true;
-
+	private double discountPercentage;
+	private double supportChargesPercentage;
+	private double convenienceFeePercentage;
+	private double maxDiscountAmount;
+	
 	@Enumerated(EnumType.STRING)
 	@Column(name="delivery_partner", nullable = false)
 	public DeliveryPartner getDeliveryPartner() {
@@ -64,7 +68,34 @@ public class KitchenDeliveryPartner extends Persistent {
 	public void setEmailIds(String emailIds) {
 		this.emailIds = emailIds;
 	}
-
+	@Column(name="discount_percentage")
+	public double getDiscountPercentage() {
+		return discountPercentage;
+	}
+	public void setDiscountPercentage(double discountPercentage) {
+		this.discountPercentage = discountPercentage;
+	}
+	@Column(name="max_discount_amount")
+	public double getMaxDiscountAmount() {
+		return maxDiscountAmount;
+	}
+	public void setMaxDiscountAmount(double maxDiscountAmount) {
+		this.maxDiscountAmount = maxDiscountAmount;
+	}
+	@Column(name="support_charges_percentage")
+	public double getSupportChargesPercentage() {
+		return supportChargesPercentage;
+	}
+	public void setSupportChargesPercentage(double supportChargesPercentage) {
+		this.supportChargesPercentage = supportChargesPercentage;
+	}
+	@Column(name="convenience_fee_percentage")
+	public double getConvenienceFeePercentage() {
+		return convenienceFeePercentage;
+	}
+	public void setConvenienceFeePercentage(double convenienceFeePercentage) {
+		this.convenienceFeePercentage = convenienceFeePercentage;
+	}
 	@Override
 	public String toString() {
 		return "KitchenDeliveryPartner [deliveryPartner=" + deliveryPartner

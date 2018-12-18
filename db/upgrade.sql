@@ -10,3 +10,10 @@ ALTER TABLE orders ADD COLUMN piggy_bank_coins DOUBLE(10, 4) NOT NULL DEFAULT 0;
 ALTER TABLE kitchen_items ADD COLUMN delivery_partner VARCHAR(255) NOT NULL;
 ALTER TABLE kitchen_items DROP KEY name_uk;
 ALTER TABLE kitchen_items ADD UNIQUE name_uk(kitchen_id, delivery_partner, item_id);
+
+18-12-2018
+==============
+ALTER TABLE kitchen_delivery_partners ADD COLUMN discount_percentage DOUBLE(10, 4) NOT NULL DEFAULT 0;
+ALTER TABLE kitchen_delivery_partners ADD COLUMN support_charges_percentage DOUBLE(10, 4) NOT NULL DEFAULT 0;
+ALTER TABLE kitchen_delivery_partners ADD COLUMN convenience_fee_percentage DOUBLE(10, 4) NOT NULL DEFAULT 0;
+ALTER TABLE kitchen_delivery_partners ADD COLUMN max_discount_amount DOUBLE(10, 4) NOT NULL DEFAULT 0;
