@@ -42,12 +42,15 @@ public class MailService {
 	 private void init() {
 		 props = new Properties();
 		 props.put("mail.store.protocol", protocol);
+		 props.setProperty("mail.imap.ssl.trust", "*");
 	 }
 	 
 	public Message[] getMessagesWithCriteria(String email, String password, List<String> dpEmails, 
 		String subject, Date stateDate, Date endDate, String mailBoxFolder) throws MessagingException, ParseException{
 		props = new Properties();
 		props.put("mail.store.protocol", protocol);
+		props.setProperty("mail.imap.ssl.trust", "*");
+		
 	 	Session session = Session.getDefaultInstance(props, null);
 		store = session.getStore(protocol);
 		store.connect(host, email,password);
@@ -56,6 +59,7 @@ public class MailService {
 		SearchTerm rangeAndFromAddressFilter = prepareCriteriaQuery(stateDate, endDate, dpEmails);
 		Message[] messages = inbox.search(rangeAndFromAddressFilter);
 		messages = filterMessageByTime(messages, stateDate, endDate);
+		logger.error("Mails fetched for given criteria: "+messages.length);
 		return messages;
 	 }
 

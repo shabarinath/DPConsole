@@ -198,13 +198,22 @@ public class ZomatoParser implements Parser<List<Message>> {
 	}
 
 	private String removeQuantityBlock(String itemsSection) {
+		/*
+		 * Chicken Fry Piece Biryani Quantity :	Regular [1 litre] (1 x ₹260)	₹260
+		 * Special Chicken Biryani Quantity :	Mini [750 ml] (1 x ₹200)	₹200 
+		 * 
+		 * Handling multiple quantity scenarios
+		 * 
+		 */
 		if(StringUtils.isNotEmpty(itemsSection)) {
-			String firstPart = itemsSection.split(EmailAttribute.QUANTITY.getName())[0];
-			String secondPart = itemsSection.split(EmailAttribute.QUANTITY.getName())[1];
-			if(secondPart.contains("]")) {
-				secondPart = secondPart.substring(secondPart.indexOf("]"), secondPart.length()).replaceAll("]", "");
+			boolean isPresent = true;
+			int counter = 0;
+			while(isPresent) {
+				itemsSection = itemsSection.replace(itemsSection.substring(itemsSection.indexOf(EmailAttribute.QUANTITY.getName()), itemsSection.indexOf('(', itemsSection.indexOf('(' + counter))), "");
+				counter = counter +1;
+				isPresent = itemsSection.contains(EmailAttribute.QUANTITY.getName()) ? true : false;
 			}
-			return firstPart+secondPart;
+			return itemsSection;
 		}
 		return "";
 	}
