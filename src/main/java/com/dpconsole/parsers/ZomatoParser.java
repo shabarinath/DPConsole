@@ -28,7 +28,7 @@ import com.dpconsole.utils.Utils;
  */
 public class ZomatoParser implements Parser<List<Message>> {
 
-	private static final String COMMA_DELIM=",";
+	private static final String HASH_DELIM=",";
 	private static final String PIPE_DELIM="|";
 	private static final String NEW_LINE_REGEX="[\\\r\\\n]+";
 	private static final String ESCAPE="\\";
@@ -45,6 +45,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 	@Override
 	public List<Order> parse(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, List<Message> messages) throws Exception {
 		List<Order> orders = new ArrayList<>();
+		String orderId=null;
 		for(Message message : messages) {
 			try {
 				if(message == null) {
@@ -56,7 +57,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 					logger.info("content is empty");
 					continue;
 				}
-				String orderId=null;
+				orderId=null;
 				String totalAmount = null; 
 				double restaurantPromo;
 				double piggybankCoins;
@@ -89,7 +90,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 				long turnAroundTime = end - start;
 				logger.info("Turn Around Time for parsing for orderId: "+orderId+" "+turnAroundTime+" ms");
 			}catch(Exception e) {
-				logger.error("Exception occured :", e);
+				logger.error("Exception occured for orderId: "+orderId, e);
 			}
 		}
 		return orders;
@@ -133,7 +134,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 			}
 			items = content.substring(beginIndex, nextAttribIndex);
 		}
-		String[] sanitizedItems = sanitizeItemsContent(StringUtils.trim(items)).split(COMMA_DELIM);
+		String[] sanitizedItems = sanitizeItemsContent(StringUtils.trim(items)).split(HASH_DELIM);
 		/*
 		 * SanitizedItems:
 		 * [Chilli Chicken with Noodles Combo, (1 x ₹220), ₹220, Chef Special Chicken with Fried Rice Combo, (1 x ₹220), ₹220]
@@ -151,7 +152,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 				continue;
 			}
 			String quantity = StringUtils.trim((str.split(ESCAPE+PIPE_DELIM)[1]).split("x")[0].replace("(", ""));
-			String dpReceivedTotalPricePerItem = StringUtils.trim(str.split(ESCAPE+PIPE_DELIM)[2]).replaceAll(RUPEE_UNICODE, "");
+			String dpReceivedTotalPricePerItem = StringUtils.trim(str.split(ESCAPE+PIPE_DELIM)[2]).replaceAll(RUPEE_UNICODE, "").replaceAll(",", "");
 			Double dpReceivedUnitPrice = (Double.parseDouble(dpReceivedTotalPricePerItem)/Integer.parseInt(quantity));
 			OrderItem orderItem = new OrderItem();
 			orderItem.setQuantity(Integer.parseInt(quantity));
@@ -177,14 +178,14 @@ public class ZomatoParser implements Parser<List<Message>> {
 		} else if(itemsSection.contains(EmailAttribute.QUANTITY.getName())) {
 			itemsSection = removeQuantityBlock(itemsSection);
 		}
-		String[] splittedStr = itemsSection.trim().replaceAll(NEW_LINE_REGEX, COMMA_DELIM).split(COMMA_DELIM);
+		String[] splittedStr = itemsSection.trim().replaceAll(NEW_LINE_REGEX, HASH_DELIM).split(HASH_DELIM);
 		StringBuffer itemsBuffer = new StringBuffer();
 		int count = 1;
 		for(String str : splittedStr) {
 			if(!StringUtils.isWhitespace(str)) {
 				if(StringUtils.isNotEmpty(itemsBuffer.toString())) {
 					if(count %3 ==0) {
-						itemsBuffer.append(COMMA_DELIM);
+						itemsBuffer.append(HASH_DELIM);
 					} else {
 						itemsBuffer.append(PIPE_DELIM);
 					}
