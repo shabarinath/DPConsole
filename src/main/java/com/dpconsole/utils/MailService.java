@@ -1,5 +1,6 @@
 package com.dpconsole.utils;
 
+import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dpconsole.parsers.ZomatoParser;
+import com.sun.mail.util.MailSSLSocketFactory;
 
 /**
  * @author SHABARINATH
@@ -46,10 +48,16 @@ public class MailService {
 	 }
 	 
 	public Message[] getMessagesWithCriteria(String email, String password, List<String> dpEmails, 
-		String subject, Date stateDate, Date endDate, String mailBoxFolder) throws MessagingException, ParseException{
+		String subject, Date stateDate, Date endDate, String mailBoxFolder) throws MessagingException, ParseException, GeneralSecurityException{
 		props = new Properties();
 		props.put("mail.store.protocol", protocol);
 		props.setProperty("mail.imap.ssl.trust", "*");
+		props.put("mail.imaps.ssl.trust", "*");
+		props.put("mail.smtp.ssl.trust", "*");
+		
+		MailSSLSocketFactory socketFactory= new MailSSLSocketFactory();
+		socketFactory.setTrustAllHosts(true);
+		props.put("mail.imap.ssl.socketFactory", socketFactory);
 		
 	 	Session session = Session.getDefaultInstance(props, null);
 		store = session.getStore(protocol);
