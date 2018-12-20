@@ -28,3 +28,14 @@ Discussion regarding order status
 10) Validate all timezone conversions 
 11) show items details in orders listing page (done)
 12) Add kitchen in gmail parsing page (done)
+
+
+Persist zomato promo from emails (use this as discount percentage don't consider from db value)
+
+1) don't consider db discounts from db and persist Zomato Promo and use Zomato Promo & restaurant promo while calculations
+2) Rejected/cancelled scenarios (need to update existing order in db) 
+3) excel tally 
+4) dashboard stats 
+5) items grouping 
+
+
