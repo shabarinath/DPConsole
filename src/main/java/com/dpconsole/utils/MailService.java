@@ -19,7 +19,9 @@ import javax.mail.search.FromStringTerm;
 import javax.mail.search.OrTerm;
 import javax.mail.search.ReceivedDateTerm;
 import javax.mail.search.SearchTerm;
+import javax.mail.search.SubjectTerm;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,7 +66,7 @@ public class MailService {
 		store.connect(host, email,password);
 		inbox = store.getFolder(mailBoxFolder);
 		inbox.open(Folder.READ_ONLY);
-		SearchTerm rangeAndFromAddressFilter = prepareCriteriaQuery(stateDate, endDate, dpEmails);
+		SearchTerm rangeAndFromAddressFilter = prepareCriteriaQuery(stateDate, endDate, dpEmails, subject);
 		Message[] messages = inbox.search(rangeAndFromAddressFilter);
 		messages = filterMessageByTime(messages, stateDate, endDate);
 		logger.error("Mails fetched for given criteria: "+messages.length);
@@ -83,10 +85,14 @@ public class MailService {
 	}
 
 	private SearchTerm prepareCriteriaQuery(Date stateDate, Date endDate,
-			List<String> dpEmails) {
+			List<String> dpEmails, String subject) {
 		SearchTerm newerThan = new ReceivedDateTerm(ComparisonTerm.GE, stateDate);
 		SearchTerm olderThan = new ReceivedDateTerm(ComparisonTerm.LE, endDate);
 		SearchTerm andTerm = new AndTerm(olderThan, newerThan);
+		SearchTerm sTerm = null;
+		if(StringUtils.isNotEmpty(subject)) {
+			sTerm = new SubjectTerm(subject);
+		}
 		ArrayList<FromStringTerm> fromAddressSearchTermList = new ArrayList<FromStringTerm>();
 		SearchTerm fromAddressTerm =  null;
 		OrTerm orTerm = null;
@@ -101,7 +107,8 @@ public class MailService {
 		}
 		SearchTerm rangeAndFromAddressFilter = fromAddressTerm != null ? new AndTerm(andTerm, fromAddressTerm) :
 			new AndTerm(andTerm, orTerm);
-		return rangeAndFromAddressFilter;
+		SearchTerm searchTerm = StringUtils.isNotEmpty(subject) ? new AndTerm(rangeAndFromAddressFilter, sTerm) : rangeAndFromAddressFilter;
+		return searchTerm;
 	}
 	
 	public void disconnectEmailSession() throws MessagingException {

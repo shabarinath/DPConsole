@@ -32,7 +32,7 @@ Discussion regarding order status
 
 Persist zomato promo from emails (use this as discount percentage don't consider from db value)
 
-1) don't consider db discounts from db and persist Zomato Promo and use Zomato Promo & restaurant promo while calculations
+1) don't consider db discounts from db and persist Zomato Promo and use Zomato Promo & restaurant promo while calculations (Done)
 2) Rejected/cancelled scenarios (need to update existing order in db) 
 3) excel tally 
 4) dashboard stats 

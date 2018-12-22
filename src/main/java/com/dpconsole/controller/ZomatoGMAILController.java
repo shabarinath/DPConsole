@@ -49,6 +49,8 @@ public class ZomatoGMAILController {
 	private static final Logger logger = LoggerFactory.getLogger(ZomatoGMAILController.class);
 
 	private static final String INPUT_DATE_FORMAT="yyyy-MM-dd HH:mm";
+	
+	private static final String NEW_ONLINE_DELIVERY_EMAIL_SUBJECT="New online order received at";
 
 	@Autowired
 	KitchenService kitchenService;
@@ -98,7 +100,7 @@ public class ZomatoGMAILController {
 				return json;
 			}
 			long start = System.currentTimeMillis();
-			Message[] messages = mailService.getMessagesWithCriteria(userName, password, Arrays.asList(dpEmailIds.split(",")), "", startDate, endDate, mailBoxFolder);
+			Message[] messages = mailService.getMessagesWithCriteria(userName, password, Arrays.asList(dpEmailIds.split(",")), NEW_ONLINE_DELIVERY_EMAIL_SUBJECT, startDate, endDate, mailBoxFolder);
 			long end = System.currentTimeMillis();
 			long turnAroundTime = end - start;
 			logger.info("Turn Around Time for fetching emails: "+messages.length+" is "+turnAroundTime+" ms");
