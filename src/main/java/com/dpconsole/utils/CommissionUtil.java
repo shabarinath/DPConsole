@@ -20,8 +20,8 @@ public class CommissionUtil {
 		 * 
 		 */
 		DecimalFormat df = new DecimalFormat("#.00");
-		double customerPrice = getCustomerPrice(kdp, order);
-		double GSTAmount = getGSTAmount(order.getTotalCost(), getDiscountAmount(order, kdp));
+		double customerPrice = getCustomerPrice(order);
+		double GSTAmount = getGSTAmount(order.getTotalCost(), getDiscountAmount(order));
 		double netAmount = customerPrice - GSTAmount;
 		double zomatoCommissionFeeAmount = getZomatoCommissoinFeeAmount(netAmount, kdp);
 		double zomatoGST = Double.parseDouble(df.format((zomatoCommissionFeeAmount*18)/100));  //NOTE: Here GST 18% is fixed.
@@ -38,20 +38,16 @@ public class CommissionUtil {
 		return comissionAmount;
 	}
 
-	private static double getCustomerPrice(KitchenDeliveryPartner kdp, Order order) throws Exception {
+	private static double getCustomerPrice(Order order) throws Exception {
 		double itemPrice = order.getTotalCost();
-		double discountAmount = getDiscountAmount(order, kdp);
+		double discountAmount = getDiscountAmount(order);
 		double gstAmount = getGSTAmount(itemPrice, discountAmount);
 		double customerPrice = (itemPrice - discountAmount)+gstAmount;
 		return customerPrice;
 	}
 
-	private static double getDiscountAmount(Order order, KitchenDeliveryPartner kdp) {
-		double itemPrice = order.getTotalCost();
-		double discountPercentage = kdp.getDiscountPercentage();
-		double maxDiscountAmount = kdp.getMaxDiscountAmount();
-		double discountAmount = (itemPrice * discountPercentage)/100;
-		discountAmount = (discountAmount <= maxDiscountAmount) ?  discountAmount : maxDiscountAmount;
+	private static double getDiscountAmount(Order order) {
+		double discountAmount = order.getRestaurantPromo()+order.getZomatoPromo()+order.getPiggybankCoins();
 		return discountAmount;
 	}
 

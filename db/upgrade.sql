@@ -17,3 +17,10 @@ ALTER TABLE kitchen_delivery_partners ADD COLUMN discount_percentage DOUBLE(10, 
 ALTER TABLE kitchen_delivery_partners ADD COLUMN support_charges_percentage DOUBLE(10, 4) NOT NULL DEFAULT 0;
 ALTER TABLE kitchen_delivery_partners ADD COLUMN convenience_fee_percentage DOUBLE(10, 4) NOT NULL DEFAULT 0;
 ALTER TABLE kitchen_delivery_partners ADD COLUMN max_discount_amount DOUBLE(10, 4) NOT NULL DEFAULT 0;
+
+
+21-12-2018
+=================
+ALTER TABLE kitchen_delivery_partners drop column discount_percentage;
+ALTER TABLE kitchen_delivery_partners drop column max_discount_amount;
+ALTER TABLE orders ADD COLUMN zomato_promo DOUBLE(10, 4) NOT NULL DEFAULT 0;

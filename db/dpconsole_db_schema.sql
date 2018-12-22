@@ -101,10 +101,8 @@ CREATE TABLE kitchen_delivery_partners (
   email_ids VARCHAR(255) NOT NULL,
   commission_percentage DOUBLE(10, 4) NOT NULL DEFAULT 0,  
   active BOOLEAN NOT NULL DEFAULT 1,
-  discount_percentage DOUBLE(10, 4) NOT NULL DEFAULT 0,
   support_charges_percentage DOUBLE(10, 4) NOT NULL DEFAULT 0,
   convenience_fee_percentage DOUBLE(10, 4) NOT NULL DEFAULT 0,
-  max_discount_amount DOUBLE(10, 4) NOT NULL DEFAULT 0,
   PRIMARY KEY (id),
   UNIQUE KEY name_uk(kitchen_id, delivery_partner)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
@@ -160,6 +158,7 @@ CREATE TABLE orders (
   active BOOLEAN NOT NULL DEFAULT 1, 
   restaurant_promo DOUBLE(10, 4) NOT NULL DEFAULT 0,
   piggy_bank_coins DOUBLE(10, 4) NOT NULL DEFAULT 0, 
+  zomato_promo DOUBLE(10, 4) NOT NULL DEFAULT 0,
   PRIMARY KEY (id),
   UNIQUE KEY dp_order_id_uk(dp_order_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;

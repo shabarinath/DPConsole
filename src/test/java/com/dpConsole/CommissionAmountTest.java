@@ -16,11 +16,11 @@ public class CommissionAmountTest {
 		KitchenDeliveryPartner kdp = new KitchenDeliveryPartner();
 		kdp.setCommissionPercentage(18);
 		kdp.setConvenienceFeePercentage(2.275);
-		kdp.setDiscountPercentage(20);
-		kdp.setMaxDiscountAmount(80);
+/*		kdp.setDiscountPercentage(0);
+		kdp.setMaxDiscountAmount(80);*/
 		kdp.setSupportChargesPercentage(1);
 		Order order = new Order();
-		order.setTotalCost(195);
+		order.setTotalCost(135);
 		util.getPostCommissionAmount(kdp, order);
 	}
 

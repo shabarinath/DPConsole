@@ -61,6 +61,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 				String totalAmount = null; 
 				double restaurantPromo;
 				double piggybankCoins;
+				double zomatoPromo;
 				Order order = new Order();
 				orderId = getAttributeValues(content,EmailAttribute.ORDER_ID,EmailAttribute.Date);
 				order.setDeliveryPartnerOrderId(orderId);
@@ -68,6 +69,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 				setOrderItems(content, kitchenItems, order);
 				restaurantPromo = getRestaurantPromo(content, order);
 				piggybankCoins = getPiggyBankCoins(content, order);
+				zomatoPromo = getZomatoPromo(content, order);
 				totalAmount = getTotalAmount(content, order);
 				order.setRestaurantPromo(restaurantPromo);
 				order.setPiggybankCoins(piggybankCoins);
@@ -79,6 +81,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 				order.setTotalCost(Double.parseDouble(totalAmount));
 				order.setDeliveryPartnerOrderId(orderId);
 				order.setKitchen(kitchen);
+				order.setZomatoPromo(zomatoPromo);
 				
 				CommissionUtil util = new CommissionUtil();
 				KitchenDeliveryPartner kdp = kitchen.getSupportedDeliveryPartner(DeliveryPartner.ZOMATO);
@@ -300,6 +303,29 @@ public class ZomatoParser implements Parser<List<Message>> {
 			}
 		}
 		return restaurantPromo;
+	}
+	
+
+	private double getZomatoPromo(String content, Order order) {
+		double zomatoPromo = 0;
+		String promoStr = "";
+		if(StringUtils.isNotEmpty(content) && content.contains(EmailAttribute.ZOMATO_PROMO.getName())) {
+			try {
+				if(content.contains(EmailAttribute.PIGGY_BANK_DISCOUNT.getName())) {
+					promoStr = getAttributeValues(content, EmailAttribute.ZOMATO_PROMO, EmailAttribute.PIGGY_BANK_DISCOUNT);
+				} else if(content.contains(EmailAttribute.PAID_BY.getName())) {
+					promoStr = getAttributeValues(content, EmailAttribute.ZOMATO_PROMO, EmailAttribute.PAID_BY);
+				}
+				if(StringUtils.isNotEmpty(promoStr)) {
+					promoStr = promoStr.replaceAll("\\(", "").replaceAll("\\)", "").replaceAll(RUPEE_UNICODE, "").replaceAll(",", "");
+					zomatoPromo = Double.parseDouble(promoStr);
+				}
+			}catch(Exception e) {
+				setManualReviewDetail(order, "Zomato promo parsing error!!");
+				logger.error("Exception while parsing Zomato promo reason: ", e);
+			}
+		}
+		return zomatoPromo;
 	}
 	
 	private void setManualReviewDetail(Order ord, String comments) {
