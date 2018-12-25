@@ -14,13 +14,14 @@ public class CommissionAmountTest {
 	public static void main(String argv[]) throws Exception {
 		CommissionUtil util = new CommissionUtil();
 		KitchenDeliveryPartner kdp = new KitchenDeliveryPartner();
-		kdp.setCommissionPercentage(18);
+		kdp.setCommissionPercentage(15);
 		kdp.setConvenienceFeePercentage(2.275);
 /*		kdp.setDiscountPercentage(0);
 		kdp.setMaxDiscountAmount(80);*/
 		kdp.setSupportChargesPercentage(1);
 		Order order = new Order();
-		order.setTotalCost(135);
+		order.setZomatoPromo(32);
+		order.setTotalCost(134.40);
 		util.getPostCommissionAmount(kdp, order);
 	}
 

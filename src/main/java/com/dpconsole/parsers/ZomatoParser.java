@@ -85,7 +85,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 				
 				CommissionUtil util = new CommissionUtil();
 				KitchenDeliveryPartner kdp = kitchen.getSupportedDeliveryPartner(DeliveryPartner.ZOMATO);
-				double postCommissionAmount = util.getPostCommissionAmount(kdp, order);
+				double postCommissionAmount = order.isManualReview()?0: util.getPostCommissionAmount(kdp, order);
 				order.setPostCommissionAmount(postCommissionAmount);
 				
 				orders.add(order);

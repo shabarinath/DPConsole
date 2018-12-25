@@ -2,8 +2,13 @@ package com.dpconsole.utils;
 
 import java.text.DecimalFormat;
 
+import org.apache.commons.collections4.ListUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dpconsole.model.kitchen.KitchenDeliveryPartner;
 import com.dpconsole.model.order.Order;
+import com.dpconsole.model.order.OrderItem;
 
 /**
  * @author SHABARINATH
@@ -12,6 +17,8 @@ import com.dpconsole.model.order.Order;
 
 public class CommissionUtil {
 
+	private static final Logger logger = LoggerFactory.getLogger(CommissionUtil.class);
+	
 	public double getPostCommissionAmount(KitchenDeliveryPartner kdp, Order order) throws Exception {
 		
 		/*																	 (Zomato Commission)
@@ -20,15 +27,22 @@ public class CommissionUtil {
 		 * 
 		 */
 		DecimalFormat df = new DecimalFormat("#.00");
+		
+		double itemsPriceWithoutDeducations = getItemsPriceWithoutDeducations(order);
 		double customerPrice = getCustomerPrice(order);
-		double GSTAmount = getGSTAmount(order.getTotalCost(), getDiscountAmount(order));
+		double GSTAmount = getGSTAmount((itemsPriceWithoutDeducations), getDiscountAmount(order));
 		double netAmount = customerPrice - GSTAmount;
 		double zomatoCommissionFeeAmount = getZomatoCommissoinFeeAmount(netAmount, kdp);
 		double zomatoGST = Double.parseDouble(df.format((zomatoCommissionFeeAmount*18)/100));  //NOTE: Here GST 18% is fixed.
-		double supportCharges = (netAmount*kdp.getSupportChargesPercentage())/100;
+		double tcs = (netAmount*kdp.getSupportChargesPercentage())/100;
 		double convenienceFee = Double.parseDouble(df.format((netAmount*kdp.getConvenienceFeePercentage())/100));
-		double zomatoTotalComission = Double.parseDouble(df.format(zomatoCommissionFeeAmount + zomatoGST + supportCharges + convenienceFee));
+		double supportCharges = order.getPiggybankCoins() >0 ?  (netAmount * 2.95)/100 : 0; 
+		double zomatoTotalComission = Double.parseDouble(df.format(zomatoCommissionFeeAmount + zomatoGST + supportCharges + convenienceFee+ tcs));
 		double zomatoPays = customerPrice - zomatoTotalComission;
+		/*logger.error("itemsPriceWithoutDeducations: "+itemsPriceWithoutDeducations+" customerPrice: "+customerPrice+" netAmount: "+netAmount);
+		logger.error("zomatoCommissionFeeAmount: "+zomatoCommissionFeeAmount+" zomatoGST: "+zomatoGST+" tcs: "+tcs);
+		logger.error("convenienceFee: "+convenienceFee+" supportCharges: "+supportCharges+" zomatoTotalComission: "+zomatoTotalComission);*/
+		logger.error("zomatoPays: "+zomatoPays +" "+order.getDeliveryPartnerOrderId());
 		return zomatoPays;
 	}
 
@@ -39,11 +53,21 @@ public class CommissionUtil {
 	}
 
 	private static double getCustomerPrice(Order order) throws Exception {
-		double itemPrice = order.getTotalCost();
+		double totalAmount = getItemsPriceWithoutDeducations(order);
 		double discountAmount = getDiscountAmount(order);
-		double gstAmount = getGSTAmount(itemPrice, discountAmount);
-		double customerPrice = (itemPrice - discountAmount)+gstAmount;
-		return customerPrice;
+		double gstAmount = getGSTAmount(totalAmount, discountAmount);
+		double customerPaidAmount = (totalAmount - discountAmount)+gstAmount;
+		return customerPaidAmount;
+	}
+	
+	private static double getItemsPriceWithoutDeducations(Order order) {
+		double totalAmount = 0;
+		for(OrderItem item : ListUtils.emptyIfNull(order.getOrderItems())) {
+			int quantity = item.getQuantity();
+			double unitPrice = item.getMarketPrice();
+			totalAmount = totalAmount + (unitPrice * quantity);
+		}
+		return totalAmount;
 	}
 
 	private static double getDiscountAmount(Order order) {
@@ -51,9 +75,9 @@ public class CommissionUtil {
 		return discountAmount;
 	}
 
-	private static double getGSTAmount(double itemPrice, double discountAmount) {
+	private static double getGSTAmount(double totalAmount, double discountAmount) {
 		//NOTE : Here GST 5% is fixed for all DP's
-		return ((itemPrice - discountAmount)*5)/100;
+		return ((totalAmount - discountAmount)*5)/100;
 	}
 	
 }
