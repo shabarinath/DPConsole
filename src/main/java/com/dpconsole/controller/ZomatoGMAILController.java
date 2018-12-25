@@ -3,6 +3,7 @@ package com.dpconsole.controller;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.kitchen.KitchenDeliveryPartner;
 import com.dpconsole.model.kitchen.KitchenItem;
 import com.dpconsole.model.order.Order;
+import com.dpconsole.model.order.Status;
 import com.dpconsole.parsers.ZomatoParser;
 import com.dpconsole.service.KitchenService;
 import com.dpconsole.service.OrderService;
@@ -50,8 +52,6 @@ public class ZomatoGMAILController {
 
 	private static final String INPUT_DATE_FORMAT="yyyy-MM-dd HH:mm";
 	
-	private static final String NEW_ONLINE_DELIVERY_EMAIL_SUBJECT="New online order received at";
-
 	@Autowired
 	KitchenService kitchenService;
 
@@ -86,6 +86,7 @@ public class ZomatoGMAILController {
 				return json;
 			}
 			ZomatoParser zomatoParser = new ZomatoParser();
+			EnumMap<Status, Message[]> messagesMap = new EnumMap<Status, Message[]>(Status.class); 
 			MailService mailService = new MailService();
 			Date startDate = Utils.convertStringToDate(INPUT_DATE_FORMAT, startTime);
 			Date endDate = Utils.convertStringToDate(INPUT_DATE_FORMAT, endTime);
@@ -100,12 +101,13 @@ public class ZomatoGMAILController {
 				return json;
 			}
 			long start = System.currentTimeMillis();
-			Message[] messages = mailService.getMessagesWithCriteria(userName, password, Arrays.asList(dpEmailIds.split(",")), NEW_ONLINE_DELIVERY_EMAIL_SUBJECT, startDate, endDate, mailBoxFolder);
+			//Message[] messages = mailService.getMessagesWithCriteria(userName, password, Arrays.asList(dpEmailIds.split(",")), NEW_ONLINE_DELIVERY_EMAIL_SUBJECT, startDate, endDate, mailBoxFolder);
+			messagesMap = mailService.getMessagesWithCriteria(userName, password, Arrays.asList(dpEmailIds.split(",")), startDate, endDate, mailBoxFolder); 
 			long end = System.currentTimeMillis();
 			long turnAroundTime = end - start;
-			logger.info("Turn Around Time for fetching emails: "+messages.length+" is "+turnAroundTime+" ms");
+			//logger.info("Turn Around Time for fetching emails: "+messages.length+" is "+turnAroundTime+" ms");
 			Map<String, KitchenItem> kitchenItems = kitchenService.getAllKitchenItems(kitchenId, DeliveryPartner.ZOMATO);
-			List<Order> orders = zomatoParser.parse(kitchen, kitchenItems, Arrays.asList(messages));
+			List<Order> orders = zomatoParser.parse(kitchen, kitchenItems, messagesMap);
 			for(Order order: orders) {
 				try {
 					orderService.saveOrUpdateOrder(order);

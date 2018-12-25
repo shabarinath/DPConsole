@@ -3,6 +3,7 @@ package com.dpconsole.parsers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -19,6 +20,7 @@ import com.dpconsole.model.kitchen.KitchenDeliveryPartner;
 import com.dpconsole.model.kitchen.KitchenItem;
 import com.dpconsole.model.order.Order;
 import com.dpconsole.model.order.OrderItem;
+import com.dpconsole.model.order.Status;
 import com.dpconsole.utils.CommissionUtil;
 import com.dpconsole.utils.Utils;
 
@@ -26,7 +28,7 @@ import com.dpconsole.utils.Utils;
  * @author SHABARINATH
  * 23-Nov-2018 5:52:46 pm 2018
  */
-public class ZomatoParser implements Parser<List<Message>> {
+public class ZomatoParser implements Parser<EnumMap<Status, Message[]>> {
 
 	private static final String HASH_DELIM=",";
 	private static final String PIPE_DELIM="|";
@@ -43,8 +45,70 @@ public class ZomatoParser implements Parser<List<Message>> {
 	private static final Logger logger = LoggerFactory.getLogger(ZomatoParser.class);
 	
 	@Override
-	public List<Order> parse(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, List<Message> messages) throws Exception {
+	public List<Order> parse(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, EnumMap<Status, Message[]> messagesMap) throws Exception {
+		EnumMap<Status, List<Order>> allOrders = new EnumMap<Status, List<Order>>(Status.class);
 		List<Order> orders = new ArrayList<>();
+		
+		/*
+		 * Processing delivered orders first to 
+		 * override calculations for cancelled orders later
+		 * 
+		 */
+		
+		/*
+		 * Processing delivered orders
+		 */
+		Message[] deliveredOrders = messagesMap.get(Status.DELIVERED);
+		processDeliveredMessages(kitchen, kitchenItems, deliveredOrders, orders);
+		ArrayList<Order> deliveredOrdersList = new ArrayList<Order>();
+		deliveredOrdersList.addAll(orders);
+		allOrders.put(Status.DELIVERED, deliveredOrdersList);
+		
+		/*
+		 * Processing cancelled orders
+		 */
+		Message[] cancelledOrders = messagesMap.get(Status.CANCELLED);
+		processCancelledOrders(cancelledOrders, orders);
+		
+		return orders;
+	}
+
+	private void processCancelledOrders(Message[] cancelledOrders, List<Order> deliveredOrders) {
+		String orderId=null;
+		for(Message cancelledOrder : cancelledOrders) {
+			try {
+				if(cancelledOrder == null) {
+					continue;
+				}
+				String content = ZomatoParser.getOrderContent(cancelledOrder);
+				if(StringUtils.isEmpty(content)) {
+					logger.info("content is empty");
+					continue;
+				}
+				orderId=null;
+				Order order;
+				orderId = getAttributeValues(content,EmailAttribute.ORDER_ID,EmailAttribute.Date);
+				for(Order deliveredOrder : deliveredOrders) {
+					if(orderId.equalsIgnoreCase(deliveredOrder.getDeliveryPartnerOrderId())) {
+						order = deliveredOrder;
+						break;
+					} else {
+						order = new Order();
+					}
+				}
+				String reason = getCancellationReason(content);
+			}catch(Exception e) {
+				logger.info("Exception while processing cancelledOrder orderId: "+orderId+" Reason: ", e);
+			}
+		}
+	}
+
+	private String getCancellationReason(String content) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private void processDeliveredMessages(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, Message[] messages, List<Order> orders) {
 		String orderId=null;
 		for(Message message : messages) {
 			try {
@@ -75,7 +139,7 @@ public class ZomatoParser implements Parser<List<Message>> {
 				order.setPiggybankCoins(piggybankCoins);
 				order.setDeliveryPartner(DeliveryPartner.ZOMATO);
 				order.setOrderedTime(Utils.convertDateToGMT(orderedTime, TimeZone.getTimeZone("GMT")));
-				order.setStatus("DELIVERED");
+				order.setStatus(Status.DELIVERED.toString());
 				order.setKitchen(kitchen);
 				order.setParsedTime(Utils.getSystemTimeInGMT());
 				order.setTotalCost(Double.parseDouble(totalAmount));
@@ -96,8 +160,6 @@ public class ZomatoParser implements Parser<List<Message>> {
 				logger.error("Exception occured for orderId: "+orderId, e);
 			}
 		}
-		return orders;
-
 	}
 
 	private String getTotalAmount(String content, Order order) {

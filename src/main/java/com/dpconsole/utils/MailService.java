@@ -4,6 +4,7 @@ import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -25,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dpconsole.model.order.Status;
 import com.dpconsole.parsers.ZomatoParser;
 import com.sun.mail.util.MailSSLSocketFactory;
 
@@ -42,6 +44,9 @@ public class MailService {
 	 
 	 private static final Logger logger = LoggerFactory.getLogger(ZomatoParser.class);
 	 
+	 private static final String ONLINE_DELIVERY_EMAIL_SUBJECT="New online order received at";
+	 private static final String ORDER_CANCELLATION_SUBJECT="Online order cancellation";
+	 
 	 @PostConstruct
 	 private void init() {
 		 props = new Properties();
@@ -49,8 +54,7 @@ public class MailService {
 		 props.setProperty("mail.imap.ssl.trust", "*");
 	 }
 	 
-	public Message[] getMessagesWithCriteria(String email, String password, List<String> dpEmails, 
-		String subject, Date stateDate, Date endDate, String mailBoxFolder) throws MessagingException, ParseException, GeneralSecurityException{
+	public EnumMap<Status, Message[]> getMessagesWithCriteria(String email, String password, List<String> dpEmails, Date stateDate, Date endDate, String mailBoxFolder) throws MessagingException, ParseException, GeneralSecurityException{
 		props = new Properties();
 		props.put("mail.store.protocol", protocol);
 		props.setProperty("mail.imap.ssl.trust", "*");
@@ -61,16 +65,34 @@ public class MailService {
 		socketFactory.setTrustAllHosts(true);
 		props.put("mail.imap.ssl.socketFactory", socketFactory);
 		
+		EnumMap<Status, Message[]> statusVSMailMap = new EnumMap<Status, Message[]>(Status.class);
+		
 	 	Session session = Session.getDefaultInstance(props, null);
 		store = session.getStore(protocol);
 		store.connect(host, email,password);
 		inbox = store.getFolder(mailBoxFolder);
 		inbox.open(Folder.READ_ONLY);
-		SearchTerm rangeAndFromAddressFilter = prepareCriteriaQuery(stateDate, endDate, dpEmails, subject);
-		Message[] messages = inbox.search(rangeAndFromAddressFilter);
-		messages = filterMessageByTime(messages, stateDate, endDate);
-		logger.error("Mails fetched for given criteria: "+messages.length);
-		return messages;
+		
+		/*
+		 * Below block for fetching delivered mails
+		 * 
+		 */
+		SearchTerm rangeAndFromAddressFilter = prepareCriteriaQuery(stateDate, endDate, dpEmails, ONLINE_DELIVERY_EMAIL_SUBJECT);
+		Message[] deliveredMails = inbox.search(rangeAndFromAddressFilter);
+		deliveredMails = filterMessageByTime(deliveredMails, stateDate, endDate);
+		statusVSMailMap.put(Status.DELIVERED, deliveredMails);
+		
+		/*
+		 * Below block for fetching cancelled mails
+		 * 
+		 */
+		rangeAndFromAddressFilter = prepareCriteriaQuery(stateDate, endDate, dpEmails, ORDER_CANCELLATION_SUBJECT);
+		Message[] cancelledOrderMails = inbox.search(rangeAndFromAddressFilter);
+		cancelledOrderMails = filterMessageByTime(cancelledOrderMails, stateDate, endDate);
+		statusVSMailMap.put(Status.CANCELLED, cancelledOrderMails);
+		
+		logger.error("Mails fetched for given criteria: "+deliveredMails.length);
+		return statusVSMailMap;
 	 }
 
 	private Message[] filterMessageByTime(Message[] messages, Date stateDate, Date endDate) throws MessagingException {
