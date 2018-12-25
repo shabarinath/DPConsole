@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.mail.Message;
 
@@ -27,6 +28,7 @@ import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.kitchen.KitchenDeliveryPartner;
 import com.dpconsole.model.kitchen.KitchenItem;
 import com.dpconsole.model.order.Order;
+import com.dpconsole.parsers.ZomatoCSVParser;
 import com.dpconsole.parsers.ZomatoParser;
 import com.dpconsole.service.KitchenService;
 import com.dpconsole.service.OrderService;
@@ -74,7 +76,7 @@ public class ZomatoGMAILController {
 
 	@RequestMapping(value = "/processZomatoOrders", method = RequestMethod.GET)
 	@ResponseBody
-	public String dashboard(Model model,
+	public String processOrders(Model model,
 			@RequestParam("kitchenId") long kitchenId,
 			@RequestParam("startTime") String startTime,
 			@RequestParam("endTime") String endTime) throws Exception{
@@ -140,6 +142,31 @@ public class ZomatoGMAILController {
 			return true;
 		}
 		return false;
+	}
+	
+	@RequestMapping(value = "/processWeeklyCSVFile", method = RequestMethod.POST)
+	public String processWeeklyCSVFile(@RequestParam("filePath") String filePath) throws Exception {
+		try {
+			ZomatoCSVParser zomatoCSVParser = new ZomatoCSVParser();
+			Map<String, String> ordersVSAmountMap = zomatoCSVParser.parse(null, null, filePath);
+			for(Entry<String, String> entry : ordersVSAmountMap.entrySet()) {
+				String orderId = "";
+				try {
+					orderId = entry.getKey().trim();
+					Order order = orderService.getOrderByDPOrderID(orderId);
+					if(null != order) {
+						double dpAmountPaid = Double.parseDouble(entry.getValue());
+						order.setDpReceivedPrice(dpAmountPaid);
+						orderService.saveOrUpdateOrder(order);
+					}
+				}catch(Exception e) {
+					logger.error("Parse failed for orderId: "+ orderId, e);
+				}
+			}
+		}catch(Exception e) {
+			logger.error("Exception occured in processWeeklyCSVFile: ", e);
+		}
+		return "";
 	}
 
 	class ResponseObj implements Serializable {

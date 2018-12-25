@@ -39,10 +39,7 @@ public class CommissionUtil {
 		double supportCharges = order.getPiggybankCoins() >0 ?  (netAmount * 2.95)/100 : 0; 
 		double zomatoTotalComission = Double.parseDouble(df.format(zomatoCommissionFeeAmount + zomatoGST + supportCharges + convenienceFee+ tcs));
 		double zomatoPays = customerPrice - zomatoTotalComission;
-		/*logger.error("itemsPriceWithoutDeducations: "+itemsPriceWithoutDeducations+" customerPrice: "+customerPrice+" netAmount: "+netAmount);
-		logger.error("zomatoCommissionFeeAmount: "+zomatoCommissionFeeAmount+" zomatoGST: "+zomatoGST+" tcs: "+tcs);
-		logger.error("convenienceFee: "+convenienceFee+" supportCharges: "+supportCharges+" zomatoTotalComission: "+zomatoTotalComission);*/
-		logger.error("zomatoPays: "+zomatoPays +" "+order.getDeliveryPartnerOrderId());
+		//logger.error("zomatoPays: "+zomatoPays +" "+order.getDeliveryPartnerOrderId());
 		return zomatoPays;
 	}
 

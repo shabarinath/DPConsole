@@ -89,4 +89,10 @@ public class OrderDaoImpl extends DaoImpl implements OrderDao {
 		return getHibernatePage(queryString.toString(), countQuery.toString(), queryParams, pageNo, pageSize);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Order getOrderByDPOrderID(String dpOrderId) throws Exception {
+		List<Order> orders = getHibernateTemplate().find("FROM Order o WHERE o.deliveryPartnerOrderId = ? ", new Object[]{dpOrderId});
+		return !orders.isEmpty() ? orders.get(0) : null;
+	}
 }

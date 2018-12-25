@@ -32,7 +32,7 @@ import com.dpconsole.utils.Utils;
  * @author nanda.malve
  * created on 24-Nov-2018 6:24:45 PM
  */
-public class FoodPandaParser extends CSVParser {
+public class FoodPandaParser extends CSVParser<List<Order>> {
 
 	private static final Logger logger = LoggerFactory.getLogger(FoodPandaParser.class);
 

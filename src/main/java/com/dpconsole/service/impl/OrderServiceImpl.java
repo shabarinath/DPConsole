@@ -50,4 +50,9 @@ public class OrderServiceImpl implements OrderService {
 		return orderDao.getOrdersForManualReview(sortName, isDecendingOrder, pageNo, pageSize);
 	}
 
+	@Override
+	public Order getOrderByDPOrderID(String dpOrderId) throws Exception {
+		return orderDao.getOrderByDPOrderID(dpOrderId);
+	}
+
 }

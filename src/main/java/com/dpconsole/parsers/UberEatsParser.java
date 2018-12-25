@@ -21,7 +21,7 @@ import com.dpconsole.model.order.Order;
  * @author nanda.malve
  * created on 24-Nov-2018 6:30:08 PM
  */
-public class UberEatsParser<T> implements Parser<T> {
+public class UberEatsParser<T> implements Parser<T, List<Order>> {
 
 	@Override
 	public List<Order> parse(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, T content) throws Exception {

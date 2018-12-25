@@ -23,14 +23,13 @@ import org.apache.commons.csv.CSVRecord;
 
 import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.kitchen.KitchenItem;
-import com.dpconsole.model.order.Order;
 import com.dpconsole.utils.Utils;
 
 /**
  * @author nanda.malve
  * created on 24-Nov-2018 10:43:11 PM
  */
-public abstract class CSVParser implements Parser<String> {
+public abstract class CSVParser<R> implements Parser<String, R> {
 
 	private CSVFormat format = CSVFormat.DEFAULT.withDelimiter(getDelimiter()).withHeader().withIgnoreHeaderCase();
 
@@ -40,14 +39,14 @@ public abstract class CSVParser implements Parser<String> {
 
 	public abstract int getSkipLinesCount();
 
-	public abstract List<Order> parseRecords(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, List<CSVRecord> csvRecords);
+	public abstract R parseRecords(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, List<CSVRecord> csvRecords);
 
 	org.apache.commons.csv.CSVParser getParser() {
 		return parser;
 	}
 
 	@Override
-	public List<Order> parse(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, String filePath) throws Exception {
+	public R parse(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, String filePath) throws Exception {
 		if(Utils.isEmpty(filePath)) {
 			throw new Exception("Orders file path cannot be empty");
 		}

@@ -26,4 +26,6 @@ public interface OrderDao extends Dao {
 
 	PartialPage<Order> getOrdersForManualReview(String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception;
 
+	Order getOrderByDPOrderID(String dpOrderId) throws Exception;
+
 }

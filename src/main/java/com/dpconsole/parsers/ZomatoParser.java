@@ -26,7 +26,7 @@ import com.dpconsole.utils.Utils;
  * @author SHABARINATH
  * 23-Nov-2018 5:52:46 pm 2018
  */
-public class ZomatoParser implements Parser<List<Message>> {
+public class ZomatoParser implements Parser<List<Message>, List<Order>> {
 
 	private static final String HASH_DELIM=",";
 	private static final String PIPE_DELIM="|";
@@ -212,7 +212,21 @@ public class ZomatoParser implements Parser<List<Message>> {
 			boolean isPresent = true;
 			int counter = 0;
 			while(isPresent) {
-				itemsSection = itemsSection.replace(itemsSection.substring(itemsSection.indexOf(EmailAttribute.QUANTITY.getName()), itemsSection.indexOf('(', itemsSection.indexOf('(' + counter))), "");
+				itemsSection.indexOf(EmailAttribute.QUANTITY.getName());
+				itemsSection.indexOf('(', itemsSection.indexOf('(' + 1));
+				try {
+					itemsSection = itemsSection.replace(itemsSection.substring(itemsSection.indexOf(EmailAttribute.QUANTITY.getName()), itemsSection.indexOf('(', itemsSection.indexOf('(' + counter))), "");
+				}catch(Exception e) {
+					//Safe Exception can ignore !!
+					//Exception occures for below case 
+					/* 
+					 * Quantity occurs not for first items 
+					 * 
+					 * Chilly Gobi (1 x ₹190)	₹190
+					 * Mini Steam Rice  Quantity :	Small (1 x ₹50)	₹50
+					 */
+					logger.error("Safe Exception can ignore !!");
+				}
 				counter = counter +1;
 				isPresent = itemsSection.contains(EmailAttribute.QUANTITY.getName()) ? true : false;
 			}

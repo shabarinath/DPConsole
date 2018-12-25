@@ -41,8 +41,8 @@ public class Order extends Persistent {
 	private String status;
 	private String paymentType;
 	private double totalCost;
-	private double postCommissionAmount;
-	private double dpReceivedPrice;
+	private double postCommissionAmount; // This is calculated price
+	private double dpReceivedPrice; // This is amount parsed from weekly CSV file
 	private String notes;
 	private boolean manualReview;
 	private String manualReviewComments = "";

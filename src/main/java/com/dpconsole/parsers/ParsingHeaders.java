@@ -38,5 +38,11 @@ public interface ParsingHeaders {
 		String CANCELLATION_REASON = "Cancelled reason";
 		String CANCELLATION_ENTITY = "Cancellation-responsible-entity";
 	}
+	
+	interface Zomato {
+		String ORDER_ID = "Order Id";
+		String DP_PAID_AMOUNT = "Credit ( INR ) "; 
+		String SETTLEMENT_TYPE = "Settlement Type";
+	}
 
 }

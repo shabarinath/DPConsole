@@ -15,9 +15,9 @@ import com.dpconsole.utils.Utils;
  * @author SHABARINATH
  * 23-Nov-2018 5:48:14 pm 2018
  */
-public interface Parser<T> extends ParsingHeaders {
+public interface Parser<T, R> extends ParsingHeaders {
 
-	List<Order> parse(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, T content) throws Exception;
+	R parse(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, T content) throws Exception;
 
 	default void addReviewComment(Logger logger, Order order, String comment, Throwable t) {
 		order.setManualReview(true);
