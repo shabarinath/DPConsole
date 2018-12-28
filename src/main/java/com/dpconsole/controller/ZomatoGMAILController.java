@@ -158,6 +158,8 @@ public class ZomatoGMAILController {
 						double dpAmountPaid = Double.parseDouble(entry.getValue());
 						order.setDpReceivedPrice(dpAmountPaid);
 						orderService.saveOrUpdateOrder(order);
+					} else {
+						logger.error("Order missing in db"+ orderId);
 					}
 				}catch(Exception e) {
 					logger.error("Parse failed for orderId: "+ orderId, e);

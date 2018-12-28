@@ -272,7 +272,7 @@ FOOTER
 	<input  name="j_password" placeholder="Password" type="password" id="password" class="input password"/><!--END PASSWORD-->
     </div>
     <!--END CONTENT-->
-    <h5 style="text-align:right;margin-right:30px;"><a href="/changePassword">Change Password</a></h5>
+    <!--<h5 style="text-align:right;margin-right:30px;"><a href="/changePassword">Change Password</a></h5>-->
     <!--FOOTER-->
     <div class="footer">
     <!--LOGIN BUTTON--><input type="submit" name="submit" value="Login" class="button" /><!--END LOGIN BUTTON-->

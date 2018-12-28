@@ -71,19 +71,15 @@ public class KitchenServiceImpl implements KitchenService {
 		Map<String, KitchenItem> kItemsMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		for(KitchenItem kItem : ListUtils.emptyIfNull(kItems)) {
 			kItemsMap.put(kItem.getItem().getName(), kItem);
-			for(String alias : kItem.getItem().getAliases()) {
-				kItemsMap.put(alias, kItem);
+			for(String alias : ListUtils.emptyIfNull(kItem.getItem().getAliases())) {
+				if(null != alias) {
+					kItemsMap.put(alias, kItem);
+				}
 			}
 			//To avoid lazy exceptions
 			//kItem.getItem().getSubCategory().getName();
 			//kItem.getItem().getSubCategory().getCategory().getName();
 		}
-		/*ListUtils.emptyIfNull(kItems).forEach(kItem->{
-			kItemsMap.put(kItem.getItem().getName(), kItem);
-			for(String alias : kItem.getItem().getAliases()) {
-				kItemsMap.put(alias, kItem);
-			}
-		});*/
 		return kItemsMap;
 	}
 

@@ -150,8 +150,11 @@
                           <li><a href="post_right_sidebar.html">Post right sidebar</a></li>
                         </ul> -->
                       </li>
-					   <li>
-                        <a href="#"/>Excel+</a>
+					   <li class="dropdown">
+                        <a href="javascript:void(0);" />Excel+</a>
+						<ul class="dropdown-menu">
+                          <li><a href="/excelTally">Tally</a></li>                          
+                        </ul>
                       </li>					  
                       <li>
                         <a href="<c:url value="/j_spring_security_logout"/>" >Logout</a>

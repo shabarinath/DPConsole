@@ -20,7 +20,8 @@ public enum EmailAttribute {
 	TAXES("Taxes"),
 	PIGGY_BANK_DISCOUNT("Discount using Piggybank Coins"),
 	ZOMATO_PROMO("Zomato Promo"),
-	QUANTITY("Quantity :");
+	QUANTITY("Quantity :"),
+	ORDER_TIP("Order Tip");
 
 	private String name;
 

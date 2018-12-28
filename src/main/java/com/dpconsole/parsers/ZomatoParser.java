@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dpconsole.exception.ItemNotFoundException;
 import com.dpconsole.model.kitchen.DeliveryPartner;
 import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.kitchen.KitchenDeliveryPartner;
@@ -38,7 +39,7 @@ public class ZomatoParser implements Parser<List<Message>, List<Order>> {
 	
 	private static ArrayList<EmailAttribute> precedenceList = new ArrayList<EmailAttribute>(Arrays.asList(EmailAttribute.ZOMATO_PROMO, 
 			EmailAttribute.TAXES, EmailAttribute.RESTUARANT_PROMO, 
-			EmailAttribute.PIGGY_BANK_DISCOUNT, EmailAttribute.PAID_BY));
+			EmailAttribute.PIGGY_BANK_DISCOUNT, EmailAttribute.PAID_BY, EmailAttribute.ORDER_TIP));
 
 	private static final Logger logger = LoggerFactory.getLogger(ZomatoParser.class);
 	
@@ -85,6 +86,7 @@ public class ZomatoParser implements Parser<List<Message>, List<Order>> {
 				
 				CommissionUtil util = new CommissionUtil();
 				KitchenDeliveryPartner kdp = kitchen.getSupportedDeliveryPartner(DeliveryPartner.ZOMATO);
+				//NOTE: If manual review is true we are not calculating postCommissionAmount
 				double postCommissionAmount = order.isManualReview()?0: util.getPostCommissionAmount(kdp, order);
 				order.setPostCommissionAmount(postCommissionAmount);
 				
@@ -92,12 +94,13 @@ public class ZomatoParser implements Parser<List<Message>, List<Order>> {
 				long end = System.currentTimeMillis();
 				long turnAroundTime = end - start;
 				logger.info("Turn Around Time for parsing for orderId: "+orderId+" "+turnAroundTime+" ms");
-			}catch(Exception e) {
+			} catch(ItemNotFoundException e) {
+				logger.error("Item Missing for OrderId: "+orderId+" : "+ e.getMessage());
+			} catch(Exception e) {
 				logger.error("Exception occured for orderId: "+orderId, e);
 			}
 		}
 		return orders;
-
 	}
 
 	private String getTotalAmount(String content, Order order) {
@@ -120,7 +123,7 @@ public class ZomatoParser implements Parser<List<Message>, List<Order>> {
 		return totalAmount.replaceAll(RUPEE_UNICODE, "").replaceAll(",", "").trim();
 	}
 
-	private void setOrderItems(String content, Map<String, KitchenItem> kitchenItems, Order order) {
+	private void setOrderItems(String content, Map<String, KitchenItem> kitchenItems, Order order) throws ItemNotFoundException {
 		String items = "";
 		if(StringUtils.isNotEmpty(content)) {
 			int beginIndex = content.indexOf(EmailAttribute.Date.getName())+EmailAttribute.Date.getName().length()+10;
@@ -152,7 +155,7 @@ public class ZomatoParser implements Parser<List<Message>, List<Order>> {
 			KitchenItem kitchenItem = kitchenItems.get(itemName);
 			if(StringUtils.isEmpty(itemName) || null == kitchenItem) {
 				setManualReviewDetail(order, "Item Name: "+itemName+" missing!!");
-				continue;
+				throw new ItemNotFoundException("Item Name: "+itemName+" missing!!");
 			}
 			String quantity = StringUtils.trim((str.split(ESCAPE+PIPE_DELIM)[1]).split("x")[0].replace("(", ""));
 			String dpReceivedTotalPricePerItem = StringUtils.trim(str.split(ESCAPE+PIPE_DELIM)[2]).replaceAll(RUPEE_UNICODE, "").replaceAll(",", "");
