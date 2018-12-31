@@ -21,9 +21,9 @@ public class OrderItem extends Persistent {
 
 	private KitchenItem kitchenItem;
 	private int quantity;
-	private double manufacturingPrice;
-	private double marketPrice;
-	private double dpReceivedPrice;
+	private double manufacturingPrice; //(kitchenItem.ManufacturingPrice + PackingCost)*2
+	private double marketPrice; // kitchenItem.MarketPrice * Quantity
+	private double dpReceivedPrice; //This is unit price parsed from email
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "kitchen_item_id", nullable = false)

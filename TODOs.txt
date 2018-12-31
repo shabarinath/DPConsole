@@ -35,7 +35,21 @@ Persist zomato promo from emails (use this as discount percentage don't consider
 1) don't consider db discounts from db and persist Zomato Promo and use Zomato Promo & restaurant promo while calculations (Done)
 2) Rejected/cancelled scenarios (need to update existing order in db) 
 3) excel tally (Completed for zomato)
-4) dashboard stats 
+4) dashboard stats (done)
 5) items grouping 
+
+
+New Requirements - 30 Dec 2018::
+
+1) order_items table manufacting price -> manufacting + packing cost consolidated (Done)
+
+2) packing cost in catalogue_sub_category item table, to remove this column in kitchen_items (packing_price column remove) (Done)
+
+3) Ideally in each order, the margin between the manufacting_price against the total order calculated price deviation 
+is less than 30 rupees, system should alert those order ids (section Orders -> Order Price Review 
+(similar to Processed, Review sub sections)
+
+4) Remove the column delivery_partner from the kitchen_items table, as the menu item prices will be consistent across all 
+of the delivery partners(swiggy, zomato, UberEats, FoodPanda).
 
 

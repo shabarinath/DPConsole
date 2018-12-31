@@ -35,7 +35,6 @@ public class KitchenItem extends Persistent {
 	private Kitchen kitchen;
 	private DeliveryPartner deliveryPartner;
 	private double manufacturingPrice;
-	private double packingPrice;
 	private double marketPrice;
 	private boolean active = true;
 
@@ -88,14 +87,6 @@ public class KitchenItem extends Persistent {
 	}
 	public void setActive(boolean active) {
 		this.active = active;
-	}
-
-	@Column(name = "packing_price")
-	public double getPackingPrice() {
-		return packingPrice;
-	}
-	public void setPackingPrice(double packingPrice) {
-		this.packingPrice = packingPrice;
 	}
 
 	@Override

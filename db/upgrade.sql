@@ -24,3 +24,9 @@ ALTER TABLE kitchen_delivery_partners ADD COLUMN max_discount_amount DOUBLE(10, 
 ALTER TABLE kitchen_delivery_partners drop column discount_percentage;
 ALTER TABLE kitchen_delivery_partners drop column max_discount_amount;
 ALTER TABLE orders ADD COLUMN zomato_promo DOUBLE(10, 4) NOT NULL DEFAULT 0;
+
+31-12-2018
+================
+ALTER TABLE kitchen_items DROP COLUMN packing_price;
+ALTER TABLE catalogue_sub_categories ADD COLUMN packing_price DOUBLE(10, 4) NOT NULL DEFAULT 0;
+

@@ -130,7 +130,6 @@ CREATE TABLE kitchen_items (
   delivery_partner VARCHAR(255) NOT NULL,
   item_id BIGINT(20) NOT NULL,
   manufacturing_price DOUBLE(10, 4) NOT NULL DEFAULT 0,
-  packing_price DOUBLE(10, 4) NOT NULL DEFAULT 0,
   market_price DOUBLE(10, 4) NOT NULL DEFAULT 0,
   active BOOLEAN NOT NULL DEFAULT 1,
   PRIMARY KEY (id),
