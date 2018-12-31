@@ -62,7 +62,8 @@ public class OrderDaoImpl extends DaoImpl implements OrderDao {
 			queryString.append(" AND o.orderedTime <= ?");
 			queryParams.add(endCreatedTime);
 		}
-
+		queryString.append(" AND o.manualReview = ?");
+		queryParams.add(false);
 		StringBuffer countQuery = new StringBuffer("SELECT COUNT(*) ").append(queryString);
 		if(Utils.isEmpty(sortName)) {
 			sortName = "o.orderedTime";

@@ -158,17 +158,17 @@
           <ul class="clients">
             <li>
               <a href="#">
-									<img src="assets/img/dummies/clients/client1.png" class="client-logo" alt="" />
+									<!-- <img src="assets/img/dummies/clients/client1.png" class="client-logo" alt="" /> -->
 								</a>
             </li>
             <li>
               <a href="#">
-									<img src="assets/img/dummies/clients/client2.png" class="client-logo" alt="" />
+									<!-- <img src="assets/img/dummies/clients/client2.png" class="client-logo" alt="" /> -->
 								</a>
             </li>
             <li>
               <a href="#">
-									<img src="assets/img/dummies/clients/client3.png" class="client-logo" alt="" />
+									<!-- <img src="assets/img/dummies/clients/client3.png" class="client-logo" alt="" /> -->
 								</a>
             </li>
 
