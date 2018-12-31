@@ -1,7 +1,6 @@
 package com.dpconsole.controller;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.dpconsole.model.PartialPage;
-import com.dpconsole.model.kitchen.DeliveryPartner;
-import com.dpconsole.model.kitchen.Kitchen;
 import com.dpconsole.model.order.Order;
 import com.dpconsole.service.KitchenService;
 import com.dpconsole.service.OrderService;
@@ -37,13 +34,13 @@ public class OrdersController {
 
 	private static final String INPUT_DATE_FORMAT="yyyy-MM-dd HH:mm";
 
-	@Autowired
-	private KitchenService kitchenService;
+/*	@Autowired
+	private KitchenService kitchenService;*/
 
 	@Autowired
 	private OrderService orderService;
 
-	@RequestMapping(value = "/orderLayout", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/orderLayout", method = RequestMethod.GET)
 	public String loadPage(Model model) throws Exception{
 		try {
 			List<Kitchen> kitchens = kitchenService.getAllKitchens();
@@ -55,7 +52,7 @@ public class OrdersController {
 			logger.error("Failed to load orders layout", e);
 			throw e;
 		}
-	}
+	}*/
 
 	@RequestMapping(value = "/orders")
 	public String dashboard(Model model,

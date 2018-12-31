@@ -40,7 +40,7 @@ public class OrderDaoImpl extends DaoImpl implements OrderDao {
 			queryString.append(" WHERE o.kitchen.id = ? ");
 			queryParams.add(kitchenId);
 		}
-		if (StringUtils.isNotEmpty(deliveryPartner)) {
+		if (!StringUtils.isBlank(deliveryPartner)) {
 			if(CollectionUtils.isNotEmpty(queryParams)) {
 				queryString.append(" AND ");
 			} else {

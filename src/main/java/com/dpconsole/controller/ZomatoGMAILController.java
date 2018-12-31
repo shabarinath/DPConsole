@@ -144,33 +144,6 @@ public class ZomatoGMAILController {
 		return false;
 	}
 	
-	@RequestMapping(value = "/processWeeklyCSVFile", method = RequestMethod.POST)
-	public String processWeeklyCSVFile(@RequestParam("filePath") String filePath) throws Exception {
-		try {
-			ZomatoCSVParser zomatoCSVParser = new ZomatoCSVParser();
-			Map<String, String> ordersVSAmountMap = zomatoCSVParser.parse(null, null, filePath);
-			for(Entry<String, String> entry : ordersVSAmountMap.entrySet()) {
-				String orderId = "";
-				try {
-					orderId = entry.getKey().trim();
-					Order order = orderService.getOrderByDPOrderID(orderId);
-					if(null != order) {
-						double dpAmountPaid = Double.parseDouble(entry.getValue());
-						order.setDpReceivedPrice(dpAmountPaid);
-						orderService.saveOrUpdateOrder(order);
-					} else {
-						logger.error("Order missing in db"+ orderId);
-					}
-				}catch(Exception e) {
-					logger.error("Parse failed for orderId: "+ orderId, e);
-				}
-			}
-		}catch(Exception e) {
-			logger.error("Exception occured in processWeeklyCSVFile: ", e);
-		}
-		return "";
-	}
-
 	class ResponseObj implements Serializable {
 		private static final long serialVersionUID = -7539197598047102123L;
 		String status;

@@ -155,14 +155,15 @@ public class ZomatoParser implements Parser<List<Message>, List<Order>> {
 			KitchenItem kitchenItem = kitchenItems.get(itemName);
 			if(StringUtils.isEmpty(itemName) || null == kitchenItem) {
 				setManualReviewDetail(order, "Item Name: "+itemName+" missing!!");
-				throw new ItemNotFoundException("Item Name: "+itemName+" missing!!");
+				continue;
+				//throw new ItemNotFoundException("Item Name: "+itemName+" missing!!");
 			}
 			String quantity = StringUtils.trim((str.split(ESCAPE+PIPE_DELIM)[1]).split("x")[0].replace("(", ""));
 			String dpReceivedTotalPricePerItem = StringUtils.trim(str.split(ESCAPE+PIPE_DELIM)[2]).replaceAll(RUPEE_UNICODE, "").replaceAll(",", "");
 			Double dpReceivedUnitPrice = (Double.parseDouble(dpReceivedTotalPricePerItem)/Integer.parseInt(quantity));
 			OrderItem orderItem = new OrderItem();
 			orderItem.setQuantity(Integer.parseInt(quantity));
-			orderItem.setManufacturingPrice(kitchenItem.getManufacturingPrice());
+			orderItem.setManufacturingPrice(kitchenItem.getManufacturingPrice()); //add packing cost
 			orderItem.setMarketPrice(kitchenItem.getMarketPrice());
 			orderItem.setDpReceivedPrice(dpReceivedUnitPrice);  //TODO: is this unit price
 			orderItem.setKitchenItem(kitchenItem);

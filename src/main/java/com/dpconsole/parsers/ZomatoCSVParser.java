@@ -38,8 +38,9 @@ public class ZomatoCSVParser extends CSVParser<Map<String, String>> {
 		for(CSVRecord record : csvRecords) {
 			try {
 				orderId = record.get(Zomato.ORDER_ID);
-				String dpPaidAmount = record.get(Zomato.DP_PAID_AMOUNT);
-				orderIdVSFinalAmountMap.put(orderId, dpPaidAmount);
+				String dpPaidAmount = record.get(Zomato.DP_CREDIT_AMOUNT);
+				String debitAmount = record.get(Zomato.DP_DEBIT_AMOUNT);
+				orderIdVSFinalAmountMap.put(orderId, dpPaidAmount.concat("#").concat(debitAmount));
 			}catch(Exception e) {
 				logger.error("Exception occured in parseRecords for orderId : "+orderId+" reason: ", e);
 			}

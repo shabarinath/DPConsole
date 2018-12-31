@@ -100,7 +100,8 @@
                       <li class="dropdown">
                         <a href="#">Gmail Auto</a>
                         <ul class="dropdown-menu">
-                          <li><a href="/zomatoGmailAuto">Zomato</a></li>
+                          <!--<li><a href="/zomatoGmailAuto">Zomato</a></li> -->
+						  <li><a href="/filtered/zomatoGmailAuto">Zomato</a></li>						  
                           <!-- <li><a href="base-css.html">Base CSS</a></li>
                           <li><a href="components.html">Components</a></li>
                           <li><a href="icons.html">Icons</a></li>
@@ -126,14 +127,15 @@
 					  <li class="dropdown">
                         <a href="javascript:void(0);">Orders</a>
                         <ul class="dropdown-menu">
-                          <li><a href="/orderLayout">Processed</a></li>
+                          <!-- <li><a href="/orderLayout">Processed</a></li> -->
+						  <li><a href="/filtered/orderLayout">Processed</a></li>
                           <li><a href="/reviewOrders">Review</a></li>
                           <!-- <li><a href="portfolio-4cols.html">Portfolio 4 columns</a></li>
                           <li><a href="portfolio-detail.html">Portfolio detail</a></li> -->
                         </ul>
                       </li>
                       <li>
-                        <a href="/dashboard">Dashboard</a>
+                        <a href="/filtered/dashboard">Dashboard</a>
                         <!-- <ul class="dropdown-menu">
                           <li><a href="portfolio-2cols.html">Portfolio 2 columns</a></li>
                           <li><a href="portfolio-3cols.html">Portfolio 3 columns</a></li>
@@ -142,13 +144,13 @@
                         </ul> -->
                       </li>
                       <li>
-                        <a href="#">Stats</a>
-                        <!-- <ul class="dropdown-menu">
-                          <li><a href="blog_left_sidebar.html">Blog left sidebar</a></li>
-                          <li><a href="blog_right_sidebar.html">Blog right sidebar</a></li>
+                        <a href="javascript:void(0);">Stats</a>
+                         <ul class="dropdown-menu">
+                          <li><a href="/filtered/stats">Order Stats</a></li>
+                          <!--<li><a href="blog_right_sidebar.html">Blog right sidebar</a></li>
                           <li><a href="post_left_sidebar.html">Post left sidebar</a></li>
-                          <li><a href="post_right_sidebar.html">Post right sidebar</a></li>
-                        </ul> -->
+                          <li><a href="post_right_sidebar.html">Post right sidebar</a></li> -->
+                        </ul>
                       </li>
 					   <li class="dropdown">
                         <a href="javascript:void(0);" />Excel+</a>

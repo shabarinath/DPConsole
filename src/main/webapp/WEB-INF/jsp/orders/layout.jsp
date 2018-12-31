@@ -66,7 +66,10 @@ $("#submit").click(function() {
 		} else if(tab.contains('orderLayout')) {
 			action = "/orders?startTime="+startTime+"&endTime="+endTime+"&kitchenId="+kitchenId+"&deliveryPartner="+deliveryPartner;
 			invokeAjaxCall(action, "html", tab);			
-		}		
+		} else if(tab.contains('dashboard')) {
+			action = "/dashboard?startTime="+startTime+"&endTime="+endTime+"&kitchenId="+kitchenId+"&deliveryPartner="+deliveryPartner+"&ajax=true";
+			invokeAjaxCall(action, "html", tab);			
+		}	
 	}	
 });
 
@@ -83,7 +86,7 @@ function invokeAjaxCall(action, dataType, tabUrl) {
 				} else if(response.error==false) {
 					$("#listingDiv").html("<span style='margin-left:40%' class=\"text-success lead\"><b>"+response.status+"</span>");	
 				}
-			} else if(tabUrl.contains('orderLayout')) {
+			} else if(tabUrl.contains('orderLayout') || tabUrl.contains('dashboard')) {
 				$("#listingDiv").html(response);
 			}			
 		}

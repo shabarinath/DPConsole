@@ -41,8 +41,9 @@ public interface ParsingHeaders {
 	
 	interface Zomato {
 		String ORDER_ID = "Order Id";
-		String DP_PAID_AMOUNT = "Credit ( INR ) "; 
+		String DP_CREDIT_AMOUNT = "Credit ( INR ) "; 
 		String SETTLEMENT_TYPE = "Settlement Type";
+		String DP_DEBIT_AMOUNT = "Debit ( INR ) ";			
 	}
 
 }

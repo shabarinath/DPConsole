@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,15 @@ public class FileUploadController {
 					orderId = entry.getKey().trim();
 					Order order = orderService.getOrderByDPOrderID(orderId);
 					if(null != order) {
-						double dpAmountPaid = Double.parseDouble(entry.getValue());
+						String[] amounts = entry.getValue().split("#");
+						String creditAmount = amounts[0].trim();
+						String debitAmount = amounts[1].trim();
+						double dpAmountPaid = 0;
+						if(StringUtils.isNotEmpty(creditAmount) && creditAmount.equalsIgnoreCase("--")) {
+							dpAmountPaid = Double.parseDouble(debitAmount) * -1; //if its debited saving -ve value
+						} else if(StringUtils.isNotEmpty(creditAmount)) {
+							dpAmountPaid = Double.parseDouble(creditAmount);
+						}
 						order.setDpReceivedPrice(dpAmountPaid);
 						orderService.saveOrUpdateOrder(order);
 					} else {
