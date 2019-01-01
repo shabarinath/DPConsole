@@ -29,7 +29,7 @@ import com.dpconsole.utils.Utils;
  */
 public class ZomatoParser implements Parser<List<Message>, List<Order>> {
 
-	private static final String HASH_DELIM=",";
+	private static final String HASH_DELIM="#";
 	private static final String PIPE_DELIM="|";
 	private static final String NEW_LINE_REGEX="[\\\r\\\n]+";
 	private static final String ESCAPE="\\";
