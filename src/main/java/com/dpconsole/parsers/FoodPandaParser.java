@@ -101,26 +101,25 @@ public class FoodPandaParser extends CSVParser<List<Order>> {
 			itemStr = itemStr.trim();
 			String[] item = itemStr.split(" ", 2);
 			OrderItem orderItem = new OrderItem();
-			int quantity = Integer.valueOf(item[0]);
+			int quantity = Integer.valueOf(item[0].trim());
 			orderItem.setQuantity(quantity);
 			orderItem.setDpReceivedPrice(0);
 			parsedCount += quantity;
-			KitchenItem kItem = kItems.get(item[1]);
+			KitchenItem kItem = kItems.get(item[1].trim());
 			if(kItem != null) {
 				orderItem.setKitchenItem(kItem);
 				orderItem.setManufacturingPrice(kItem.getItem().getManufacturingPrice());
 				orderItem.setMarketPrice(kItem.getMarketPrice());
 			} else {
-				String comment = "Kitchen Item not found for " + item[1];
+				String comment = "Kitchen Item not found for " + item[1].trim();
 				addReviewComment(logger, order, comment, null);
 			}
 			order.addOrderItem(orderItem);
 		}
 		int itemsCount = Integer.valueOf(itemsCountStr);
 		if(parsedCount != itemsCount) {
-			String comment = "Expected " + itemsCount + "items. Found " + parsedCount;
+			String comment = "Expected " + itemsCount + " items. Found " + parsedCount;
 			addReviewComment(logger, order, comment, null);
 		}
 	}
-
 }

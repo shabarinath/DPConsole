@@ -13,11 +13,10 @@ import com.dpconsole.model.kitchen.KitchenItem;
 
 /**
  * @author SHABARINATH
- * 25-Dec-2018 5:35:04 PM 2018 
+ * 25-Dec-2018 5:35:04 PM 2018
  */
-
 public class ZomatoCSVParser extends CSVParser<Map<String, String>> {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(ZomatoCSVParser.class);
 
 	@Override
@@ -31,8 +30,7 @@ public class ZomatoCSVParser extends CSVParser<Map<String, String>> {
 	}
 
 	@Override
-	public Map<String, String> parseRecords(Kitchen kitchen, Map<String, KitchenItem> kitchenItems,
-			List<CSVRecord> csvRecords) {
+	public Map<String, String> parseRecords(Kitchen kitchen, Map<String, KitchenItem> kitchenItems, List<CSVRecord> csvRecords) {
 		Map<String, String> orderIdVSFinalAmountMap = new HashMap<>();
 		String orderId = "";
 		for(CSVRecord record : csvRecords) {
@@ -49,4 +47,3 @@ public class ZomatoCSVParser extends CSVParser<Map<String, String>> {
 	}
 
 }
-
