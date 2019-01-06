@@ -6,8 +6,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<link rel="icon" type="image/x-icon"
-	href="<c:url value="/resources/img/favicon.ico"/>">
+<link rel="shortcut icon" href="#" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style type="text/css">
 @font-face {
@@ -143,7 +142,7 @@
                           <li><a href="portfolio-detail.html">Portfolio detail</a></li>
                         </ul> -->
                       </li>
-                      <li>
+                      <li class="dropdown">
                         <a href="javascript:void(0);">Stats</a>
                          <ul class="dropdown-menu">
                           <li><a href="/filtered/stats">Order Stats</a></li>

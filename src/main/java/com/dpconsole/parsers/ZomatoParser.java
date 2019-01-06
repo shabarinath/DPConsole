@@ -163,7 +163,7 @@ public class ZomatoParser implements Parser<List<Message>, List<Order>> {
 			Double dpReceivedUnitPrice = (Double.parseDouble(dpReceivedTotalPricePerItem)/Integer.parseInt(quantity));
 			OrderItem orderItem = new OrderItem();
 			orderItem.setQuantity(Integer.parseInt(quantity));
-			double manufacturingPrice = (kitchenItem.getManufacturingPrice()+ kitchenItem.getItem().getSubCategory().getPackingPrice()) * orderItem.getQuantity();
+			double manufacturingPrice = (kitchenItem.getItem().getManufacturingPrice()+ kitchenItem.getItem().getPackingPrice()) * orderItem.getQuantity();
 			orderItem.setManufacturingPrice(manufacturingPrice);
 			orderItem.setMarketPrice(kitchenItem.getMarketPrice() * orderItem.getQuantity());
 			orderItem.setDpReceivedPrice(dpReceivedUnitPrice);  //TODO: is this unit price

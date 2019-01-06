@@ -20,7 +20,7 @@ Discussion regarding order status
 2) Packing cost aganist item - Done
  - Not Required For Now3) Store order time as gmail mail time
 4) Add column in orders table with the post commission amount paid, Delivery partner paid
-5) Secure links
+5) Secure links (done)
 6) Test time based searching 
 7) Add column in orders table with the post commission amount paid, Delivery partner paid - DOne
 8) Parse zomato mail time as order time (done)
@@ -51,5 +51,13 @@ is less than 30 rupees, system should alert those order ids (section Orders -> O
 
 4) Remove the column delivery_partner from the kitchen_items table, as the menu item prices will be consistent across all 
 of the delivery partners(swiggy, zomato, UberEats, FoodPanda).
+
+
+5th Jan 2018
+==================
+1) Add order status column in orders processed table
+2) remove manufactuing price and packing 
+3) Kitchen specific login for users
+ 
 
 

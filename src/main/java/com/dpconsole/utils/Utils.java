@@ -4,9 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -103,5 +108,20 @@ public class Utils {
 			throw new ParseException(pe.getMessage(), pe.getErrorOffset());
 		}
 	}
-
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static HashMap<String, Integer> sortByValues(HashMap<String, Integer> map) { 
+	       Object[] a = map.entrySet().toArray();
+			Arrays.sort(a, new Comparator() {
+				public int compare(Object o1, Object o2) {
+			        return ((Map.Entry<String, Integer>) o2).getValue()
+			                   .compareTo(((Map.Entry<String, Integer>) o1).getValue());
+			    }
+			});
+			HashMap<String, Integer> sortedHashMap = new LinkedHashMap<>();
+			for (Object e : a) {
+	            sortedHashMap.put(((Map.Entry<String, Integer>) e).getKey() , ((Map.Entry<String, Integer>) e).getValue());
+			}
+	       return sortedHashMap;
+	}
 }

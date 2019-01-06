@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../includes/taglibs.jsp"%>
 <section>
-	<div class="container">      
-		<table class="table table-striped">
+	<div class="container">
+		<c:choose>	
+			 <c:when test = "${not empty stats}">
+				<table class="table table-striped">
 			<thead>
                <tr>
 				  <th>
@@ -89,6 +91,13 @@
                </tr>
 			</c:forEach>			
             </tbody>
-         </table>     
+         </table>   
+			 </c:when>
+			 <c:otherwise>
+				<div align="center">
+					<h4><p class="text-error">No Data for Selected Criteria !!</p></h4>
+				</div>
+			 </c:otherwise>
+		</c:choose>		 
    </div>
 </section>

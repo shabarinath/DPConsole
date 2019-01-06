@@ -12,8 +12,6 @@ package com.dpconsole.model.kitchen;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -33,8 +31,6 @@ public class KitchenItem extends Persistent {
 
 	private Item item;
 	private Kitchen kitchen;
-	private DeliveryPartner deliveryPartner;
-	private double manufacturingPrice;
 	private double marketPrice;
 	private boolean active = true;
 
@@ -56,23 +52,6 @@ public class KitchenItem extends Persistent {
 		this.kitchen = kitchen;
 	}
 
-	@Enumerated(EnumType.STRING)
-	@Column(name="delivery_partner", nullable = false)
-	public DeliveryPartner getDeliveryPartner() {
-		return deliveryPartner;
-	}
-	public void setDeliveryPartner(DeliveryPartner deliveryPartner) {
-		this.deliveryPartner = deliveryPartner;
-	}
-
-	@Column(name = "manufacturing_price")
-	public double getManufacturingPrice() {
-		return manufacturingPrice;
-	}
-	public void setManufacturingPrice(double manufacturingPrice) {
-		this.manufacturingPrice = manufacturingPrice;
-	}
-
 	@Column(name = "market_price")
 	public double getMarketPrice() {
 		return marketPrice;
@@ -91,8 +70,7 @@ public class KitchenItem extends Persistent {
 
 	@Override
 	public String toString() {
-		return "KitchenItem [item=" + item + ", kitchen=" + kitchen
-				+ ", manufacturingPrice=" + manufacturingPrice
+		return "KitchenItem [item=" + item + ", kitchen=" + kitchen				
 				+ ", marketPrice=" + marketPrice + ", active="
 				+ active + ", getId()=" + getId() + ", getVersion()="
 				+ getVersion() + ", hashCode()=" + hashCode()

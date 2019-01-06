@@ -64,6 +64,8 @@ CREATE TABLE catalogue_items (
   food_type VARCHAR(255) NOT NULL,
   precedence INT(10) NOT NULL,  
   active BOOLEAN NOT NULL DEFAULT 1,
+  packing_price DOUBLE(10, 4) NOT NULL DEFAULT 0,
+  manufacturing_price DOUBLE(10, 4) NOT NULL DEFAULT 0,
   PRIMARY KEY (id),
   UNIQUE KEY name_uk(sub_category_id, name)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
@@ -126,10 +128,8 @@ DROP TABLE IF EXISTS kitchen_items;
 CREATE TABLE kitchen_items (
   id BIGINT(20) NOT NULL AUTO_INCREMENT,  
   version BIGINT(20) NOT NULL DEFAULT 0,
-  kitchen_id BIGINT(20) NOT NULL,
-  delivery_partner VARCHAR(255) NOT NULL,
-  item_id BIGINT(20) NOT NULL,
-  manufacturing_price DOUBLE(10, 4) NOT NULL DEFAULT 0,
+  kitchen_id BIGINT(20) NOT NULL,  
+  item_id BIGINT(20) NOT NULL,  
   market_price DOUBLE(10, 4) NOT NULL DEFAULT 0,
   active BOOLEAN NOT NULL DEFAULT 1,
   PRIMARY KEY (id),

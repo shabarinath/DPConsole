@@ -86,7 +86,7 @@ public class KitchenDaoImpl extends DaoImpl implements KitchenDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<KitchenItem> getAllKitchenItems(long kitchenId, DeliveryPartner dp) throws Exception {
-		List<KitchenItem> kItems = getHibernateTemplate().find("FROM KitchenItem ki WHERE ki.kitchen.id = ? and ki.deliveryPartner = ?", new Object[]{kitchenId, dp});
+		List<KitchenItem> kItems = getHibernateTemplate().find("FROM KitchenItem ki WHERE ki.kitchen.id = ? ", new Object[]{kitchenId});
 		return !kItems.isEmpty() ? kItems : null;
 	}
 

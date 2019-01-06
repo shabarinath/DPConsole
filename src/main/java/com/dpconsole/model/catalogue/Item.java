@@ -45,6 +45,8 @@ public class Item extends Persistent {
 	private int precedence;
 	private List<String> aliases;
 	private boolean active = true;
+	private double manufacturingPrice;
+	private double packingPrice;
 
 	@Column(name="name")
 	public String getName() {
@@ -107,6 +109,22 @@ public class Item extends Persistent {
 	}
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	
+	@Column(name = "manufacturing_price")
+	public double getManufacturingPrice() {
+		return manufacturingPrice;
+	}
+	public void setManufacturingPrice(double manufacturingPrice) {
+		this.manufacturingPrice = manufacturingPrice;
+	}
+	
+	@Column(name = "packing_price")
+	public double getPackingPrice() {
+		return packingPrice;
+	}
+	public void setPackingPrice(double packingPrice) {
+		this.packingPrice = packingPrice;
 	}
 
 	@Override

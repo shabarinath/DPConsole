@@ -28,5 +28,13 @@ ALTER TABLE orders ADD COLUMN zomato_promo DOUBLE(10, 4) NOT NULL DEFAULT 0;
 31-12-2018
 ================
 ALTER TABLE kitchen_items DROP COLUMN packing_price;
-ALTER TABLE catalogue_sub_categories ADD COLUMN packing_price DOUBLE(10, 4) NOT NULL DEFAULT 0;
+
+05-01-2019
+===============
+ALTER TABLE kitchen_items DROP manufacturing_price;
+ALTER TABLE kitchen_items DROP delivery_partner;
+ALTER TABLE catalogue_items ADD COLUMN packing_price DOUBLE(10, 4) NOT NULL DEFAULT 0;
+ALTER TABLE catalogue_items ADD COLUMN manufacturing_price DOUBLE(10, 4) NOT NULL DEFAULT 0;
+
+
 

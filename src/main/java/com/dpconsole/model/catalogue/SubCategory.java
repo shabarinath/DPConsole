@@ -32,7 +32,6 @@ public class SubCategory extends Persistent {
 	private Category category;
 	private int precedence;
 	private boolean active = true;
-	private double packingPrice;
 	
 	@Column(name="name")
 	public String getName() {
@@ -65,14 +64,6 @@ public class SubCategory extends Persistent {
 	}
 	public void setActive(boolean active) {
 		this.active = active;
-	}
-	
-	@Column(name = "packing_price")
-	public double getPackingPrice() {
-		return packingPrice;
-	}
-	public void setPackingPrice(double packingPrice) {
-		this.packingPrice = packingPrice;
 	}
 
 	@Override
