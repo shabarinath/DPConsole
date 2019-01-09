@@ -117,7 +117,7 @@
                       <li class="dropdown">
                         <a href="#">POS</a>
                         <ul class="dropdown-menu">
-                          <li><a href="about.html">Uber Eats</a></li>
+                          <li><a href="/uploadFile/uberEats">Uber Eats</a></li>
                           <!-- <li><a href="pricingtable.html">Pricing table</a></li>
                           <li><a href="fullwidth.html">Fullwidth</a></li>
                           <li><a href="404.html">404</a></li> -->
@@ -154,9 +154,13 @@
 					   <li class="dropdown">
                         <a href="javascript:void(0);" />Excel+</a>
 						<ul class="dropdown-menu">
-                          <li><a href="/excelTally">Tally</a></li>                          
+                          <li><a href="/uploadFile/zomato">Tally</a></li>                          
                         </ul>
-                      </li>					  
+                      </li>
+					  </li>
+					   <li>
+                        <a href="javascript:void(0);" />Menu</a>					
+                      </li>	
                       <li>
                         <a href="<c:url value="/j_spring_security_logout"/>" >Logout</a>
                       </li>

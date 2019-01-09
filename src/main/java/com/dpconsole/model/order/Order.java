@@ -49,6 +49,7 @@ public class Order extends Persistent {
 	private double restaurantPromo;
 	private double piggybankCoins;
 	private double zomatoPromo;
+	private String uberEatsOrderUUID;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name = "order_id", nullable = false)
@@ -203,6 +204,13 @@ public class Order extends Persistent {
 	}
 	public void setZomatoPromo(double zomatoPromo) {
 		this.zomatoPromo = zomatoPromo;
+	}
+	@Transient
+	public String getUberEatsOrderUUID() {
+		return uberEatsOrderUUID;
+	}
+	public void setUberEatsOrderUUID(String uberEatsOrderUUID) {
+		this.uberEatsOrderUUID = uberEatsOrderUUID;
 	}
 	@Override
 	public String toString() {

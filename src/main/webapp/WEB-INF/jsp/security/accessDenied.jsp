@@ -3,10 +3,8 @@
 <head>
 <link rel="stylesheet" href="<c:url value="/resources/css/login.css"/>">
 </head>
-<div class="info">
-	<h2>Welcome note</h2>
-	<dd>Time table management system generates the timetables for
-		colleges including faculty & subjects mapping.</dd>
+<div class="info">	
+	<dd>You do not have permissions to access this page <tags:url url="/">Click here to go home</tags:url></dd>
 </div>
 
 

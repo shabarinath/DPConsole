@@ -225,6 +225,7 @@ li{
 				</display:column>
 				<display:column title="Kitchen" sortable="true" property="kitchen.name" escapeXml="true" sortName="o.kitchen.name" />
 				<display:column title="Deliver Partner" sortable="true" property="deliveryPartner" escapeXml="true" sortName="o.deliveryPartner"/>
+				<display:column title="Status" sortable="true" property="status" escapeXml="true" sortName="o.status"/>
 				<display:column title="Order Time" sortable="true" escapeXml="true" property="orderedTime" sortName="o.orderedTime" />
 				<display:column title="Total" sortable="true" escapeXml="false" sortName="o.totalCost" >&#8377; ${order.totalCost}</display:column>
 				<display:column title="DP Paid (A)" sortable="true" escapeXml="false"  sortName="o.dpReceivedPrice">&#8377; <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${order.dpReceivedPrice}"/></display:column>	

@@ -118,7 +118,7 @@ public class SwiggyParser extends CSVParser<List<Order>> {
 			KitchenItem kItem = kItems.get(item[0].trim());
 			if(kItem != null) {
 				orderItem.setKitchenItem(kItem);
-				orderItem.setManufacturingPrice(kItem.getManufacturingPrice());
+				orderItem.setManufacturingPrice(kItem.getItem().getManufacturingPrice());
 				orderItem.setMarketPrice(kItem.getMarketPrice());
 			} else {
 				String comment = "Kitchen Item not found for " + item[0].trim();
