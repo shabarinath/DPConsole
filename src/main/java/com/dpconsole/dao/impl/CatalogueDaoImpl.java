@@ -62,4 +62,11 @@ public class CatalogueDaoImpl extends DaoImpl implements CatalogueDao {
 		return getHibernatePage(queryString.toString(), countQuery.toString(), queryParams, pageNo, pageSize);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<SubCategory> getAllSubCategories() throws Exception {
+		List<SubCategory> subCategories = getHibernateTemplate().find("FROM SubCategory sc WHERE sc.active = ? ORDER BY sc.precedence", new Object[]{true});
+		return !subCategories.isEmpty() ? subCategories : null;
+	}
+
 }

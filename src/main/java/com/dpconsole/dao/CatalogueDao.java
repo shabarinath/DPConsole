@@ -29,4 +29,6 @@ public interface CatalogueDao extends Dao {
 
 	PartialPage<Item> getItemsByCategory(long categoryId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception;
 
+	List<SubCategory> getAllSubCategories() throws Exception;
+
 }

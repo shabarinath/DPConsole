@@ -1,15 +1,8 @@
 package com.dpconsole.controller;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,7 +32,7 @@ import com.dpconsole.utils.Utils;
  * 28-Dec-2018 10:21:48 AM 2018 
  */
 
-@Controller()
+@Controller
 @SessionAttributes("dashboardController")
 public class DashboardController {
 	

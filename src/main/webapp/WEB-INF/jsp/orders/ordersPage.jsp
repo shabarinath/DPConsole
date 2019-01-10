@@ -182,6 +182,8 @@ li{
 							<c:import url="/WEB-INF/jsp/includes/tablePagination.jsp?listPageNo=${ordersPage.pageNo}&listPageSize=${ordersPage.pageSize}&listTotalPages=${ordersPage.totalPages}&pageStatus=full" />
 				</display:setProperty>				
 				<display:column title="Order Id" sortable="true" escapeXml="false" sortName="o.deliveryPartnerOrderId">
+				<c:set var="totalManufacturingCost" value="${0}"/>
+				<c:set var="margin" value="${0}"/>
 				<div onClick="loadItemDetails(${order.deliveryPartnerOrderId})">
 					<c:choose>         
 						 <c:when test = "${fn:length(order.orderItems) > 0}">
@@ -201,18 +203,19 @@ li{
 											</th>							
 										</tr>
 									</thead>										
-									<c:forEach items="${order.orderItems}" var="orderItem"> 
+									<c:forEach items="${order.orderItems}" var="orderItem">
+									  <c:set var="totalManufacturingCost" value="${totalManufacturingCost + orderItem.manufacturingPrice}" />
 									  <tr>
 										<td>
 											${orderItem.kitchenItem.item.name}						
 										</td>
 										<td>
-											${orderItem.quantity}
+											${orderItem.quantity}											
 										</td>
 										<td>
 											&#8377; ${orderItem.dpReceivedPrice}
 										</td>
-									  </tr>
+									  </tr>									  
 									</c:forEach>
 								</table>				
 							</div>
@@ -223,13 +226,18 @@ li{
 					</c:choose> 								
 				</div>
 				</display:column>
+				<c:if test="${order.dpReceivedPrice > 0}">
+					<c:set var="margin" value="${order.dpReceivedPrice - totalManufacturingCost}"/>					
+				</c:if>
 				<display:column title="Kitchen" sortable="true" property="kitchen.name" escapeXml="true" sortName="o.kitchen.name" />
-				<display:column title="Deliver Partner" sortable="true" property="deliveryPartner" escapeXml="true" sortName="o.deliveryPartner"/>
+				<display:column title="DP" sortable="true" property="deliveryPartner" escapeXml="true" sortName="o.deliveryPartner"/>
 				<display:column title="Status" sortable="true" property="status" escapeXml="true" sortName="o.status"/>
 				<display:column title="Order Time" sortable="true" escapeXml="true" property="orderedTime" sortName="o.orderedTime" />
 				<display:column title="Total" sortable="true" escapeXml="false" sortName="o.totalCost" >&#8377; ${order.totalCost}</display:column>
 				<display:column title="DP Paid (A)" sortable="true" escapeXml="false"  sortName="o.dpReceivedPrice">&#8377; <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${order.dpReceivedPrice}"/></display:column>	
-				<display:column title="DP Paid (C)" sortable="true" escapeXml="false"  sortName="o.postCommissionAmount">&#8377; <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${order.postCommissionAmount}"/></display:column>								
+				<display:column title="DP Paid (C)" sortable="true" escapeXml="false"  sortName="o.postCommissionAmount">&#8377; <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${order.postCommissionAmount}"/></display:column>
+				<display:column title="Total MC" sortable="false" escapeXml="false">&#8377; <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${totalManufacturingCost}"/></display:column>
+				<display:column title="Margin" sortable="false" escapeXml="false">&#8377; <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${margin}"/></display:column>				
 			</display:table>
 		</ajax:displayTag>
 	</form>

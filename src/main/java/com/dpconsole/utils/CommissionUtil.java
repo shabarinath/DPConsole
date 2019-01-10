@@ -39,7 +39,13 @@ public class CommissionUtil {
 		double supportCharges = order.getPiggybankCoins() >0 ?  (netAmount * 2.95)/100 : 0; 
 		double zomatoTotalComission = Double.parseDouble(df.format(zomatoCommissionFeeAmount + zomatoGST + supportCharges + convenienceFee+ tcs));
 		double zomatoPays = customerPrice - zomatoTotalComission;
-		//logger.error("zomatoPays: "+zomatoPays +" "+order.getDeliveryPartnerOrderId());
+		logger.error("OrderId:"+order.getDeliveryPartnerOrderId()+"itemsPriceWithoutDeducations"+itemsPriceWithoutDeducations+
+				"customerPrice:"+customerPrice+"tcs:"+tcs+"zomatoPays: "+zomatoPays +" "+order.getDeliveryPartnerOrderId()+
+				"GSTAmount:"+GSTAmount+"netAmount: "+netAmount+"zomatoCommissionFeeAmount: "+zomatoCommissionFeeAmount+
+				"zomatoGST: "+zomatoGST+"convenienceFee: "+convenienceFee+
+				"supportCharges: "+supportCharges+
+				"zomatoTotalComission: "+zomatoTotalComission+
+				"zomatoPays: "+zomatoPays);
 		return zomatoPays;
 	}
 
@@ -61,7 +67,7 @@ public class CommissionUtil {
 		double totalAmount = 0;
 		for(OrderItem item : ListUtils.emptyIfNull(order.getOrderItems())) {
 			int quantity = item.getQuantity();
-			double unitPrice = item.getMarketPrice();
+			double unitPrice = item.getKitchenItem().getMarketPrice();
 			totalAmount = totalAmount + (unitPrice * quantity);
 		}
 		return totalAmount;

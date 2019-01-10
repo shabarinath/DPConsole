@@ -92,4 +92,12 @@ public class KitchenServiceImpl implements KitchenService {
 	public List<Kitchen> getAllKitchens() throws Exception {
 		return kitchenDao.getAllKitchens();
 	}
+
+	@Override
+	public PartialPage<KitchenItem> getKitchenItemsByCategoryAndSubCategory(long kitchenId, long categoryId,
+			long subCategoryId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize)
+			throws Exception {
+		return kitchenDao.getKitchenItemsByCategoryAndSubCategory(kitchenId,  categoryId,
+				 subCategoryId,  sortName,  isDecendingOrder,  pageNo,  pageSize);
+	}
 }

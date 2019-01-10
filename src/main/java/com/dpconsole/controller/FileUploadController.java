@@ -1,6 +1,5 @@
 package com.dpconsole.controller;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -21,7 +20,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.dpconsole.model.kitchen.DeliveryPartner;
 import com.dpconsole.model.order.Order;
-import com.dpconsole.parsers.UberEatsParser;
 import com.dpconsole.parsers.ZomatoCSVParser;
 import com.dpconsole.service.OrderService;
 import com.dpconsole.utils.Configuration;

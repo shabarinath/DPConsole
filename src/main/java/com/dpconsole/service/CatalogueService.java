@@ -12,6 +12,8 @@ package com.dpconsole.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.dpconsole.model.PartialPage;
 import com.dpconsole.model.catalogue.Category;
 import com.dpconsole.model.catalogue.Item;
@@ -21,6 +23,7 @@ import com.dpconsole.model.catalogue.SubCategory;
  * @author nanda.malve
  * created on 23-Nov-2018 3:34:06 PM
  */
+@Service
 public interface CatalogueService {
 
 	List<Category> getAllCategories() throws Exception;
@@ -30,5 +33,7 @@ public interface CatalogueService {
 	PartialPage<Item> getItemsByCategory(long categoryId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception;
 
 	void saveOrUpdateItem(Item item) throws Exception;
+
+	List<SubCategory> getAllSubCategories() throws Exception;
 
 }

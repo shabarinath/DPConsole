@@ -54,4 +54,9 @@ public class CatalogueServiceImpl implements CatalogueService {
 		catalogueDao.saveOrUpdate(item);
 	}
 
+	@Override
+	public List<SubCategory> getAllSubCategories() throws Exception {
+		return catalogueDao.getAllSubCategories();
+	}
+
 }

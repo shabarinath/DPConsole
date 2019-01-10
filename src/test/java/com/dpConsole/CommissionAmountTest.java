@@ -20,8 +20,9 @@ public class CommissionAmountTest {
 		kdp.setMaxDiscountAmount(80);*/
 		kdp.setSupportChargesPercentage(1);
 		Order order = new Order();
-		order.setZomatoPromo(32);
-		order.setTotalCost(134.40);
+		/*order.setZomatoPromo(32);*/
+		order.setRestaurantPromo(100);
+		order.setTotalCost(420.0);
 		util.getPostCommissionAmount(kdp, order);
 	}
 

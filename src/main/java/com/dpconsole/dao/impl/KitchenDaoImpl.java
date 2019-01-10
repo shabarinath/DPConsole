@@ -96,4 +96,31 @@ public class KitchenDaoImpl extends DaoImpl implements KitchenDao {
 		List<Kitchen> kitchens = getHibernateTemplate().find("FROM Kitchen k");
 		return kitchens;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public PartialPage<KitchenItem> getKitchenItemsByCategoryAndSubCategory(long kitchenId, long categoryId,
+			long subCategoryId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize)
+			throws Exception {
+		List<Object> queryParams = new ArrayList<>();
+		StringBuffer queryString = new StringBuffer("FROM KitchenItem ki ");
+		if (kitchenId > 0) {
+			queryString.append(" WHERE ki.kitchen.id = ? ");
+			queryParams.add(kitchenId);
+		}
+		if (categoryId > 0) {
+			queryString.append(" AND ki.item.subCategory.category.id = ? ");
+			queryParams.add(categoryId);
+		}
+		if (subCategoryId > 0) {
+			queryString.append(" AND ki.item.subCategory.id = ? ");
+			queryParams.add(subCategoryId);
+		}
+		StringBuffer countQuery = new StringBuffer("SELECT COUNT(*) ").append(queryString);
+		if(Utils.isEmpty(sortName)) {
+			sortName = "ki.kitchen.id, ki.item.subCategory.category.precedence, ki.item.subCategory.precedence, ki.item.precedence";
+		}
+		queryString.append(" ORDER BY " + sortName + (isDecendingOrder ? " desc" : " asc"));
+		return getHibernatePage(queryString.toString(), countQuery.toString(), queryParams, pageNo, pageSize);
+	}
 }

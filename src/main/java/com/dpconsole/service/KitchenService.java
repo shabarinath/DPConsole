@@ -45,4 +45,7 @@ public interface KitchenService {
 
 	List<Kitchen> getAllKitchens() throws Exception;
 
+	PartialPage<KitchenItem> getKitchenItemsByCategoryAndSubCategory(long kitchenId, long categoryId,
+			long subCategoryId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception;
+
 }

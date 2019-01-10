@@ -152,15 +152,16 @@
                         </ul>
                       </li>
 					   <li class="dropdown">
-                        <a href="javascript:void(0);" />Excel+</a>
+                        <a href="javascript:void(0);" />Misc</a>
 						<ul class="dropdown-menu">
                           <li><a href="/uploadFile/zomato">Tally</a></li>                          
+						  <li><a href="/menu">Menu</a></li>  
                         </ul>
                       </li>
 					  </li>
-					   <li>
+					   <!-- <li>
                         <a href="javascript:void(0);" />Menu</a>					
-                      </li>	
+                      </li>	-->
                       <li>
                         <a href="<c:url value="/j_spring_security_logout"/>" >Logout</a>
                       </li>
