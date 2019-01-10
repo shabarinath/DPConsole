@@ -182,8 +182,8 @@ li{
 				</display:setProperty>								
 				<display:column title="Name" sortable="true" property="item.name" escapeXml="true" sortName="item.name"/>	
 				<display:column title="Type" sortable="true" property="item.type.name" escapeXml="true" sortName="item.type.name"/>
-				<display:column title="Type" sortable="true" property="item.manufacturingPrice" escapeXml="true" sortName="item.manufacturingPrice"/>
-				<display:column title="Type" sortable="true" property="item.packingPrice" escapeXml="true" sortName="item.packingPrice"/>
+				<display:column title="Mfg Price" sortable="true" property="item.manufacturingPrice" escapeXml="true" sortName="item.manufacturingPrice"/>
+				<display:column title="Pkg Price" sortable="true" property="item.packingPrice" escapeXml="true" sortName="item.packingPrice"/>
 			</display:table>
 		</ajax:displayTag>
 	</form>
