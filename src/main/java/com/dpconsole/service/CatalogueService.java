@@ -36,4 +36,5 @@ public interface CatalogueService {
 
 	List<SubCategory> getAllSubCategories() throws Exception;
 
+	SubCategory getSubCategoryById(long id) throws Exception;
 }

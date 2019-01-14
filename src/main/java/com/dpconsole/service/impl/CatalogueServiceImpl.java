@@ -59,4 +59,9 @@ public class CatalogueServiceImpl implements CatalogueService {
 		return catalogueDao.getAllSubCategories();
 	}
 
+	@Override
+	public SubCategory getSubCategoryById(long id) throws Exception {
+		return (SubCategory)catalogueDao.get(SubCategory.class, id);
+	}
+
 }

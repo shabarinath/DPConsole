@@ -155,15 +155,15 @@ li{
 }
 </style>
 <div class="mainTableOuterDiv">
-	<form name="orderList" id="orderList" action="/loadItems" method="post" style="clear:both;">
+	<form name="orderList" id="orderList" action="/loadKitchenItems" method="post" style="clear:both;">
 		<ajax:displayTag id="${renderDiv}-ajax">
 			<c:set var="targetDiv" value="${renderDiv}" scope="request"/>
-			<c:set var="pageParam" scope="request"><dp:displayTagTableParam tableId="item" paramName="page"/></c:set>
-			<display:table name="${kitchenItems.list}" id="item" class="display-table table table-hover table-bordered table-striped" requestURI="/loadItems" defaultsort="2" pagesize="${kitchenItems.pageSize}" partialList="true" size="${kitchenItems.totalResults}" sort="external" export="false">
+			<c:set var="pageParam" scope="request"><dp:displayTagTableParam tableId="kitchenItem" paramName="page"/></c:set>
+			<display:table name="${kitchenItems.list}" id="kitchenItem" class="display-table table table-hover table-bordered table-striped" requestURI="/loadKitchenItems" defaultsort="2" pagesize="${kitchenItems.pageSize}" partialList="true" size="${kitchenItems.totalResults}" sort="external" export="false">
 				<display:setProperty name="basic.empty.showtable">true</display:setProperty>
 				<display:setProperty name="paging.banner.placement">bottom</display:setProperty>
 				<display:setProperty name="basic.msg.empty_list">
-					<input type="hidden" name="pageURL" id="pageURL" value="/loadItems" />
+					<input type="hidden" name="pageURL" id="pageURL" value="/loadKitchenItems" />
 					<%@ include file="/WEB-INF/jsp/includes/noItemsFound.jsp" %>
 				</display:setProperty>
 
@@ -180,16 +180,23 @@ li{
 				<display:setProperty name="paging.banner.full">
 							<c:import url="/WEB-INF/jsp/includes/tablePagination.jsp?listPageNo=${kitchenItems.pageNo}&listPageSize=${kitchenItems.pageSize}&listTotalPages=${kitchenItems.totalPages}&pageStatus=full" />
 				</display:setProperty>								
-				<display:column title="Name" sortable="true" property="item.name" escapeXml="true" sortName="item.name"/>	
+				<display:column title="Name" sortable="true"  escapeXml="false" sortName="item.name">
+					<a href="/kitchenItem/${kitchenItem.id}">${fn:escapeXml(kitchenItem.item.name)}</a>
+				</display:column>	
 				<display:column title="Type" sortable="true" property="item.type.name" escapeXml="true" sortName="item.type.name"/>
-				<display:column title="Mfg Price" sortable="true" property="item.manufacturingPrice" escapeXml="true" sortName="item.manufacturingPrice"/>
-				<display:column title="Pkg Price" sortable="true" property="item.packingPrice" escapeXml="true" sortName="item.packingPrice"/>
+				<display:column title="Mkt Price" sortable="true" escapeXml="false" sortName="marketPrice">
+				&#8377; <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${kitchenItem.marketPrice}"/>
+				</display:column>
+				<display:column title="Mfg Price" sortable="true" escapeXml="false" sortName="item.manufacturingPrice">
+				&#8377; <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${kitchenItem.item.manufacturingPrice}"/>
+				</display:column>
+				<display:column title="Pkg Price" sortable="true" escapeXml="false" sortName="item.packingPrice">
+				&#8377; <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${kitchenItem.item.packingPrice}"/>
+				</display:column>
+				<display:column title="Active" sortable="true" escapeXml="true" sortName="active">
+					${fn:toUpperCase(kitchenItem.active)}
+				</display:column>
 			</display:table>
 		</ajax:displayTag>
 	</form>
 </div>
-<script>	
-	function loadItemDetails(orderId) {			
-		$("#order_"+orderId).toggle(1000);
-	}	
-</script>

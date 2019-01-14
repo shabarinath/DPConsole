@@ -100,4 +100,9 @@ public class KitchenServiceImpl implements KitchenService {
 		return kitchenDao.getKitchenItemsByCategoryAndSubCategory(kitchenId,  categoryId,
 				 subCategoryId,  sortName,  isDecendingOrder,  pageNo,  pageSize);
 	}
+
+	@Override
+	public KitchenItem getKitchenItemById(long id) throws Exception {
+		return (KitchenItem) kitchenDao.get(KitchenItem.class, id);
+	}
 }

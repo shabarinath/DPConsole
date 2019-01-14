@@ -48,4 +48,6 @@ public interface KitchenService {
 	PartialPage<KitchenItem> getKitchenItemsByCategoryAndSubCategory(long kitchenId, long categoryId,
 			long subCategoryId, String sortName, boolean isDecendingOrder, int pageNo, int pageSize) throws Exception;
 
+	KitchenItem getKitchenItemById(long id)  throws Exception;
+
 }

@@ -2,9 +2,12 @@
 <%@ include file="../includes/taglibs.jsp"%>
 <section id="intro">
     <div class="container">
+		<div style="float:right;margin-right:10%;">
+			<!-- <a href="/kitchenItem/0" class="btn btn-danger btn-large btn-rounded">Create Item</a> -->
+		</div>
 		<h2>
 			<span class="highlight primary text-info btn-rounded">Menu</span>
-		</h2>
+		</h2>			
 		<div class="control-group">		
 			<div class="controls" style="position: relative">
 				<span style="margin-left:10px;"></span>	
@@ -41,7 +44,7 @@ $("#submit").click(function() {
 	var kitchenId = $("#kitchens option:selected").val();
 	var categoryId = $("#categories option:selected").val();		
 	var subCategoryId = $("#subCategories option:selected").val();	
-	var action = "/loadItems?kitchenId="+kitchenId+"&categoryId="+categoryId+"&subCategoryId="+subCategoryId+"&ajax=true";
+	var action = "/loadKitchenItems?kitchenId="+kitchenId+"&categoryId="+categoryId+"&subCategoryId="+subCategoryId+"&ajax=true";
 	invokeAjaxCall(action, "html");							
 });
 

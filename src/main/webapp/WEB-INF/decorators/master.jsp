@@ -66,6 +66,7 @@
 <script type="text/javascript" src="<c:url value="/resources/js/custom.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/common.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/wrapper.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/core.js"/>"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>  
 <decorator:head />
